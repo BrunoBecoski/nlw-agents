@@ -5,9 +5,8 @@ import {
 	validatorCompiler,
 	type ZodTypeProvider,
 } from "fastify-type-provider-zod";
-
-import { sql } from "../db/connection.ts";
 import { env } from "../env.ts";
+import { sql } from "./db/connection.ts";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
