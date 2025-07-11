@@ -26,13 +26,13 @@ export const createRoomRoute: FastifyPluginCallbackZod = (app) => {
 				})
 				.returning();
 
-			const insertRoom = result[0];
+			const insertedRoom = result[0];
 
-			if (!insertRoom) {
+			if (!insertedRoom) {
 				throw new Error("Failed to create new room.");
 			}
 
-			return reply.status(201).send({ roomId: insertRoom.id });
+			return reply.status(201).send({ roomId: insertedRoom.id });
 		},
 	);
 };
