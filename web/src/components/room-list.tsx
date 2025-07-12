@@ -44,10 +44,11 @@ export function RoomList() {
 
 								<div className="flex items-center gap-2">
 									<Badge variant="secondary" className="text-xs">
-										{room.questionsCount} pergunta(s)
-									</Badge>
-									<Badge variant="secondary" className="text-xs">
 										{dayjs(room.createdAt).toNow()}
+									</Badge>
+
+									<Badge variant="secondary" className="text-xs">
+										{room.questionsCount} pergunta(s)
 									</Badge>
 								</div>
 							</div>
