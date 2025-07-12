@@ -9,7 +9,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { useRooms } from "@/http/use-room";
+import { useRooms } from "@/http/use-rooms";
 import { dayjs } from "@/lib/dayjs";
 
 export function RoomList() {

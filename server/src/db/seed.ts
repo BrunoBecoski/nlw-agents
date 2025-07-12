@@ -20,6 +20,14 @@ await seed(db, schema).refine((f) => {
 		},
 		questions: {
 			count: 20,
+			columns: {
+				question: f.loremIpsum({ sentencesCount: 1 }),
+				answer: f.loremIpsum({ sentencesCount: 3 }),
+				createdAt: f.date({
+					maxDate: new Date(2025, 0, 1),
+					minDate: new Date(),
+				}),
+			},
 		},
 	};
 });
