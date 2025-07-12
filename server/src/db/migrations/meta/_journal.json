@@ -15,6 +15,13 @@
       "when": 1752175286930,
       "tag": "0001_married_mariko_yashida",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1752357766371,
+      "tag": "0002_even_silver_samurai",
+      "breakpoints": true
     }
   ]
 }
