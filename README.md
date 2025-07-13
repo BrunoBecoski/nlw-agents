@@ -1,6 +1,6 @@
 <h1 align="center">NLW Agents</h1>
 
-<img src=".github/cover.png" alt="pass.in" />
+<img src=".github/cover.png" alt="cover" />
 
 # Web
 ## Principais Tecnologias
