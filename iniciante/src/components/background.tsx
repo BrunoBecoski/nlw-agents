@@ -6,8 +6,8 @@ interface BackgroundProps {
 
 export function Background({ children }: BackgroundProps) {
 	return (
-		<div className="bg-[url(./assets/bg.jpg)] bg-cover h-screen">
+		<body className="bg-[url(./assets/bg.svg)] bg-cover h-screen">
 			{children}
-		</div>
+		</body>
 	);
 }

@@ -1,16 +1,14 @@
-import logoImg from "./assets/logo.svg";
 import { Background } from "./components/background";
+import { Header } from "./components/header";
+import { Section } from "./components/section";
 
 export function App() {
 	return (
 		<Background>
-			<main className="flex flex-col items-center">
-				<img src={logoImg} alt="Esports" />
+			<Header />
 
-				<section className="text-white text-center">
-					<h2>Assistente de Meta</h2>
-					<p>Pergunte sobre estratégias, build e dicas para seus jogos!</p>
-				</section>
+			<main className="max-w-xl w-[90%] m-auto mt-12">
+				<Section />
 			</main>
 		</Background>
 	);

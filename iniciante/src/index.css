@@ -1,5 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
+
+@theme {
+	--default-font-family: "Inter", sans-serif;
+
+	--animate-appear: appear 700ms linear forwards;
+
+	@keyframes appear {
+		0% {
+			transform: translateY(2rem);
+			opacity: 0;
+		},
+
+		100% {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+}
 
 @custom-variant dark (&:is(.dark *));
 
