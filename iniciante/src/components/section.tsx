@@ -1,4 +1,11 @@
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Form } from "./form";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "./ui/card";
 
 export function Section() {
 	return (
@@ -10,6 +17,10 @@ export function Section() {
 						Pergunte sobre estratégias, build e dicas para seus jogos!
 					</CardDescription>
 				</CardHeader>
+
+				<CardContent>
+					<Form />
+				</CardContent>
 			</Card>
 		</section>
 	);
