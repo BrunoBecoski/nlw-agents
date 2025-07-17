@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
 
 import { env } from "@/env";
+import { generateAnswer } from "@/services/gemini";
 import { Button } from "./ui/button";
 import {
 	FormControl,
@@ -47,8 +48,10 @@ export function Form() {
 		},
 	});
 
-	function handleForm(data: FormData) {
-		console.log(data);
+	async function handleForm(data: FormData) {
+		const answer = await generateAnswer(data);
+
+		console.log(answer);
 	}
 
 	return (
@@ -129,9 +132,10 @@ export function Form() {
 
 				<Button
 					type="submit"
-					className="w-full bg-gradient-to-l from-[#9572FC] via-[#43E7AD] to-[#E2D45C] font-black uppercase cursor-pointer hover:-translate-y-0.5 hover:shadow-[#FFF86B33] hover:shadow-md"
+					className="w-full bg-gradient-to-l from-[#9572FC] via-[#43E7AD] to-[#E2D45C] font-bold text-black uppercase cursor-pointer hover:-translate-y-0.5 hover:shadow-[#FFF86B33] hover:shadow-md "
+					disabled={form.formState.isSubmitting}
 				>
-					Perguntar
+					{form.formState.isSubmitting ? "Perguntando..." : "Perguntar"}
 				</Button>
 			</form>
 		</UiForm>
