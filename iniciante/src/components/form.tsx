@@ -38,7 +38,12 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export function Form() {
+interface FormProps {
+	setQuestion: (question: string) => void;
+	setAnswer: (answer: string) => void;
+}
+
+export function Form({ setQuestion, setAnswer }: FormProps) {
 	const form = useForm<FormData>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -51,7 +56,8 @@ export function Form() {
 	async function handleForm(data: FormData) {
 		const answer = await generateAnswer(data);
 
-		console.log(answer);
+		setQuestion(data.question);
+		setAnswer(answer);
 	}
 
 	return (
@@ -98,11 +104,11 @@ export function Form() {
 									</FormControl>
 
 									<SelectContent>
-										<SelectItem value="minecraft">Minecraft</SelectItem>
-
 										<SelectItem value="age-of-empires-2-de">
 											Age of Empires II: Definitive Edition
 										</SelectItem>
+
+										<SelectItem value="minecraft">Minecraft</SelectItem>
 
 										<SelectItem value="overwatch-2">Overwatch 2</SelectItem>
 									</SelectContent>
@@ -121,7 +127,10 @@ export function Form() {
 								<FormLabel>Pergunta</FormLabel>
 
 								<FormControl>
-									<Textarea {...field} placeholder="EX: Como fazer uma cama" />
+									<Textarea
+										{...field}
+										placeholder="EX: Como fazer um Fast Castle"
+									/>
 								</FormControl>
 
 								<FormMessage />
