@@ -39,11 +39,12 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 interface FormProps {
+	setGame: (game: string) => void;
 	setQuestion: (question: string) => void;
 	setAnswer: (answer: string) => void;
 }
 
-export function Form({ setQuestion, setAnswer }: FormProps) {
+export function Form({ setGame, setQuestion, setAnswer }: FormProps) {
 	const form = useForm<FormData>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -56,6 +57,7 @@ export function Form({ setQuestion, setAnswer }: FormProps) {
 	async function handleForm(data: FormData) {
 		const answer = await generateAnswer(data);
 
+		setGame(data.game);
 		setQuestion(data.question);
 		setAnswer(answer);
 	}
@@ -104,13 +106,13 @@ export function Form({ setQuestion, setAnswer }: FormProps) {
 									</FormControl>
 
 									<SelectContent>
-										<SelectItem value="age-of-empires-2-de">
+										<SelectItem value="Age of Empires II: Definitive Edition">
 											Age of Empires II: Definitive Edition
 										</SelectItem>
 
-										<SelectItem value="minecraft">Minecraft</SelectItem>
+										<SelectItem value="Minecraft">Minecraft</SelectItem>
 
-										<SelectItem value="overwatch-2">Overwatch 2</SelectItem>
+										<SelectItem value="Overwatch 2">Overwatch 2</SelectItem>
 									</SelectContent>
 								</Select>
 								<FormMessage />

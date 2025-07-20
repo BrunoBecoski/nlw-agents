@@ -4,11 +4,12 @@ import Markdown from "react-markdown";
 import { Card, CardContent } from "./ui/card";
 
 type ChatProps = {
+	game: string;
 	question: string;
 	answer: string;
 };
 
-export function Chat({ question, answer }: ChatProps) {
+export function Chat({ game, question, answer }: ChatProps) {
 	return (
 		<Card className="bg-[#2A2634] mt-8 border-0 rounded-sm">
 			<CardContent>
@@ -21,7 +22,9 @@ export function Chat({ question, answer }: ChatProps) {
 						</div>
 
 						<div className="flex-1">
-							<p className="mb-1 font-medium text-foreground">Pergunta</p>
+							<p className="mb-1 font-medium text-foreground">
+								Pergunta sobre: {game}
+							</p>
 
 							<p className="whitespace-pre-line text-muted-foreground text-sm leading-relaxed">
 								{question}
@@ -39,10 +42,8 @@ export function Chat({ question, answer }: ChatProps) {
 						<div className="flex-1">
 							<p className="mb-1 font-medium text-foreground">Resposta da IA</p>
 
-							<div className="text-muted-foreground">
-								<p className="whitespace-pre-line text-sm leading-relaxed">
-									<Markdown>{answer}</Markdown>
-								</p>
+							<div className="text-muted-foreground whitespace-pre-line text-sm leading-relaxed">
+								<Markdown>{answer}</Markdown>
 							</div>
 						</div>
 					</div>
