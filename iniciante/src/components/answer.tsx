@@ -1,6 +1,7 @@
 import { Bot } from "lucide-react";
 import Markdown from "react-markdown";
-import { Card, CardContent, CardHeader } from "../ui/card";
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface AnswerProps {
 	answer: string;

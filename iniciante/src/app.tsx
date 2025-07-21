@@ -1,18 +1,29 @@
 import { useState } from "react";
 
 import { Background } from "./components/background";
+import { Chat } from "./components/chat";
+import { Form } from "./components/form";
 import { Header } from "./components/header";
-import { Section } from "./components/section";
 
 export function App() {
-	const [showHeader, setShowHeader] = useState(true);
+	const [game, setGame] = useState<string | null>(null);
+	const [questions, setQuestions] = useState<string[] | null>(null);
+	const [answers, setAnswers] = useState<string[] | null>(null);
 
 	return (
 		<Background>
-			{showHeader && <Header />}
+			{!questions && <Header />}
 
 			<main className="max-w-xl w-[90%] m-auto mt-12">
-				<Section setShowHeader={setShowHeader} />
+				{questions ? (
+					<Chat game={game} questions={questions} answers={answers} />
+				) : (
+					<Form
+						setGame={setGame}
+						setQuestions={setQuestions}
+						setAnswers={setAnswers}
+					/>
+				)}
 			</main>
 		</Background>
 	);

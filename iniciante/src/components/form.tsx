@@ -1,10 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
-
-import { env } from "@/env";
-import { generateAnswer } from "@/services/gemini";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import {
 	FormControl,
 	FormField,
@@ -12,16 +16,18 @@ import {
 	FormLabel,
 	FormMessage,
 	Form as UiForm,
-} from "./ui/form";
-import { Input } from "./ui/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "./ui/select";
-import { Textarea } from "./ui/textarea";
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { env } from "@/env";
+import { generateAnswer } from "@/services/gemini";
 
 const formSchema = z.object({
 	apiKey: z
@@ -40,11 +46,11 @@ type FormData = z.infer<typeof formSchema>;
 
 interface FormProps {
 	setGame: (game: string) => void;
-	setQuestion: (question: string) => void;
-	setAnswer: (answer: string) => void;
+	setQuestions: (questions: string[]) => void;
+	setAnswers: (answers: string[]) => void;
 }
 
-export function Form({ setGame, setQuestion, setAnswer }: FormProps) {
+export function Form({ setGame, setAnswers, setQuestions }: FormProps) {
 	const form = useForm<FormData>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -58,97 +64,115 @@ export function Form({ setGame, setQuestion, setAnswer }: FormProps) {
 		const answer = await generateAnswer(data);
 
 		setGame(data.game);
-		setQuestion(data.question);
-		setAnswer(answer);
+		setQuestions([data.question]);
+		setAnswers([answer]);
 	}
 
 	return (
-		<UiForm {...form}>
-			<form onSubmit={form.handleSubmit(handleForm)} className="space-y-4 my-3">
-				<div className="flex gap-4">
-					<FormField
-						control={form.control}
-						name="apiKey"
-						render={({ field }) => {
-							return (
-								<FormItem className="flex-1">
-									<FormLabel>API KEY do Gemini</FormLabel>
+		<section className="bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] rounded-lg pt-1 animate-appear">
+			<Card className="bg-[#2A2634] border-0 rounded-sm">
+				<CardHeader>
+					<CardTitle className="text-2xl">Assistente de Meta</CardTitle>
+					<CardDescription className="text-[#A1A1AA]">
+						Pergunte sobre estratégias, build e dicas para seus jogos!
+					</CardDescription>
+				</CardHeader>
 
-									<FormControl>
-										<Input
-											{...field}
-											placeholder="Informe a API KEY do Gemini"
-											type="password"
-										/>
-									</FormControl>
+				<CardContent>
+					<UiForm {...form}>
+						<form
+							onSubmit={form.handleSubmit(handleForm)}
+							className="space-y-4 my-3"
+						>
+							<div className="flex gap-4">
+								<FormField
+									control={form.control}
+									name="apiKey"
+									render={({ field }) => {
+										return (
+											<FormItem className="flex-1">
+												<FormLabel>API KEY do Gemini</FormLabel>
 
-									<FormMessage />
-								</FormItem>
-							);
-						}}
-					/>
+												<FormControl>
+													<Input
+														{...field}
+														placeholder="Informe a API KEY do Gemini"
+														type="password"
+													/>
+												</FormControl>
 
-					<FormField
-						control={form.control}
-						name="game"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Jogo</FormLabel>
+												<FormMessage />
+											</FormItem>
+										);
+									}}
+								/>
 
-								<Select
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-								>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder="Selecione um jogo" />
-										</SelectTrigger>
-									</FormControl>
+								<FormField
+									control={form.control}
+									name="game"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Jogo</FormLabel>
 
-									<SelectContent>
-										<SelectItem value="Age of Empires II: Definitive Edition">
-											Age of Empires II: Definitive Edition
-										</SelectItem>
+											<Select
+												onValueChange={field.onChange}
+												defaultValue={field.value}
+											>
+												<FormControl>
+													<SelectTrigger>
+														<SelectValue placeholder="Selecione um jogo" />
+													</SelectTrigger>
+												</FormControl>
 
-										<SelectItem value="Minecraft">Minecraft</SelectItem>
+												<SelectContent>
+													<SelectItem value="Age of Empires II: Definitive Edition">
+														Age of Empires II: Definitive Edition
+													</SelectItem>
 
-										<SelectItem value="Overwatch 2">Overwatch 2</SelectItem>
-									</SelectContent>
-								</Select>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-				</div>
-				<FormField
-					control={form.control}
-					name="question"
-					render={({ field }) => {
-						return (
-							<FormItem>
-								<FormLabel>Pergunta</FormLabel>
+													<SelectItem value="Minecraft">Minecraft</SelectItem>
 
-								<FormControl>
-									<Textarea
-										{...field}
-										placeholder="EX: Como fazer um Fast Castle"
-									/>
-								</FormControl>
+													<SelectItem value="Overwatch 2">
+														Overwatch 2
+													</SelectItem>
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+							<FormField
+								control={form.control}
+								name="question"
+								render={({ field }) => {
+									return (
+										<FormItem>
+											<FormLabel>Pergunta</FormLabel>
 
-								<FormMessage />
-							</FormItem>
-						);
-					}}
-				/>
+											<FormControl>
+												<Textarea
+													{...field}
+													placeholder="EX: Como fazer um Fast Castle"
+												/>
+											</FormControl>
 
-				<Button
-					type="submit"
-					className="w-full bg-gradient-to-l from-[#9572FC] via-[#43E7AD] to-[#E2D45C] font-bold text-black uppercase cursor-pointer hover:-translate-y-0.5 hover:shadow-[#FFF86B33] hover:shadow-md "
-					disabled={form.formState.isSubmitting}
-				>
-					{form.formState.isSubmitting ? "Perguntando..." : "Perguntar"}
-				</Button>
-			</form>
-		</UiForm>
+											<FormMessage />
+										</FormItem>
+									);
+								}}
+							/>
+
+							<Button
+								type="submit"
+								className="w-full bg-gradient-to-l from-[#9572FC] via-[#43E7AD] to-[#E2D45C] font-bold text-black uppercase cursor-pointer hover:-translate-y-0.5 hover:shadow-[#FFF86B33] hover:shadow-md "
+								disabled={form.formState.isSubmitting}
+							>
+								{form.formState.isSubmitting ? "Perguntando..." : "Perguntar"}
+							</Button>
+						</form>
+					</UiForm>
+				</CardContent>
+			</Card>
+		</section>
 	);
 }
