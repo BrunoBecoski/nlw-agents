@@ -1,25 +1,25 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI } from '@google/genai'
 
 interface GenerateAnswerProps {
-	apiKey: string;
-	game: string;
-	question: string;
+  apiKey: string
+  game: string
+  question: string
 }
 
 export async function generateAnswer({
-	apiKey,
-	game,
-	question,
+  apiKey,
+  game,
+  question,
 }: GenerateAnswerProps) {
-	const gemini = new GoogleGenAI({
-		apiKey,
-	});
+  const gemini = new GoogleGenAI({
+    apiKey,
+  })
 
-	const tools = [{ googleSearch: {} }];
+  const tools = [{ googleSearch: {} }]
 
-	const model = "gemini-2.5-flash";
+  const model = 'gemini-2.5-flash'
 
-	const prompt = `
+  const prompt = `
 		## Especialidade
 		- Você é um especialista assistente de meta para o jogo ${game}.
 
@@ -41,28 +41,28 @@ export async function generateAnswer({
 		...
 
 		Aqui está a pergunta do usuário: ${question}
-  `.trim();
+  `.trim()
 
-	const response = await gemini.models.generateContent({
-		model,
-		contents: [
-			{
-				role: "user",
-				parts: [
-					{
-						text: prompt,
-					},
-				],
-			},
-		],
-		config: {
-			tools,
-		},
-	});
+  const response = await gemini.models.generateContent({
+    model,
+    contents: [
+      {
+        role: 'user',
+        parts: [
+          {
+            text: prompt,
+          },
+        ],
+      },
+    ],
+    config: {
+      tools,
+    },
+  })
 
-	if (!response.text) {
-		throw new Error("Falhar ao gerar resposta pelo Gemini");
-	}
+  if (!response.text) {
+    throw new Error('Falhar ao gerar resposta pelo Gemini')
+  }
 
-	return response.text;
+  return response.text
 }

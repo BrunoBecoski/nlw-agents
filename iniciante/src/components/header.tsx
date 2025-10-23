@@ -1,9 +1,9 @@
-import logoImg from "../assets/logo.svg";
+import logoImg from '../assets/logo.svg'
 
 export function Header() {
-	return (
-		<header className="flex justify-center">
-			<img src={logoImg} alt="Esports" className="w-64" />
-		</header>
-	);
+  return (
+    <header className="flex justify-center py-8">
+      <img alt="Esports" className="w-64" src={logoImg} />
+    </header>
+  )
 }

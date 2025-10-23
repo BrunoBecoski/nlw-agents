@@ -1,13 +1,13 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react'
 
 interface BackgroundProps {
-	children: ReactNode;
+  children: ReactNode
 }
 
 export function Background({ children }: BackgroundProps) {
-	return (
-		<main className="bg-[url(./assets/bg.svg)] bg-cover h-auto min-h-screen p-8">
-			{children}
-		</main>
-	);
+  return (
+    <main className="h-auto min-h-screen bg-[url(./assets/bg.svg)] bg-cover">
+      {children}
+    </main>
+  )
 }

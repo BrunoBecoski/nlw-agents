@@ -1,28 +1,28 @@
-import { Bot } from "lucide-react";
-import Markdown from "react-markdown";
+import { Bot } from 'lucide-react'
+import Markdown from 'react-markdown'
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 
 interface AnswerProps {
-	answer: string;
+  answer: string
 }
 
 export function Answer({ answer }: AnswerProps) {
-	return (
-		<Card className="bg-[#2A2634] border-0 rounded-l-lg rounded-r-none">
-			<CardHeader className="flex items-center gap-4">
-				<div className="flex size-8 items-center justify-center rounded-full bg-primary/10">
-					<Bot className="size-4 text-primary" />
-				</div>
+  return (
+    <Card className="rounded-r-none rounded-l-lg border-0 bg-[#2A2634]">
+      <CardHeader className="flex items-center gap-4">
+        <div className="flex size-8 items-center justify-center rounded-full bg-primary/10">
+          <Bot className="size-4 text-primary" />
+        </div>
 
-				<p className="mb-1 font-medium text-foreground">Resposta da IA</p>
-			</CardHeader>
+        <p className="mb-1 font-medium text-foreground">Resposta da IA</p>
+      </CardHeader>
 
-			<CardContent className="flex-1">
-				<div className="text-muted-foreground whitespace-pre-line text-sm leading-relaxed">
-					<Markdown>{answer}</Markdown>
-				</div>
-			</CardContent>
-		</Card>
-	);
+      <CardContent className="flex-1">
+        <div className="whitespace-pre-line text-muted-foreground text-sm leading-relaxed">
+          <Markdown>{answer}</Markdown>
+        </div>
+      </CardContent>
+    </Card>
+  )
 }
