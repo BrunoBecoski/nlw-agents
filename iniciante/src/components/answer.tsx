@@ -9,7 +9,7 @@ interface AnswerProps {
 
 export function Answer({ answer }: AnswerProps) {
   return (
-    <Card className="rounded-r-none rounded-l-lg border-0 bg-[#2A2634]">
+    <Card className="bg-[#2A2634]">
       <CardHeader className="flex items-center gap-4">
         <div className="flex size-8 items-center justify-center rounded-full bg-primary/10">
           <Bot className="size-4 text-primary" />

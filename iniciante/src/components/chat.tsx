@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import z from 'zod/v4'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader } from '@/components/ui/card'
 import {
   FormControl,
   FormField,
@@ -16,7 +15,6 @@ import { Answer } from './answer'
 import { Question } from './question'
 
 type ChatProps = {
-  game: string | null
   questions: string[]
   answers: string[] | null
 }
@@ -31,7 +29,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>
 
-export function Chat({ game, questions, answers }: ChatProps) {
+export function Chat({ questions, answers }: ChatProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,25 +43,15 @@ export function Chat({ game, questions, answers }: ChatProps) {
 
   return (
     <section className="flex h-screen flex-col py-8">
-      <div className="overflow-y-scroll bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pl-1">
-        <Card className="mb-1 rounded-r-none rounded-l-lg border-0 bg-[#2A2634]">
-          <CardHeader>
-            <p className="font-medium text-foreground">
-              Pergunta sobre: {game}
-            </p>
-          </CardHeader>
-        </Card>
+      <div className="mb-2 space-y-1 overflow-y-scroll pr-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
+        <Question question={questions[0]} />
 
-        <div className="space-y-1">
-          <Question question={questions[0]} />
-
-          {answers && <Answer answer={answers[0]} />}
-        </div>
+        {answers && <Answer answer={answers[0]} />}
       </div>
 
       <UiForm {...form}>
         <form
-          className="bort my-3 space-y-4 bg-[#2A2634] p-4"
+          className="pace-y-4 rounded-lg bg-[#2A2634] p-4"
           onSubmit={form.handleSubmit(handleForm)}
         >
           <FormField
