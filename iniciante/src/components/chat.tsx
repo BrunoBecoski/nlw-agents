@@ -42,7 +42,7 @@ export function Chat({ questions, answers }: ChatProps) {
   }
 
   return (
-    <section className="flex h-screen flex-col py-8">
+    <section className="flex h-screen flex-col py-4">
       <div className="mb-2 space-y-1 overflow-y-scroll pr-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
         <Question question={questions[0]} />
 

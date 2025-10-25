@@ -14,9 +14,9 @@ export function App() {
     <Background>
       {!questions && <Header />}
 
-      <main className="m-auto max-w-xl ">
+      <main className="m-auto max-w-1/2">
         {questions ? (
-          <Chat answers={answers} game={game} questions={questions} />
+          <Chat answers={answers} questions={questions} />
         ) : (
           <Form
             setAnswers={setAnswers}
