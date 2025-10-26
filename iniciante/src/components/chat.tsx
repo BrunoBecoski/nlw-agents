@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { LoaderCircle, Send } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import z from 'zod/v4'
-
 import { Button } from '@/components/ui/button'
 import {
   FormControl,
@@ -13,6 +13,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { Answer } from './answer'
 import { Question } from './question'
+import { Card, CardContent } from './ui/card'
 
 type ChatProps = {
   questions: string[]
@@ -24,7 +25,7 @@ const formSchema = z.object({
     .string()
     .min(1, 'Pergunta é obrigatória')
     .min(10, 'Pergunta deve ter pelo menos 10 caracteres')
-    .max(500, 'Pergunta deve ter menos de 500 caracteres'),
+    .max(200, 'Pergunta deve ter menos de 200 caracteres'),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -50,33 +51,43 @@ export function Chat({ questions, answers }: ChatProps) {
       </div>
 
       <UiForm {...form}>
-        <form
-          className="pace-y-4 rounded-lg bg-[#2A2634] p-4"
-          onSubmit={form.handleSubmit(handleForm)}
-        >
-          <FormField
-            control={form.control}
-            name="question"
-            render={({ field }) => {
-              return (
-                <FormItem className="flex-1">
-                  <FormControl>
-                    <Textarea {...field} placeholder="Faça outra pergunta" />
-                  </FormControl>
+        <form onSubmit={form.handleSubmit(handleForm)}>
+          <Card className="bg-[#2A2634]">
+            <CardContent className="flex flex-row items-end gap-4">
+              <FormField
+                control={form.control}
+                name="question"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="flex-1">
+                      <FormMessage />
 
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          className="border-none focus:outline-none"
+                          placeholder="Faça outra pergunta"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )
+                }}
+              />
 
-          <Button
-            className="hover:-translate-y-0.5 w-full cursor-pointer bg-gradient-to-l from-[#9572FC] via-[#43E7AD] to-[#E2D45C] font-bold text-black uppercase hover:shadow-[#FFF86B33] hover:shadow-md "
-            disabled={form.formState.isSubmitting}
-            type="submit"
-          >
-            {form.formState.isSubmitting ? 'Perguntando...' : 'Perguntar'}
-          </Button>
+              <Button
+                className="size-12 items-center justify-center hover:cursor-pointer hover:text-[#9572FC]"
+                disabled={form.formState.isSubmitting}
+                title="Perguntar"
+                variant="ghost"
+              >
+                {form.formState.isSubmitting ? (
+                  <LoaderCircle className="size-8 animate-spin" />
+                ) : (
+                  <Send className="size-8" />
+                )}
+              </Button>
+            </CardContent>
+          </Card>
         </form>
       </UiForm>
     </section>
