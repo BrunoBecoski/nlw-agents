@@ -44,15 +44,18 @@ export function Chat({ questions, answers }: ChatProps) {
 
   return (
     <section className="flex h-screen flex-col py-4">
-      <div className="mb-2 space-y-1 overflow-y-scroll pr-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
+      <div className=" mask-b-from-80% mask-b-to-100% mb-2 space-y-1 overflow-y-scroll pr-2 pb-6 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
         <Question question={questions[0]} />
 
         {answers && <Answer answer={answers[0]} />}
       </div>
 
       <UiForm {...form}>
-        <form onSubmit={form.handleSubmit(handleForm)}>
-          <Card className="bg-[#2A2634]">
+        <form
+          className="rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1"
+          onSubmit={form.handleSubmit(handleForm)}
+        >
+          <Card className="rounded-lg bg-[#2A2634]">
             <CardContent className="flex flex-row items-end gap-4">
               <FormField
                 control={form.control}
@@ -75,16 +78,11 @@ export function Chat({ questions, answers }: ChatProps) {
               />
 
               <Button
-                className="size-12 items-center justify-center hover:cursor-pointer hover:text-[#9572FC]"
+                className="h-16 cursor-pointer"
                 disabled={form.formState.isSubmitting}
-                title="Perguntar"
-                variant="ghost"
+                variant="outline"
               >
-                {form.formState.isSubmitting ? (
-                  <LoaderCircle className="size-8 animate-spin" />
-                ) : (
-                  <Send className="size-8" />
-                )}
+                {form.formState.isSubmitting ? 'Perguntando...' : 'Perguntar'}
               </Button>
             </CardContent>
           </Card>
