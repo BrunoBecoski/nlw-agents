@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
+import logoImg from './assets/logo.svg'
 import { Background } from './components/background'
 import { Chat } from './components/chat'
 import { Form } from './components/form'
-import { Header } from './components/header'
 
 export function App() {
   const [game, setGame] = useState<string | null>(null)
@@ -12,17 +12,23 @@ export function App() {
 
   return (
     <Background>
-      {!questions && <Header />}
-
-      <main className="m-auto max-w-1/2">
+      <main className="flex h-screen w-screen flex-col items-center justify-evenly">
         {questions ? (
           <Chat answers={answers} questions={questions} />
         ) : (
-          <Form
-            setAnswers={setAnswers}
-            setGame={setGame}
-            setQuestions={setQuestions}
-          />
+          <>
+            <img
+              alt="Esports"
+              className="h-1/4 animate-opacity"
+              src={logoImg}
+            />
+
+            <Form
+              setAnswers={setAnswers}
+              setGame={setGame}
+              setQuestions={setQuestions}
+            />
+          </>
         )}
       </main>
     </Background>
