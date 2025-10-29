@@ -16,7 +16,7 @@ export function Answer({ answer }: AnswerProps) {
 
       <Card className="ml-12 rounded-4xl rounded-ss-none bg-[#2A2634]">
         <CardContent className="flex-1">
-          <div className="whitespace-pre-line text-muted-foreground text-sm leading-relaxed">
+          <div className="whitespace-pre-line text-md leading-relaxed">
             <Markdown>{answer}</Markdown>
           </div>
         </CardContent>

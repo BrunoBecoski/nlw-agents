@@ -13,9 +13,9 @@ export function Question({ question }: QuestionProps) {
         <User className="size-8 text-[#9572FC]" />
       </div>
 
-      <Card className=" mr-12 w-fit rounded-4xl rounded-se-none bg-[#2A2634]">
+      <Card className="mr-12 w-fit rounded-4xl rounded-se-none bg-[#2A2634]">
         <CardContent className="flex items-center justify-end">
-          <p className="text-right text-sm leading-relaxed">{question}</p>
+          <p className="text-md leading-relaxed">{question}</p>
         </CardContent>
       </Card>
     </div>
