@@ -5,28 +5,30 @@
 @theme {
   --default-font-family: "Inter", sans-serif;
 
-  --animate-appear: appear 700ms linear forwards;
-  --animate-opacity: opacity 700ms linear forwards;
+  --animate-form: form 700ms linear forwards;
+  --animate-logo: logo 700ms linear forwards;
 
-  @keyframes appear {
+  @keyframes form {
 		0% {
-			transform: translateY(2rem);
+			transform: translateY(150%);
 			opacity: 0;
 		},
 
 		100% {
-			transform: translateY(0);
+			transform: translateY(0%);
 			opacity: 1;
 		}
 	}
 
-  @keyframes opacity {
+  @keyframes logo {
     	0% {
 			opacity: 0;
+      transform: scale(0)
 		},
 
 		100% {
 			opacity: 1;
+      transform: scale(1);
 		}
   }
 }

@@ -18,7 +18,7 @@ export function App() {
 
   return (
     <Background>
-      <main className="flex h-screen w-screen flex-col items-center justify-evenly">
+      <main className="flex h-screen w-screen flex-col items-center justify-evenly overflow-hidden">
         {questions ? (
           <Chat
             answers={answers}
@@ -27,11 +27,7 @@ export function App() {
           />
         ) : (
           <>
-            <img
-              alt="Esports"
-              className="h-1/4 animate-opacity"
-              src={logoImg}
-            />
+            <img alt="Esports" className="h-1/4 animate-logo" src={logoImg} />
 
             <Form
               setAnswers={setAnswers}
