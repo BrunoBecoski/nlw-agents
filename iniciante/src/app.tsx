@@ -10,11 +10,21 @@ export function App() {
   const [questions, setQuestions] = useState<string[] | null>(null)
   const [answers, setAnswers] = useState<string[] | null>(null)
 
+  function handleReset() {
+    setGame(null)
+    setQuestions(null)
+    setAnswers(null)
+  }
+
   return (
     <Background>
       <main className="flex h-screen w-screen flex-col items-center justify-evenly">
         {questions ? (
-          <Chat answers={answers} questions={questions} />
+          <Chat
+            answers={answers}
+            handleReset={handleReset}
+            questions={questions}
+          />
         ) : (
           <>
             <img
