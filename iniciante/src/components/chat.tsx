@@ -46,7 +46,7 @@ export function Chat({ questions, answers, handleReset }: ChatProps) {
   return (
     <section className="flex h-screen w-1/2 flex-col py-6">
       <Button
-        className="absolute top-6 left-6 size-12 cursor-pointer rounded-full"
+        className="absolute top-6 left-6 size-12 animate-scale cursor-pointer rounded-full"
         onClick={handleReset}
         title="Voltar"
         variant="outline"
@@ -54,7 +54,7 @@ export function Chat({ questions, answers, handleReset }: ChatProps) {
         <ChevronLeft className="size-10" />
       </Button>
 
-      <div className="mask-b-from-80% mask-b-to-100% mb-2 h-full space-y-1 overflow-y-scroll pr-2 pb-8 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
+      <div className="mask-b-from-80% mask-b-to-100% mb-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll pr-2 pb-8 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
         <Question question={questions[0]} />
 
         {answers && <Answer answer={answers[0]} />}
@@ -62,7 +62,7 @@ export function Chat({ questions, answers, handleReset }: ChatProps) {
 
       <UiForm {...form}>
         <form
-          className="rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1"
+          className="animate-down-to-up rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1"
           onSubmit={form.handleSubmit(handleForm)}
         >
           <Card className="rounded-lg bg-[#2A2634]">

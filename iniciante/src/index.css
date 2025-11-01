@@ -5,23 +5,13 @@
 @theme {
   --default-font-family: "Inter", sans-serif;
 
-  --animate-form: form 700ms linear forwards;
-  --animate-logo: logo 700ms linear forwards;
+  --animate-scale: scale 700ms linear forwards;
+  --animate-down-to-up: downToUp 700ms linear forwards;
+  --animate-right-to-left: rightToLeft 700ms linear forwards;
+  --animate-left-to-right: leftToRight 700ms linear forwards;
 
-  @keyframes form {
-		0% {
-			transform: translateY(150%);
-			opacity: 0;
-		},
-
-		100% {
-			transform: translateY(0%);
-			opacity: 1;
-		}
-	}
-
-  @keyframes logo {
-    	0% {
+  @keyframes scale {
+    0% {
 			opacity: 0;
       transform: scale(0)
 		},
@@ -30,6 +20,43 @@
 			opacity: 1;
       transform: scale(1);
 		}
+  }
+
+  @keyframes downToUp {
+		0% {
+			opacity: 0;
+			transform: translateY(150%);
+		},
+
+		100% {
+			opacity: 1;
+			transform: translateY(0%);
+		}
+	}
+
+  @keyframes rightToLeft {
+   	0% {
+			opacity: 0;
+      transform: translateX(100%)
+		},
+
+		100% {
+			opacity: 1;
+      transform: translateX(0%);
+		}
+  }
+
+  @keyframes leftToRight {
+    0% {
+			opacity: 0;
+      transform: translateX(-100%)
+		},
+
+		100% {
+			opacity: 1;
+      transform: translateX(0%);
+		}
+  
   }
 }
 

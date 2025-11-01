@@ -71,7 +71,7 @@ export function Form({ setGame, setAnswers, setQuestions }: FormProps) {
   }
 
   return (
-    <section className="w-1/2 animate-form rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1">
+    <section className="w-1/2 animate-down-to-up rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1">
       <Card className="rounded-sm border-0 bg-[#2A2634]">
         <CardHeader>
           <CardTitle className="text-2xl">Assistente de Meta</CardTitle>
