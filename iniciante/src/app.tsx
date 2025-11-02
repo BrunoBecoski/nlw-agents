@@ -27,7 +27,9 @@ export function App() {
           />
         ) : (
           <>
-            <img alt="Esports" className="h-1/4 animate-scale" src={logoImg} />
+            <picture className="h-1/4 animate-scale">
+              <img alt="Esports" src={logoImg} />
+            </picture>
 
             <Form
               setAnswers={setAnswers}

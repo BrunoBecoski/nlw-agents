@@ -9,7 +9,7 @@ interface AnswerProps {
 
 export function Answer({ answer }: AnswerProps) {
   return (
-    <div className="animate-left-to-right">
+    <div className="flex animate-left-to-right flex-col">
       <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
         <Bot className="size-8 text-[#9572FC]" />
       </div>

@@ -5,10 +5,10 @@
 @theme {
   --default-font-family: "Inter", sans-serif;
 
-  --animate-scale: scale 700ms linear forwards;
-  --animate-down-to-up: downToUp 700ms linear forwards;
-  --animate-right-to-left: rightToLeft 700ms linear forwards;
-  --animate-left-to-right: leftToRight 700ms linear forwards;
+  --animate-scale: scale 500ms linear forwards;
+  --animate-down-to-up: downToUp 500ms linear forwards;
+  --animate-right-to-left: rightToLeft 500ms linear forwards;
+  --animate-left-to-right: leftToRight 500ms linear forwards;
 
   @keyframes scale {
     0% {
@@ -25,12 +25,12 @@
   @keyframes downToUp {
 		0% {
 			opacity: 0;
-			transform: translateY(150%);
+			transform: translateY(100%);
 		},
 
 		100% {
 			opacity: 1;
-			transform: translateY(0%);
+			transform: translateY(0);
 		}
 	}
 
