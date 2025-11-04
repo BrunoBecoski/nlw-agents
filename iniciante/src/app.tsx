@@ -1,42 +1,42 @@
 import { useState } from 'react'
-
-import logoImg from './assets/logo.svg'
 import { Background } from './components/background'
 import { Chat } from './components/chat'
-import { Form } from './components/form'
+import { Home } from './components/home'
+
+type Screen = 'home' | 'chat'
+
+export interface FormDataProps {
+  apiKey: string
+  game: string
+  question: string
+}
 
 export function App() {
-  const [game, setGame] = useState<string | null>(null)
-  const [questions, setQuestions] = useState<string[] | null>(null)
-  const [answers, setAnswers] = useState<string[] | null>(null)
+  const [screen, setScreen] = useState<Screen>('home')
 
   function handleReset() {
-    setGame(null)
-    setQuestions(null)
-    setAnswers(null)
+    setFormData(null)
+  }
+
+  function handleFormSubmit(formData: FormDataProps) {
+    console.log(formData)
+  }
+
+  function handleChangeScreen(screen: Screen) {
+    setScreen(screen)
   }
 
   return (
     <Background>
       <main className="flex h-screen w-screen flex-col items-center justify-evenly overflow-hidden">
-        {questions ? (
-          <Chat
-            answers={answers}
-            handleReset={handleReset}
-            questions={questions}
-          />
-        ) : (
-          <>
-            <picture className="h-1/4 animate-scale">
-              <img alt="Esports" src={logoImg} />
-            </picture>
+        {screen === 'home' && <Home handleFormSubmit={handleFormSubmit} />}
 
-            <Form
-              setAnswers={setAnswers}
-              setGame={setGame}
-              setQuestions={setQuestions}
-            />
-          </>
+        {screen === 'chat' && (
+          <Chat
+            answers={['reposta']}
+            handleReset={handleReset}
+            questions={['pergunta']}
+          />
         )}
       </main>
     </Background>

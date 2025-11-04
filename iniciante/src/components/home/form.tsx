@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod/v4'
+import type { FormDataProps } from '@/app'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -27,7 +28,6 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { env } from '@/env'
-import { generateAnswer } from '@/services/gemini'
 
 const formSchema = z.object({
   apiKey: z
@@ -45,12 +45,10 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 interface FormProps {
-  setGame: (game: string) => void
-  setQuestions: (questions: string[]) => void
-  setAnswers: (answers: string[]) => void
+  handleFormSubmit: (formData: FormDataProps) => void
 }
 
-export function Form({ setGame, setAnswers, setQuestions }: FormProps) {
+export function Form({ handleFormSubmit }: FormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,18 +58,16 @@ export function Form({ setGame, setAnswers, setQuestions }: FormProps) {
     },
   })
 
-  async function handleForm(data: FormData) {
-    const answer = await generateAnswer(data)
-
-    document.title = `Esports | ${data.game}`
-
-    setGame(data.game)
-    setQuestions([data.question])
-    setAnswers([answer])
+  function handleForm(data: FormData) {
+    handleFormSubmit({
+      apiKey: data.apiKey,
+      game: data.game,
+      question: data.question,
+    })
   }
 
   return (
-    <section className="w-1/2 animate-down-to-up rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1">
+    <div className="w-full animate-down-to-up rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1">
       <Card className="rounded-sm border-0 bg-[#2A2634]">
         <CardHeader>
           <CardTitle className="text-2xl">Assistente de Meta</CardTitle>
@@ -175,6 +171,6 @@ export function Form({ setGame, setAnswers, setQuestions }: FormProps) {
           </UiForm>
         </CardContent>
       </Card>
-    </section>
+    </div>
   )
 }
