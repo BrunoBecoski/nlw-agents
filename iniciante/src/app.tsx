@@ -3,7 +3,7 @@ import { Background } from './components/background'
 import { Chat } from './components/chat'
 import { Home } from './components/home'
 
-type Screen = 'home' | 'chat'
+export type Screen = 'home' | 'chat'
 
 export interface FormDataProps {
   apiKey: string
@@ -13,17 +13,18 @@ export interface FormDataProps {
 
 export function App() {
   const [screen, setScreen] = useState<Screen>('home')
-
-  function handleReset() {
-    setFormData(null)
-  }
+  const [questions, setQuestions] = useState([''])
+  const [answers, setAnswers] = useState([''])
 
   function handleFormSubmit(formData: FormDataProps) {
+    const { question } = formData
     console.log(formData)
+    setScreen('chat')
+    setQuestions([question])
   }
 
-  function handleChangeScreen(screen: Screen) {
-    setScreen(screen)
+  function handleTextareaSubmit(question: string) {
+    console.log(question)
   }
 
   return (
@@ -33,9 +34,10 @@ export function App() {
 
         {screen === 'chat' && (
           <Chat
-            answers={['reposta']}
-            handleReset={handleReset}
-            questions={['pergunta']}
+            answers={answers}
+            handleTextareaSubmit={handleTextareaSubmit}
+            questions={questions}
+            setScreen={setScreen}
           />
         )}
       </main>
