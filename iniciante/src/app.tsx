@@ -5,6 +5,8 @@ import { Home } from './components/home'
 
 export type Screen = 'home' | 'chat'
 
+export type Animation = 'home-enter' | 'home-exit' | 'chat-enter' | 'chat-exit'
+
 export interface FormDataProps {
   apiKey: string
   game: string
@@ -15,10 +17,12 @@ export function App() {
   const [screen, setScreen] = useState<Screen>('home')
   const [questions, setQuestions] = useState([''])
   const [answers, setAnswers] = useState([''])
+  const [animation, setAnimation] = useState<Animation>('home-enter')
 
   function handleFormSubmit(formData: FormDataProps) {
     const { question } = formData
     console.log(formData)
+    setAnimation('home-exit')
     setScreen('chat')
     setQuestions([question])
   }
@@ -30,7 +34,9 @@ export function App() {
   return (
     <Background>
       <main className="flex h-screen w-screen flex-col items-center justify-evenly overflow-hidden">
-        {screen === 'home' && <Home handleFormSubmit={handleFormSubmit} />}
+        {screen === 'home' && (
+          <Home animation={animation} handleFormSubmit={handleFormSubmit} />
+        )}
 
         {screen === 'chat' && (
           <Chat

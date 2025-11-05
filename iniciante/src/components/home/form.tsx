@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod/v4'
-import type { FormDataProps } from '@/app'
+import type { Animation, FormDataProps } from '@/app'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -45,10 +46,13 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 interface FormProps {
+  animation: Animation
   handleFormSubmit: (formData: FormDataProps) => void
 }
 
-export function Form({ handleFormSubmit }: FormProps) {
+export function Form({ animation, handleFormSubmit }: FormProps) {
+  const [currentAnimation, setCurrentAnimation] = useState('')
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,8 +70,25 @@ export function Form({ handleFormSubmit }: FormProps) {
     })
   }
 
+  useEffect(() => {
+    switch (animation) {
+      case 'home-enter':
+        setCurrentAnimation('animate-down-to-up')
+        break
+
+      case 'home-exit':
+        setCurrentAnimation('animate-up-to-down')
+        break
+
+      default:
+        break
+    }
+  }, [animation])
+
   return (
-    <div className="w-full animate-down-to-up rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1">
+    <div
+      className={`w-full rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1 ${currentAnimation}`}
+    >
       <Card className="rounded-sm border-0 bg-[#2A2634]">
         <CardHeader>
           <CardTitle className="text-2xl">Assistente de Meta</CardTitle>

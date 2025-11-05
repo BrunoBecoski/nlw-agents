@@ -5,12 +5,13 @@
 @theme {
   --default-font-family: "Inter", sans-serif;
 
-  --animate-scale: scale 500ms linear forwards;
-  --animate-down-to-up: downToUp 500ms linear forwards;
-  --animate-right-to-left: rightToLeft 500ms linear forwards;
-  --animate-left-to-right: leftToRight 500ms linear forwards;
+  --animate-fade-in: fade-in 500ms linear forwards;
+  --animate-fade-out: fade-out 500ms linear forwards;
+  --animate-down-to-up: down-to-up 500ms linear forwards;
+  --animate-right-to-left: right-to-left 500ms linear forwards;
+  --animate-left-to-right: left-to-right 500ms linear forwards;
 
-  @keyframes scale {
+  @keyframes fade-in {
     0% {
 			opacity: 0;
       transform: scale(0)
@@ -22,7 +23,19 @@
 		}
   }
 
-  @keyframes downToUp {
+  @keyframes fade-out {
+    0% {
+			opacity: 1;
+      transform: scale(1)
+		},
+
+		100% {
+			opacity: 0;
+      transform: scale(0);
+		}
+  }
+
+  @keyframes down-to-up {
 		0% {
 			opacity: 0;
 			transform: translateY(100%);
@@ -34,7 +47,7 @@
 		}
 	}
 
-  @keyframes rightToLeft {
+  @keyframes right-up-left {
    	0% {
 			opacity: 0;
       transform: translateX(100%)
@@ -46,7 +59,7 @@
 		}
   }
 
-  @keyframes leftToRight {
+  @keyframes left-to-right {
     0% {
 			opacity: 0;
       transform: translateX(-100%)
