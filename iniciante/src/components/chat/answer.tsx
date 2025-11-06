@@ -1,15 +1,34 @@
 import { Bot } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import Markdown from 'react-markdown'
-
+import type { Animation } from '@/app'
 import { Card, CardContent } from '@/components/ui/card'
 
 interface AnswerProps {
+  animation: Animation
   answer: string
 }
 
-export function Answer({ answer }: AnswerProps) {
+export function Answer({ animation, answer }: AnswerProps) {
+  const [currentAnimation, setCurrentAnimation] = useState('')
+
+  useEffect(() => {
+    switch (animation) {
+      case 'chat-enter':
+        setCurrentAnimation('animate-left-to-right')
+        break
+
+      case 'chat-exit':
+        setCurrentAnimation('animate-right-to-left')
+        break
+
+      default:
+        break
+    }
+  }, [animation])
+
   return (
-    <div className="flex animate-left-to-right flex-col">
+    <div className={`flex flex-col ${currentAnimation}`}>
       <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
         <Bot className="size-8 text-[#9572FC]" />
       </div>

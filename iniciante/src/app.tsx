@@ -20,15 +20,27 @@ export function App() {
   const [animation, setAnimation] = useState<Animation>('home-enter')
 
   function handleFormSubmit(formData: FormDataProps) {
-    const { question } = formData
-    console.log(formData)
     setAnimation('home-exit')
-    setScreen('chat')
-    setQuestions([question])
+
+    setTimeout(() => {
+      setAnimation('chat-enter')
+      const { question } = formData
+      setQuestions([question])
+      setScreen('chat')
+    }, 500)
   }
 
   function handleTextareaSubmit(question: string) {
     console.log(question)
+  }
+
+  function handleBackHome() {
+    setAnimation('chat-exit')
+
+    setTimeout(() => {
+      setAnimation('home-enter')
+      setScreen('home')
+    }, 500)
   }
 
   return (
@@ -40,10 +52,11 @@ export function App() {
 
         {screen === 'chat' && (
           <Chat
+            animation={animation}
             answers={answers}
+            handleBackHome={handleBackHome}
             handleTextareaSubmit={handleTextareaSubmit}
             questions={questions}
-            setScreen={setScreen}
           />
         )}
       </main>

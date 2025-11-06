@@ -73,11 +73,11 @@ export function Form({ animation, handleFormSubmit }: FormProps) {
   useEffect(() => {
     switch (animation) {
       case 'home-enter':
-        setCurrentAnimation('animate-down-to-up')
+        setCurrentAnimation('animate-slide-in-bottom')
         break
 
       case 'home-exit':
-        setCurrentAnimation('animate-up-to-down')
+        setCurrentAnimation('animate-slide-out-bottom')
         break
 
       default:

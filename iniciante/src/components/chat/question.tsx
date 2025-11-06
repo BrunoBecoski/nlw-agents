@@ -1,14 +1,33 @@
 import { User } from 'lucide-react'
-
+import { useEffect, useState } from 'react'
+import type { Animation } from '@/app'
 import { Card, CardContent } from '@/components/ui/card'
 
 interface QuestionProps {
+  animation: Animation
   question: string
 }
 
-export function Question({ question }: QuestionProps) {
+export function Question({ animation, question }: QuestionProps) {
+  const [currentAnimation, setCurrentAnimation] = useState('')
+
+  useEffect(() => {
+    switch (animation) {
+      case 'chat-enter':
+        setCurrentAnimation('animate-right-to-left')
+        break
+
+      case 'chat-exit':
+        setCurrentAnimation('animate-left-to-right')
+        break
+
+      default:
+        break
+    }
+  }, [animation])
+
   return (
-    <div className="flex animate-right-to-left flex-col items-end">
+    <div className={`flex flex-col items-end ${currentAnimation}`}>
       <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
         <User className="size-8 text-[#9572FC]" />
       </div>
