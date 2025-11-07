@@ -9,8 +9,10 @@
   --animate-fade-out: fade-out 500ms linear forwards;
   --animate-slide-in-bottom: slide-in-bottom 500ms linear forwards;
   --animate-slide-out-bottom: slide-out-bottom 500ms linear forwards;
-  --animate-right-to-left: right-to-left 500ms linear forwards;
-  --animate-left-to-right: left-to-right 500ms linear forwards;
+  --animate-slide-in-right: slide-in-right 500ms linear forwards;
+  --animate-slide-out-right: slide-out-right 500ms linear forwards;
+  --animate-slide-in-left: slide-in-left 500ms linear forwards;
+  --animate-slide-out-left: slide-out-left 500ms linear forwards;
 
   @keyframes fade-in {
     0% {
@@ -56,7 +58,7 @@
     }
   }
 
-  @keyframes right-to-left {
+  @keyframes slide-in-right {
     0% {
       opacity: 0;
       transform: translateX(100%);
@@ -68,7 +70,19 @@
     }
   }
 
-  @keyframes left-to-right {
+  @keyframes slide-out-right {
+    0% {
+      opacity: 1;
+      transform: translateX(0%);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes slide-in-left {
     0% {
       opacity: 0;
       transform: translateX(-100%);
@@ -77,6 +91,18 @@
     100% {
       opacity: 1;
       transform: translateX(0%);
+    }
+  }
+
+  @keyframes slide-out-left {
+    0% {
+      opacity: 1;
+      transform: translateX(0%);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateX(-100%);
     }
   }
 }

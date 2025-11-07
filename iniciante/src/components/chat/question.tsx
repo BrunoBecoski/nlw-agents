@@ -14,11 +14,11 @@ export function Question({ animation, question }: QuestionProps) {
   useEffect(() => {
     switch (animation) {
       case 'chat-enter':
-        setCurrentAnimation('animate-right-to-left')
+        setCurrentAnimation('animate-slide-in-right')
         break
 
       case 'chat-exit':
-        setCurrentAnimation('animate-left-to-right')
+        setCurrentAnimation('animate-slide-out-right')
         break
 
       default:

@@ -51,8 +51,7 @@ export function Chat({
 
       <div className="mask-b-from-80% mask-b-to-100% mb-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll pr-2 pb-8 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
         <Question animation={animation} question={questions[0]} />
-
-        {answers && <Answer animation={animation} answer={answers[0]} />}
+        <Answer animation={animation} answer={answers[0]} />
       </div>
 
       <Form animation={animation} handleTextareaSubmit={handleTextareaSubmit} />

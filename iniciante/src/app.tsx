@@ -24,9 +24,13 @@ export function App() {
 
     setTimeout(() => {
       setAnimation('chat-enter')
-      const { question } = formData
+      const { game, question } = formData
       setQuestions([question])
+      setAnswers([
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nisl neque, porttitor quis viverra vel, accumsan a ex. Aliquam quis turpis ante. Nam gravida nulla viverra nunc vestibulum molestie. Suspendisse risus justo, bibendum convallis euismod quis, accumsan ac nisi. Aliquam non dui sit amet est gravida auctor lacinia sed orci. Duis lorem ante, faucibus at tincidunt sed, bibendum sed turpis. Integer feugiat lorem sed nunc pretium, a viverra elit tincidunt. Nulla nunc metus, mattis vitae mauris eu, pulvinar dignissim est. Duis at venenatis nisl, non elementum justo. Ut finibus vitae lectus et tristique. Nulla a luctus ex. Praesent eu varius.',
+      ])
       setScreen('chat')
+      document.title = `Esports | ${game}`
     }, 500)
   }
 
@@ -40,6 +44,9 @@ export function App() {
     setTimeout(() => {
       setAnimation('home-enter')
       setScreen('home')
+      setAnswers([''])
+      setQuestions([''])
+      document.title = 'Esports'
     }, 500)
   }
 
