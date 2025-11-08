@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Background } from './components/background'
 import { Chat } from './components/chat'
 import { Home } from './components/home'
+import { generateAnswer } from './services/gemini'
 
 export type Screen = 'home' | 'chat'
 
@@ -19,19 +20,24 @@ export function App() {
   const [answers, setAnswers] = useState([''])
   const [animation, setAnimation] = useState<Animation>('home-enter')
 
-  function handleFormSubmit(formData: FormDataProps) {
+  async function handleFormSubmit(formData: FormDataProps) {
+    const { apiKey, game, question } = formData
     setAnimation('home-exit')
 
     setTimeout(() => {
       setAnimation('chat-enter')
-      const { game, question } = formData
       setQuestions([question])
-      setAnswers([
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nisl neque, porttitor quis viverra vel, accumsan a ex. Aliquam quis turpis ante. Nam gravida nulla viverra nunc vestibulum molestie. Suspendisse risus justo, bibendum convallis euismod quis, accumsan ac nisi. Aliquam non dui sit amet est gravida auctor lacinia sed orci. Duis lorem ante, faucibus at tincidunt sed, bibendum sed turpis. Integer feugiat lorem sed nunc pretium, a viverra elit tincidunt. Nulla nunc metus, mattis vitae mauris eu, pulvinar dignissim est. Duis at venenatis nisl, non elementum justo. Ut finibus vitae lectus et tristique. Nulla a luctus ex. Praesent eu varius.',
-      ])
       setScreen('chat')
       document.title = `Esports | ${game}`
     }, 500)
+
+    const answer = await generateAnswer({
+      apiKey,
+      game,
+      question,
+    })
+
+    setAnswers([answer])
   }
 
   function handleTextareaSubmit(question: string) {

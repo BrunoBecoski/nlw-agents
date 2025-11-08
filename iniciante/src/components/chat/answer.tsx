@@ -36,7 +36,11 @@ export function Answer({ animation, answer }: AnswerProps) {
       <Card className="mx-12 w-fit rounded-4xl rounded-ss-none bg-[#2A2634]">
         <CardContent className="flex-1">
           <div className="whitespace-pre-line text-md leading-relaxed">
-            <Markdown>{answer}</Markdown>
+            {answer ? (
+              <Markdown>{answer}</Markdown>
+            ) : (
+              <span className="animate-pulse font-bold text-lg">. . . . .</span>
+            )}
           </div>
         </CardContent>
       </Card>
