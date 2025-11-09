@@ -39,7 +39,11 @@ export function Answer({ animation, answer }: AnswerProps) {
             {answer ? (
               <Markdown>{answer}</Markdown>
             ) : (
-              <span className="animate-pulse font-bold text-lg">. . . . .</span>
+              <div className="flex animate-pulse gap-4 pt-0.5">
+                <span className="size-2 animate-bounce rounded-full bg-white" />
+                <span className="size-2 animate-bounce rounded-full bg-white delay-100" />
+                <span className="size-2 animate-bounce rounded-full bg-white delay-200" />
+              </div>
             )}
           </div>
         </CardContent>
