@@ -19,6 +19,7 @@ export function App() {
   const [questions, setQuestions] = useState([''])
   const [answers, setAnswers] = useState([''])
   const [animation, setAnimation] = useState<Animation>('home-enter')
+  const [contextConversation, setContextConversation] = useState('')
 
   async function handleFormSubmit(formData: FormDataProps) {
     const { apiKey, game, question } = formData
@@ -31,13 +32,17 @@ export function App() {
       document.title = `Esports | ${game}`
     }, 500)
 
-    const answer = await generateAnswer({
+    const response = await generateAnswer({
       apiKey,
       game,
       question,
+      contextConversation,
     })
 
+    const { answer, context } = response
+
     setAnswers([answer])
+    setContextConversation(context)
   }
 
   function handleTextareaSubmit(question: string) {
