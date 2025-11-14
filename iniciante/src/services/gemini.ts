@@ -1,18 +1,26 @@
 import { GoogleGenAI } from '@google/genai'
 
-interface GenerateAnswerProps {
+interface GenerateAnswerRequest {
   apiKey: string
   game: string
   question: string
   contextConversation: string
 }
 
+interface GenerateAnswerResponse {
+  successfully: boolean
+  answer?: string
+  context?: string
+}
+
+const regex = /```json\s*([\s\S]*?)\s*```/
+
 export async function generateAnswer({
   apiKey,
   game,
   question,
   contextConversation,
-}: GenerateAnswerProps) {
+}: GenerateAnswerRequest): Promise<GenerateAnswerResponse> {
   const gemini = new GoogleGenAI({
     apiKey,
   })
@@ -54,36 +62,52 @@ export async function generateAnswer({
       - Máximo de 150 palavras.
   `.trim()
 
-  const response = await gemini.models.generateContent({
-    model,
-    contents: [
-      {
-        role: 'user',
-        parts: [
-          {
-            text: `Histórico simplificado anterior: ${contextConversation}`,
-          },
-          {
-            text: `Pergunta atual: ${question}`,
-          },
-        ],
+  try {
+    const response = await gemini.models.generateContent({
+      model,
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: `Histórico simplificado anterior: ${contextConversation}`,
+            },
+            {
+              text: `Pergunta atual: ${question}`,
+            },
+          ],
+        },
+      ],
+      config: {
+        tools,
+        systemInstruction,
       },
-    ],
-    config: {
-      tools,
-      systemInstruction,
-    },
-  })
+    })
 
-  if (!response.text) {
-    throw new Error('Falhar ao gerar resposta pelo Gemini')
+    if (!response.text) {
+      return {
+        successfully: false,
+      }
+    }
+
+    const match = response.text.match(regex)
+
+    if (match?.[1]) {
+      const jsonString = match[1].trim()
+      const parsedObject = JSON.parse(jsonString)
+
+      if (
+        typeof parsedObject.answer === 'string' &&
+        typeof parsedObject.context === 'string'
+      ) {
+        const { answer, context } = parsedObject
+
+        return { successfully: true, answer, context }
+      }
+      return { successfully: false }
+    }
+    return { successfully: false }
+  } catch {
+    return { successfully: false }
   }
-
-  const match = response.text.match(/```json\s*([\s\S]*?)\s*```/)
-  const jsonString = match[1].trim()
-  const parsedObject = JSON.parse(jsonString)
-
-  const { answer, context } = parsedObject
-
-  return { answer, context }
 }

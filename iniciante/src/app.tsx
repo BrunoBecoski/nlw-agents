@@ -32,17 +32,24 @@ export function App() {
       document.title = `Esports | ${game}`
     }, 500)
 
-    const response = await generateAnswer({
+    const { answer, context, successfully } = await generateAnswer({
       apiKey,
       game,
       question,
       contextConversation,
     })
 
-    const { answer, context } = response
+    if (successfully === false) {
+      setScreen('home')
+      setQuestions([''])
+      document.title = 'Esports'
+      return
+    }
 
-    setAnswers([answer])
-    setContextConversation(context)
+    if (answer && context) {
+      setAnswers([answer])
+      setContextConversation(context)
+    }
   }
 
   function handleTextareaSubmit(question: string) {
