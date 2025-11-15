@@ -40,9 +40,15 @@ export function App() {
     })
 
     if (successfully === false) {
-      setScreen('home')
-      setQuestions([''])
-      document.title = 'Esports'
+      setAnimation('chat-exit')
+
+      setTimeout(() => {
+        setAnimation('home-enter')
+        setScreen('home')
+        setQuestions([''])
+        document.title = 'Esports'
+      }, 500)
+
       return
     }
 
