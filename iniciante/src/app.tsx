@@ -59,7 +59,7 @@ export function App() {
   }
 
   function handleTextareaSubmit(question: string) {
-    console.log(question)
+    setQuestions([...questions, question])
   }
 
   function handleBackHome() {

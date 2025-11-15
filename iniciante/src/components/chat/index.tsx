@@ -49,9 +49,22 @@ export function Chat({
         <ChevronLeft className="size-10" />
       </Button>
 
-      <div className="mask-b-from-80% mask-b-to-100% mb-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll pr-2 pb-8 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
-        <Question animation={animation} question={questions[0]} />
-        <Answer animation={animation} answer={answers[0]} />
+      <div className="mask-b-from-95% mask-b-to-100% mb-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll pr-2 pb-8 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
+        {questions.map((question) => (
+          <Question
+            animation={animation}
+            key={Math.random() * Date.now()}
+            question={question}
+          />
+        ))}
+
+        {answers.map((answer) => (
+          <Answer
+            animation={animation}
+            answer={answer}
+            key={Math.random() * Date.now()}
+          />
+        ))}
       </div>
 
       <Form animation={animation} handleTextareaSubmit={handleTextareaSubmit} />
