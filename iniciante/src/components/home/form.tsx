@@ -171,6 +171,9 @@ export function Form({ animation, handleFormSubmit }: FormProps) {
                       <FormControl>
                         <Textarea
                           {...field}
+                          onKeyDown={(e) =>
+                            e.key === 'Enter' && form.handleSubmit(handleForm)()
+                          }
                           placeholder="EX: Como fazer um Fast Castle"
                         />
                       </FormControl>

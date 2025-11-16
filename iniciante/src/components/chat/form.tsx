@@ -78,6 +78,9 @@ export function Form({ animation, handleTextareaSubmit }: FormProps) {
                       <Textarea
                         {...field}
                         className="border-none focus:outline-none"
+                        onKeyDown={(e) =>
+                          e.key === 'Enter' && form.handleSubmit(handleForm)()
+                        }
                         placeholder="Faça outra pergunta"
                       />
                     </FormControl>
