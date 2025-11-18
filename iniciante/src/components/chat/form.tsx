@@ -41,6 +41,7 @@ export function Form({ animation, handleTextareaSubmit }: FormProps) {
 
   function handleForm(data: FormData) {
     handleTextareaSubmit(data.question)
+    form.reset()
   }
 
   useEffect(() => {

@@ -10,16 +10,14 @@ type ChatProps = {
   animation: Animation
   handleTextareaSubmit: (question: string) => void
   handleBackHome: () => void
-  answers: string[]
-  questions: string[]
+  questionsAndAnswers: string[]
 }
 
 export function Chat({
   animation,
   handleTextareaSubmit,
   handleBackHome,
-  questions,
-  answers,
+  questionsAndAnswers,
 }: ChatProps) {
   const [currentAnimation, setCurrentAnimation] = useState('')
 
@@ -50,21 +48,27 @@ export function Chat({
       </Button>
 
       <div className="mask-b-from-95% mask-b-to-100% mb-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll pr-2 pb-8 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
-        {questions.map((question) => (
-          <Question
-            animation={animation}
-            key={Math.random() * Date.now()}
-            question={question}
-          />
-        ))}
+        {questionsAndAnswers.map((value, index) => {
+          if (index % 2 === 0) {
+            return (
+              <Question
+                animation={animation}
+                key={Math.random() * Date.now()}
+                question={value}
+              />
+            )
+          }
 
-        {answers.map((answer) => (
-          <Answer
-            animation={animation}
-            answer={answer}
-            key={Math.random() * Date.now()}
-          />
-        ))}
+          if (index % 2 === 1) {
+            return (
+              <Answer
+                animation={animation}
+                answer={value}
+                key={Math.random() * Date.now()}
+              />
+            )
+          }
+        })}
       </div>
 
       <Form animation={animation} handleTextareaSubmit={handleTextareaSubmit} />

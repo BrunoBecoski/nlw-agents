@@ -16,10 +16,10 @@ export interface FormDataProps {
 
 export function App() {
   const [screen, setScreen] = useState<Screen>('home')
-  const [questions, setQuestions] = useState([''])
-  const [answers, setAnswers] = useState([''])
   const [animation, setAnimation] = useState<Animation>('home-enter')
   const [contextConversation, setContextConversation] = useState('')
+
+  const [questionsAndAnswers, setQuestionsAndAnswers] = useState([''])
 
   async function handleFormSubmit(formData: FormDataProps) {
     const { apiKey, game, question } = formData
@@ -27,7 +27,7 @@ export function App() {
 
     setTimeout(() => {
       setAnimation('chat-enter')
-      setQuestions([question])
+      setQuestionsAndAnswers([question])
       setScreen('chat')
       document.title = `Esports | ${game}`
     }, 500)
@@ -45,7 +45,7 @@ export function App() {
       setTimeout(() => {
         setAnimation('home-enter')
         setScreen('home')
-        setQuestions([''])
+        setQuestionsAndAnswers([''])
         document.title = 'Esports'
       }, 500)
 
@@ -53,13 +53,13 @@ export function App() {
     }
 
     if (answer && context) {
-      setAnswers([answer])
+      setQuestionsAndAnswers([...questionsAndAnswers, answer])
       setContextConversation(context)
     }
   }
 
   function handleTextareaSubmit(question: string) {
-    setQuestions([...questions, question])
+    setQuestionsAndAnswers([...questionsAndAnswers, question])
   }
 
   function handleBackHome() {
@@ -68,8 +68,7 @@ export function App() {
     setTimeout(() => {
       setAnimation('home-enter')
       setScreen('home')
-      setAnswers([''])
-      setQuestions([''])
+      setQuestionsAndAnswers([''])
       document.title = 'Esports'
     }, 500)
   }
@@ -84,10 +83,9 @@ export function App() {
         {screen === 'chat' && (
           <Chat
             animation={animation}
-            answers={answers}
             handleBackHome={handleBackHome}
             handleTextareaSubmit={handleTextareaSubmit}
-            questions={questions}
+            questionsAndAnswers={questionsAndAnswers}
           />
         )}
       </main>
