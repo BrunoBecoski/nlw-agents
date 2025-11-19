@@ -21,13 +21,23 @@ export function App() {
 
   const [questionsAndAnswers, setQuestionsAndAnswers] = useState([''])
 
+  function updateQuestionsAndAnswers(value: string) {
+    const currentQuestionsAndAnswers = questionsAndAnswers
+
+    if (currentQuestionsAndAnswers) {
+      setQuestionsAndAnswers([...currentQuestionsAndAnswers, value])
+    } else {
+      setQuestionsAndAnswers([value])
+    }
+  }
+
   async function handleFormSubmit(formData: FormDataProps) {
     const { apiKey, game, question } = formData
     setAnimation('home-exit')
 
     setTimeout(() => {
       setAnimation('chat-enter')
-      setQuestionsAndAnswers([question])
+      updateQuestionsAndAnswers(question)
       setScreen('chat')
       document.title = `Esports | ${game}`
     }, 500)
@@ -53,13 +63,13 @@ export function App() {
     }
 
     if (answer && context) {
-      setQuestionsAndAnswers([...questionsAndAnswers, answer])
+      updateQuestionsAndAnswers(answer)
       setContextConversation(context)
     }
   }
 
   function handleTextareaSubmit(question: string) {
-    setQuestionsAndAnswers([...questionsAndAnswers, question])
+    updateQuestionsAndAnswers(question)
   }
 
   function handleBackHome() {
