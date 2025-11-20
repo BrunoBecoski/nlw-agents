@@ -19,16 +19,12 @@ export function App() {
   const [animation, setAnimation] = useState<Animation>('home-enter')
   const [contextConversation, setContextConversation] = useState('')
 
-  const [questionsAndAnswers, setQuestionsAndAnswers] = useState([''])
+  const [questionsAndAnswers, setQuestionsAndAnswers] = useState<string[]>([])
 
   function updateQuestionsAndAnswers(value: string) {
     const currentQuestionsAndAnswers = questionsAndAnswers
 
-    if (currentQuestionsAndAnswers) {
-      setQuestionsAndAnswers([...currentQuestionsAndAnswers, value])
-    } else {
-      setQuestionsAndAnswers([value])
-    }
+    setQuestionsAndAnswers([...currentQuestionsAndAnswers, value])
   }
 
   async function handleFormSubmit(formData: FormDataProps) {
@@ -55,7 +51,7 @@ export function App() {
       setTimeout(() => {
         setAnimation('home-enter')
         setScreen('home')
-        setQuestionsAndAnswers([''])
+        setQuestionsAndAnswers([])
         document.title = 'Esports'
       }, 500)
 
@@ -78,7 +74,7 @@ export function App() {
     setTimeout(() => {
       setAnimation('home-enter')
       setScreen('home')
-      setQuestionsAndAnswers([''])
+      setQuestionsAndAnswers([])
       document.title = 'Esports'
     }, 500)
   }
