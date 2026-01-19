@@ -18,13 +18,19 @@ export function App() {
   const [screen, setScreen] = useState<Screen>('home')
   const [animation, setAnimation] = useState<Animation>('home-enter')
   const [contextConversation, setContextConversation] = useState('')
+  const [questions, setQuestions] = useState<string[]>([])
+  const [answers, setAnswers] = useState<string[]>([])
 
-  const [questionsAndAnswers, setQuestionsAndAnswers] = useState<string[]>([])
+  function updateQuestions(value: string) {
+    const currentQuestions = questions
 
-  function updateQuestionsAndAnswers(value: string) {
-    const currentQuestionsAndAnswers = questionsAndAnswers
+    setQuestions([...currentQuestions, value])
+  }
 
-    setQuestionsAndAnswers([...currentQuestionsAndAnswers, value])
+  function updateAnswers(value: string) {
+    const currentAnswers = answers
+
+    setAnswers([...currentAnswers, value])
   }
 
   async function handleFormSubmit(formData: FormDataProps) {
@@ -33,7 +39,7 @@ export function App() {
 
     setTimeout(() => {
       setAnimation('chat-enter')
-      updateQuestionsAndAnswers(question)
+      updateQuestions(question)
       setScreen('chat')
       document.title = `Esports | ${game}`
     }, 500)
@@ -51,7 +57,8 @@ export function App() {
       setTimeout(() => {
         setAnimation('home-enter')
         setScreen('home')
-        setQuestionsAndAnswers([])
+        setQuestions([])
+        setAnswers([])
         document.title = 'Esports'
       }, 500)
 
@@ -59,13 +66,13 @@ export function App() {
     }
 
     if (answer && context) {
-      updateQuestionsAndAnswers(answer)
+      updateAnswers(answer)
       setContextConversation(context)
     }
   }
 
   function handleTextareaSubmit(question: string) {
-    updateQuestionsAndAnswers(question)
+    updateQuestions(question)
   }
 
   function handleBackHome() {
@@ -74,7 +81,8 @@ export function App() {
     setTimeout(() => {
       setAnimation('home-enter')
       setScreen('home')
-      setQuestionsAndAnswers([])
+      setQuestions([])
+      setAnswers([])
       document.title = 'Esports'
     }, 500)
   }
@@ -89,9 +97,10 @@ export function App() {
         {screen === 'chat' && (
           <Chat
             animation={animation}
+            answers={answers}
             handleBackHome={handleBackHome}
             handleTextareaSubmit={handleTextareaSubmit}
-            questionsAndAnswers={questionsAndAnswers}
+            questions={questions}
           />
         )}
       </main>
