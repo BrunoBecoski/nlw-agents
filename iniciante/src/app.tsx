@@ -14,23 +14,39 @@ export interface FormDataProps {
   question: string
 }
 
+export type QuestionType = {
+  id: string
+  value: string
+}
+
+export type AnswerType = {
+  id: string
+  value: string
+}
+
 export function App() {
   const [screen, setScreen] = useState<Screen>('home')
   const [animation, setAnimation] = useState<Animation>('home-enter')
   const [contextConversation, setContextConversation] = useState('')
-  const [questions, setQuestions] = useState<string[]>([])
-  const [answers, setAnswers] = useState<string[]>([])
+  const [questions, setQuestions] = useState<QuestionType[]>([])
+  const [answers, setAnswers] = useState<AnswerType[]>([])
 
   function updateQuestions(value: string) {
     const currentQuestions = questions
 
-    setQuestions([...currentQuestions, value])
+    setQuestions([
+      ...currentQuestions,
+      { id: String(Math.random() * Date.now()), value },
+    ])
   }
 
   function updateAnswers(value: string) {
     const currentAnswers = answers
 
-    setAnswers([...currentAnswers, value])
+    setAnswers([
+      ...currentAnswers,
+      { id: String(Math.random() * Date.now()), value },
+    ])
   }
 
   async function handleFormSubmit(formData: FormDataProps) {

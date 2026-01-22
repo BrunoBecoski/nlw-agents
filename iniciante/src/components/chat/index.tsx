@@ -1,7 +1,7 @@
 import { ChevronLeft } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import type { Animation } from '@/app'
+import type { Animation, AnswerType, QuestionType } from '@/app'
 import { Button } from '@/components/ui/button'
 import { Answer } from './answer'
 import { Form } from './form'
@@ -11,8 +11,8 @@ type ChatProps = {
   animation: Animation
   handleTextareaSubmit: (question: string) => void
   handleBackHome: () => void
-  questions: string[]
-  answers: string[]
+  questions: QuestionType[]
+  answers: AnswerType[]
 }
 
 export function Chat({
@@ -25,58 +25,40 @@ export function Chat({
   const [currentAnimation, setCurrentAnimation] = useState('')
 
   const divRef = useRef<HTMLDivElement>(null)
+  const insertRef = useRef(new Set())
 
   function renderQuestion() {
     const div = divRef.current
+    const question = questions.at(-1)
 
-    if (!div) {
+    if (!(div && question) || insertRef.current.has(question.id)) {
       return null
     }
+
+    insertRef.current.add(question.id)
 
     const wrapper = document.createElement('div')
     const root = createRoot(wrapper)
 
-    root.render(
-      <Question
-        animation={animation}
-        question={questions[questions.length - 1]}
-      />
-    )
-
+    root.render(<Question animation={animation} question={question} />)
     div.appendChild(wrapper)
-
-    return () => {
-      if (div.contains(wrapper)) {
-        div.removeChild(wrapper)
-
-        setTimeout(() => root.unmount(), 0)
-      }
-    }
   }
 
   function renderAnswer() {
     const div = divRef.current
+    const answer = answers.at(-1)
 
-    if (!div) {
+    if (!(div && answer) || insertRef.current.has(answer.id)) {
       return null
     }
+
+    insertRef.current.add(answer.id)
 
     const wrapper = document.createElement('div')
     const root = createRoot(wrapper)
 
-    root.render(
-      <Answer animation={animation} answer={answers[answers.length - 1]} />
-    )
-
+    root.render(<Answer animation={animation} answer={answer} />)
     div.appendChild(wrapper)
-
-    return () => {
-      if (div.contains(wrapper)) {
-        div.removeChild(wrapper)
-
-        setTimeout(() => root.unmount(), 0)
-      }
-    }
   }
 
   useEffect(() => {
@@ -95,15 +77,11 @@ export function Chat({
   }, [animation])
 
   useEffect(() => {
-    const cleanup = renderQuestion()
-
-    return cleanup
+    renderQuestion()
   }, [questions])
 
   useEffect(() => {
-    const cleanup = renderAnswer()
-
-    return cleanup
+    renderAnswer()
   }, [answers])
 
   return (

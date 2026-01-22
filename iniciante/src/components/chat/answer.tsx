@@ -1,12 +1,12 @@
 import { Bot } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Markdown from 'react-markdown'
-import type { Animation } from '@/app'
+import type { Animation, AnswerType } from '@/app'
 import { Card, CardContent } from '@/components/ui/card'
 
 interface AnswerProps {
   animation: Animation
-  answer: string
+  answer: AnswerType | undefined
 }
 
 export function Answer({ animation, answer }: AnswerProps) {
@@ -28,7 +28,7 @@ export function Answer({ animation, answer }: AnswerProps) {
   }, [animation])
 
   return (
-    <div className={`flex flex-col ${currentAnimation}`}>
+    <div className={`flex flex-col ${currentAnimation}`} id={answer?.id}>
       <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
         <Bot className="size-8 text-[#9572FC]" />
       </div>
@@ -37,7 +37,7 @@ export function Answer({ animation, answer }: AnswerProps) {
         <CardContent className="flex-1">
           <div className="whitespace-pre-line text-md leading-relaxed">
             {answer ? (
-              <Markdown>{answer}</Markdown>
+              <Markdown>{answer.value}</Markdown>
             ) : (
               <div className="flex animate-pulse gap-4 pt-0.5">
                 <span className="size-2 animate-bounce rounded-full bg-white" />
