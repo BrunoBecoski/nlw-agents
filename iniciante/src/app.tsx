@@ -14,12 +14,7 @@ export interface FormDataProps {
   question: string
 }
 
-export type QuestionType = {
-  id: string
-  value: string
-}
-
-export type AnswerType = {
+export type ChatItemType = {
   id: string
   value: string
 }
@@ -28,8 +23,8 @@ export function App() {
   const [screen, setScreen] = useState<Screen>('home')
   const [animation, setAnimation] = useState<Animation>('home-enter')
   const [contextConversation, setContextConversation] = useState('')
-  const [questions, setQuestions] = useState<QuestionType[]>([])
-  const [answers, setAnswers] = useState<AnswerType[]>([])
+  const [questions, setQuestions] = useState<ChatItemType[]>([])
+  const [answers, setAnswers] = useState<ChatItemType[]>([])
 
   function updateQuestions(value: string) {
     const currentQuestions = questions

@@ -1,7 +1,6 @@
 import { ChevronLeft } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
-import { createRoot } from 'react-dom/client'
-import type { Animation, AnswerType, QuestionType } from '@/app'
+import { useEffect, useState } from 'react'
+import type { Animation, ChatItemType } from '@/app'
 import { Button } from '@/components/ui/button'
 import { Answer } from './answer'
 import { Form } from './form'
@@ -11,8 +10,8 @@ type ChatProps = {
   animation: Animation
   handleTextareaSubmit: (question: string) => void
   handleBackHome: () => void
-  questions: QuestionType[]
-  answers: AnswerType[]
+  questions: ChatItemType[]
+  answers: ChatItemType[]
 }
 
 export function Chat({
@@ -23,43 +22,27 @@ export function Chat({
   answers,
 }: ChatProps) {
   const [currentAnimation, setCurrentAnimation] = useState('')
+  const [list, setList] = useState<ChatItemType[]>([...questions])
 
-  const divRef = useRef<HTMLDivElement>(null)
-  const insertRef = useRef(new Set())
+  useEffect(() => {
+    const lastedQuestion = questions.at(-1)
 
-  function renderQuestion() {
-    const div = divRef.current
-    const question = questions.at(-1)
+    const existeId = list.find((item) => item.id === lastedQuestion?.id)
 
-    if (!(div && question) || insertRef.current.has(question.id)) {
-      return null
+    if (lastedQuestion && !existeId) {
+      setList((prev) => [...prev, lastedQuestion])
     }
+  }, [questions])
 
-    insertRef.current.add(question.id)
+  useEffect(() => {
+    const lastedAnswers = answers.at(-1)
 
-    const wrapper = document.createElement('div')
-    const root = createRoot(wrapper)
+    const existeId = list.find((item) => item.id === lastedAnswers?.id)
 
-    root.render(<Question animation={animation} question={question} />)
-    div.appendChild(wrapper)
-  }
-
-  function renderAnswer() {
-    const div = divRef.current
-    const answer = answers.at(-1)
-
-    if (!(div && answer) || insertRef.current.has(answer.id)) {
-      return null
+    if (lastedAnswers && !existeId) {
+      setList((prev) => [...prev, lastedAnswers])
     }
-
-    insertRef.current.add(answer.id)
-
-    const wrapper = document.createElement('div')
-    const root = createRoot(wrapper)
-
-    root.render(<Answer animation={animation} answer={answer} />)
-    div.appendChild(wrapper)
-  }
+  }, [answers])
 
   useEffect(() => {
     switch (animation) {
@@ -76,14 +59,6 @@ export function Chat({
     }
   }, [animation])
 
-  useEffect(() => {
-    renderQuestion()
-  }, [questions])
-
-  useEffect(() => {
-    renderAnswer()
-  }, [answers])
-
   return (
     <section className="flex h-screen w-screen flex-col p-12 pt-0">
       <Button
@@ -94,10 +69,22 @@ export function Chat({
       >
         <ChevronLeft className="size-12" />
       </Button>
-      <div
-        className="mask-b-from-95% mask-b-to-100% mask-t-from-95% mask-t-to-100% my-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll p-4 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2"
-        ref={divRef}
-      />
+      <div className="mask-b-from-95% mask-b-to-100% mask-t-from-95% mask-t-to-100% my-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll p-4 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
+        {list.map((item, index) => {
+          if (index % 2 === 0) {
+            return (
+              <Question
+                animation={animation}
+                key={item.id}
+                question={item.value}
+              />
+            )
+          }
+          return (
+            <Answer animation={animation} answer={item.value} key={item.id} />
+          )
+        })}
+      </div>
 
       <Form animation={animation} handleTextareaSubmit={handleTextareaSubmit} />
     </section>
