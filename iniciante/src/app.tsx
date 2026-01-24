@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Background } from './components/background'
 import { Chat } from './components/chat'
 import { Home } from './components/home'
+import { fakeGenerateAnswer } from './services/fakeGemini'
 import { generateAnswer } from './services/gemini'
 
 export type Screen = 'home' | 'chat'
@@ -55,11 +56,15 @@ export function App() {
       document.title = `Esports | ${game}`
     }, 500)
 
-    const { answer, context, successfully } = await generateAnswer({
-      apiKey,
-      game,
-      question,
-      contextConversation,
+    // const { answer, context, successfully } = await generateAnswer({
+    //   apiKey,
+    //   game,
+    //   question,
+    //   contextConversation,
+    // })
+
+    const { answer, context, successfully } = await fakeGenerateAnswer({
+      successfully: false,
     })
 
     if (successfully === false) {
