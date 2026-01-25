@@ -1,5 +1,6 @@
 interface FakeGenerateAnswerRequest {
   successfully: boolean
+  delay?: number
 }
 
 interface FakeGenerateAnswerResponse {
@@ -16,8 +17,9 @@ const context =
 
 export async function fakeGenerateAnswer({
   successfully,
+  delay = 5000,
 }: FakeGenerateAnswerRequest): Promise<FakeGenerateAnswerResponse> {
-  await new Promise((resolve) => setTimeout(resolve, 5000))
+  await new Promise((resolve) => setTimeout(resolve, delay))
 
   return { successfully, answer, context }
 }

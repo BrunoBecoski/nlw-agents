@@ -64,7 +64,8 @@ export function App() {
     // })
 
     const { answer, context, successfully } = await fakeGenerateAnswer({
-      successfully: false,
+      successfully: true,
+      delay: 1000,
     })
 
     if (successfully === false) {
