@@ -9,7 +9,9 @@ interface QuestionProps {
 }
 
 export function Question({ animation, question }: QuestionProps) {
-  const [currentAnimation, setCurrentAnimation] = useState('')
+  const [currentAnimation, setCurrentAnimation] = useState(
+    'animate-slide-in-right'
+  )
 
   useEffect(() => {
     switch (animation) {

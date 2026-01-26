@@ -17,6 +17,7 @@ export interface FormDataProps {
 
 export type ChatItemType = {
   id: string
+  type: 'question' | 'answer'
   value: string
 }
 
@@ -30,19 +31,25 @@ export function App() {
   function updateQuestions(value: string) {
     const currentQuestions = questions
 
-    setQuestions([
-      ...currentQuestions,
-      { id: String(Math.random() * Date.now()), value },
-    ])
+    const newQuestion: ChatItemType = {
+      id: crypto.randomUUID(),
+      type: 'question',
+      value,
+    }
+
+    setQuestions([...currentQuestions, newQuestion])
   }
 
   function updateAnswers(value: string) {
     const currentAnswers = answers
 
-    setAnswers([
-      ...currentAnswers,
-      { id: String(Math.random() * Date.now()), value },
-    ])
+    const newAnswer: ChatItemType = {
+      id: crypto.randomUUID(),
+      type: 'answer',
+      value,
+    }
+
+    setAnswers([...currentAnswers, newAnswer])
   }
 
   async function handleFormSubmit(formData: FormDataProps) {
@@ -65,7 +72,6 @@ export function App() {
 
     const { answer, context, successfully } = await fakeGenerateAnswer({
       successfully: true,
-      delay: 1000,
     })
 
     if (successfully === false) {

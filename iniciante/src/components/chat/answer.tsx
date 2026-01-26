@@ -10,7 +10,9 @@ interface AnswerProps {
 }
 
 export function Answer({ animation, answer }: AnswerProps) {
-  const [currentAnimation, setCurrentAnimation] = useState('')
+  const [currentAnimation, setCurrentAnimation] = useState(
+    'animate-slide-in-left'
+  )
 
   useEffect(() => {
     switch (animation) {
