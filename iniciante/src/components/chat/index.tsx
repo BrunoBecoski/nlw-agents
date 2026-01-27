@@ -24,6 +24,21 @@ export function Chat({
   const [currentAnimation, setCurrentAnimation] = useState('')
   const [list, setList] = useState<ChatItemType[]>([...questions])
 
+  function handleTextareaSubmitMiddleware(question: string) {
+    handleTextareaSubmit(question)
+
+    setTimeout(() => {
+      setList((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          type: 'answer',
+          value: undefined,
+        },
+      ])
+    }, 500)
+  }
+
   useEffect(() => {
     const lastedQuestion = questions.at(-1)
 
@@ -32,7 +47,7 @@ export function Chat({
     if (lastedQuestion && !existeId) {
       setList((prev) => [...prev, lastedQuestion])
     }
-  }, [questions])
+  }, [questions, list.find])
 
   useEffect(() => {
     const lastedAnswers = answers.at(-1)
@@ -42,7 +57,7 @@ export function Chat({
     if (lastedAnswers && !existeId) {
       setList((prev) => [...prev, lastedAnswers])
     }
-  }, [answers])
+  }, [answers, list.find])
 
   useEffect(() => {
     switch (animation) {
@@ -91,7 +106,10 @@ export function Chat({
         })}
       </div>
 
-      <Form animation={animation} handleTextareaSubmit={handleTextareaSubmit} />
+      <Form
+        animation={animation}
+        handleTextareaSubmit={handleTextareaSubmitMiddleware}
+      />
     </section>
   )
 }

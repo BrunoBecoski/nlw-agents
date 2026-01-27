@@ -18,7 +18,7 @@ export interface FormDataProps {
 export type ChatItemType = {
   id: string
   type: 'question' | 'answer'
-  value: string
+  value?: string
 }
 
 export function App() {
@@ -28,7 +28,7 @@ export function App() {
   const [questions, setQuestions] = useState<ChatItemType[]>([])
   const [answers, setAnswers] = useState<ChatItemType[]>([])
 
-  function updateQuestions(value: string) {
+  function updateQuestions(value?: string) {
     const currentQuestions = questions
 
     const newQuestion: ChatItemType = {
@@ -40,7 +40,7 @@ export function App() {
     setQuestions([...currentQuestions, newQuestion])
   }
 
-  function updateAnswers(value: string) {
+  function updateAnswers(value?: string) {
     const currentAnswers = answers
 
     const newAnswer: ChatItemType = {

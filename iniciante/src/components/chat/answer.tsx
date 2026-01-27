@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 
 interface AnswerProps {
   animation: Animation
-  answer: string | undefined
+  answer?: string
 }
 
 export function Answer({ animation, answer }: AnswerProps) {
