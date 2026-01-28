@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod/v4'
-import type { Animation, FormDataProps } from '@/app'
+import type { FormDataProps } from '@/app'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import type { AnimationType } from '@/context/screenAndAnimation'
 import { env } from '@/env'
 
 const formSchema = z.object({
@@ -46,7 +47,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 interface FormProps {
-  animation: Animation
+  animation: AnimationType
   handleFormSubmit: (formData: FormDataProps) => void
 }
 

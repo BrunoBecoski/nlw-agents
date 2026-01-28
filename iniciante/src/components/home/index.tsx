@@ -1,13 +1,15 @@
-import type { Animation, FormDataProps } from '@/app'
+import type { FormDataProps } from '@/app'
+import { useScreenAndAnimation } from '@/context/screenAndAnimation'
 import { Form } from './form'
 import { Logo } from './logo'
 
 interface HomeProps {
-  animation: Animation
   handleFormSubmit: (formData: FormDataProps) => void
 }
 
-export function Home({ animation, handleFormSubmit }: HomeProps) {
+export function Home({ handleFormSubmit }: HomeProps) {
+  const { animation } = useScreenAndAnimation()
+
   return (
     <div
       className="flex h-screen w-1/2 flex-col items-center justify-evenly gap-6 py-6"

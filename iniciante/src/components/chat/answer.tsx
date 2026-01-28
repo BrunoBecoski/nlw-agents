@@ -1,11 +1,11 @@
 import { Bot } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Markdown from 'react-markdown'
-import type { Animation } from '@/app'
 import { Card, CardContent } from '@/components/ui/card'
+import type { AnimationType } from '@/context/screenAndAnimation'
 
 interface AnswerProps {
-  animation: Animation
+  animation: AnimationType
   answer?: string
 }
 

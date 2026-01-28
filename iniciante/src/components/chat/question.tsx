@@ -1,10 +1,10 @@
 import { User } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import type { Animation } from '@/app'
 import { Card, CardContent } from '@/components/ui/card'
+import type { AnimationType } from '@/context/screenAndAnimation'
 
 interface QuestionProps {
-  animation: Animation
+  animation: AnimationType
   question: string
 }
 

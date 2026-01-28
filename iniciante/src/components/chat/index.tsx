@@ -1,13 +1,13 @@
 import { ChevronLeft } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import type { Animation, ChatItemType } from '@/app'
+import type { ChatItemType } from '@/app'
 import { Button } from '@/components/ui/button'
+import { useScreenAndAnimation } from '@/context/screenAndAnimation'
 import { Answer } from './answer'
 import { Form } from './form'
 import { Question } from './question'
 
 type ChatProps = {
-  animation: Animation
   handleTextareaSubmit: (question: string) => void
   handleBackHome: () => void
   questions: ChatItemType[]
@@ -15,7 +15,6 @@ type ChatProps = {
 }
 
 export function Chat({
-  animation,
   handleTextareaSubmit,
   handleBackHome,
   questions,
@@ -23,6 +22,8 @@ export function Chat({
 }: ChatProps) {
   const [currentAnimation, setCurrentAnimation] = useState('')
   const [list, setList] = useState<ChatItemType[]>([...questions])
+
+  const { animation } = useScreenAndAnimation()
 
   function handleTextareaSubmitMiddleware(question: string) {
     handleTextareaSubmit(question)

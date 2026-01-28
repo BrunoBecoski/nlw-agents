@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import type { Animation } from '@/app'
+import type { AnimationType } from '@/context/screenAndAnimation'
 import logoImg from '../../assets/logo.svg'
 
 interface LogoProps {
-  animation: Animation
+  animation: AnimationType
 }
 
 export function Logo({ animation }: LogoProps) {

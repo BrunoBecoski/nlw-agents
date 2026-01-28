@@ -2,12 +2,9 @@ import { useState } from 'react'
 import { Background } from './components/background'
 import { Chat } from './components/chat'
 import { Home } from './components/home'
+import { useScreenAndAnimation } from './context/screenAndAnimation'
 import { fakeGenerateAnswer } from './services/fakeGemini'
 import { generateAnswer } from './services/gemini'
-
-export type Screen = 'home' | 'chat'
-
-export type Animation = 'home-enter' | 'home-exit' | 'chat-enter' | 'chat-exit'
 
 export interface FormDataProps {
   apiKey: string
@@ -22,11 +19,11 @@ export type ChatItemType = {
 }
 
 export function App() {
-  const [screen, setScreen] = useState<Screen>('home')
-  const [animation, setAnimation] = useState<Animation>('home-enter')
   const [contextConversation, setContextConversation] = useState('')
   const [questions, setQuestions] = useState<ChatItemType[]>([])
   const [answers, setAnswers] = useState<ChatItemType[]>([])
+
+  const { screen, changeScreen, changeAnimation } = useScreenAndAnimation()
 
   function updateQuestions(value?: string) {
     const currentQuestions = questions
@@ -54,12 +51,12 @@ export function App() {
 
   async function handleFormSubmit(formData: FormDataProps) {
     const { apiKey, game, question } = formData
-    setAnimation('home-exit')
+    changeAnimation('home-exit')
 
     setTimeout(() => {
-      setAnimation('chat-enter')
+      changeScreen('chat')
+      changeAnimation('chat-enter')
       updateQuestions(question)
-      setScreen('chat')
       document.title = `Esports | ${game}`
     }, 500)
 
@@ -75,11 +72,11 @@ export function App() {
     })
 
     if (successfully === false) {
-      setAnimation('chat-exit')
+      changeAnimation('chat-exit')
 
       setTimeout(() => {
-        setAnimation('home-enter')
-        setScreen('home')
+        changeScreen('home')
+        changeAnimation('home-enter')
         setQuestions([])
         setAnswers([])
         document.title = 'Esports'
@@ -99,11 +96,11 @@ export function App() {
   }
 
   function handleBackHome() {
-    setAnimation('chat-exit')
+    changeAnimation('chat-exit')
 
     setTimeout(() => {
-      setAnimation('home-enter')
-      setScreen('home')
+      changeScreen('home')
+      changeAnimation('home-enter')
       setQuestions([])
       setAnswers([])
       document.title = 'Esports'
@@ -113,13 +110,10 @@ export function App() {
   return (
     <Background>
       <main className="flex h-screen w-screen flex-col items-center justify-evenly overflow-hidden">
-        {screen === 'home' && (
-          <Home animation={animation} handleFormSubmit={handleFormSubmit} />
-        )}
+        {screen === 'home' && <Home handleFormSubmit={handleFormSubmit} />}
 
         {screen === 'chat' && (
           <Chat
-            animation={animation}
             answers={answers}
             handleBackHome={handleBackHome}
             handleTextareaSubmit={handleTextareaSubmit}
