@@ -1,7 +1,7 @@
 import { ChevronLeft } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import type { ChatItemType } from '@/app'
 import { Button } from '@/components/ui/button'
+import { useQuestionsAndAnswers } from '@/context/questionsAndAnswers'
 import { useScreenAndAnimation } from '@/context/screenAndAnimation'
 import { Answer } from './answer'
 import { Form } from './form'
@@ -10,20 +10,14 @@ import { Question } from './question'
 type ChatProps = {
   handleTextareaSubmit: (question: string) => void
   handleBackHome: () => void
-  questions: ChatItemType[]
-  answers: ChatItemType[]
 }
 
-export function Chat({
-  handleTextareaSubmit,
-  handleBackHome,
-  questions,
-  answers,
-}: ChatProps) {
-  const [currentAnimation, setCurrentAnimation] = useState('')
-  const [list, setList] = useState<ChatItemType[]>([...questions])
-
+export function Chat({ handleTextareaSubmit, handleBackHome }: ChatProps) {
   const { animation } = useScreenAndAnimation()
+  const { questions, answers } = useQuestionsAndAnswers()
+
+  const [currentAnimation, setCurrentAnimation] = useState('')
+  const [list, setList] = useState([...questions, ...answers])
 
   function handleTextareaSubmitMiddleware(question: string) {
     handleTextareaSubmit(question)
@@ -34,7 +28,7 @@ export function Chat({
         {
           id: crypto.randomUUID(),
           type: 'answer',
-          value: undefined,
+          text: undefined,
         },
       ])
     }, 500)
@@ -92,14 +86,14 @@ export function Chat({
               <Question
                 animation={animation}
                 key={item.id}
-                question={item.value}
+                question={item.text}
               />
             )
           }
 
           if (item.type === 'answer') {
             return (
-              <Answer animation={animation} answer={item.value} key={item.id} />
+              <Answer animation={animation} answer={item.text} key={item.id} />
             )
           }
 

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Background } from './components/background'
 import { Chat } from './components/chat'
 import { Home } from './components/home'
+import { useQuestionsAndAnswers } from './context/questionsAndAnswers'
 import { useScreenAndAnimation } from './context/screenAndAnimation'
 import { fakeGenerateAnswer } from './services/fakeGemini'
 import { generateAnswer } from './services/gemini'
@@ -12,42 +13,12 @@ export interface FormDataProps {
   question: string
 }
 
-export type ChatItemType = {
-  id: string
-  type: 'question' | 'answer'
-  value?: string
-}
-
 export function App() {
-  const [contextConversation, setContextConversation] = useState('')
-  const [questions, setQuestions] = useState<ChatItemType[]>([])
-  const [answers, setAnswers] = useState<ChatItemType[]>([])
-
   const { screen, changeScreen, changeAnimation } = useScreenAndAnimation()
+  const { resetQuestionsAndAnswers, addQuestion, addAnswer } =
+    useQuestionsAndAnswers()
 
-  function updateQuestions(value?: string) {
-    const currentQuestions = questions
-
-    const newQuestion: ChatItemType = {
-      id: crypto.randomUUID(),
-      type: 'question',
-      value,
-    }
-
-    setQuestions([...currentQuestions, newQuestion])
-  }
-
-  function updateAnswers(value?: string) {
-    const currentAnswers = answers
-
-    const newAnswer: ChatItemType = {
-      id: crypto.randomUUID(),
-      type: 'answer',
-      value,
-    }
-
-    setAnswers([...currentAnswers, newAnswer])
-  }
+  const [contextConversation, setContextConversation] = useState('')
 
   async function handleFormSubmit(formData: FormDataProps) {
     const { apiKey, game, question } = formData
@@ -56,7 +27,7 @@ export function App() {
     setTimeout(() => {
       changeScreen('chat')
       changeAnimation('chat-enter')
-      updateQuestions(question)
+      addQuestion(question)
       document.title = `Esports | ${game}`
     }, 500)
 
@@ -77,8 +48,7 @@ export function App() {
       setTimeout(() => {
         changeScreen('home')
         changeAnimation('home-enter')
-        setQuestions([])
-        setAnswers([])
+        resetQuestionsAndAnswers()
         document.title = 'Esports'
       }, 500)
 
@@ -86,13 +56,13 @@ export function App() {
     }
 
     if (answer && context) {
-      updateAnswers(answer)
+      addAnswer(answer)
       setContextConversation(context)
     }
   }
 
   function handleTextareaSubmit(question: string) {
-    updateQuestions(question)
+    addQuestion(question)
   }
 
   function handleBackHome() {
@@ -101,8 +71,7 @@ export function App() {
     setTimeout(() => {
       changeScreen('home')
       changeAnimation('home-enter')
-      setQuestions([])
-      setAnswers([])
+      resetQuestionsAndAnswers()
       document.title = 'Esports'
     }, 500)
   }
@@ -114,10 +83,8 @@ export function App() {
 
         {screen === 'chat' && (
           <Chat
-            answers={answers}
             handleBackHome={handleBackHome}
             handleTextareaSubmit={handleTextareaSubmit}
-            questions={questions}
           />
         )}
       </main>
