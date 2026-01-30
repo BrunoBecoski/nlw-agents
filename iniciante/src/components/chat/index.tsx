@@ -14,45 +14,13 @@ type ChatProps = {
 
 export function Chat({ handleTextareaSubmit, handleBackHome }: ChatProps) {
   const { animation } = useScreenAndAnimation()
-  const { questions, answers } = useQuestionsAndAnswers()
+  const { questionsAndAnswers } = useQuestionsAndAnswers()
 
   const [currentAnimation, setCurrentAnimation] = useState('')
-  const [list, setList] = useState([...questions, ...answers])
 
   function handleTextareaSubmitMiddleware(question: string) {
     handleTextareaSubmit(question)
-
-    setTimeout(() => {
-      setList((prev) => [
-        ...prev,
-        {
-          id: crypto.randomUUID(),
-          type: 'answer',
-          text: undefined,
-        },
-      ])
-    }, 500)
   }
-
-  useEffect(() => {
-    const lastedQuestion = questions.at(-1)
-
-    const existeId = list.find((item) => item.id === lastedQuestion?.id)
-
-    if (lastedQuestion && !existeId) {
-      setList((prev) => [...prev, lastedQuestion])
-    }
-  }, [questions, list.find])
-
-  useEffect(() => {
-    const lastedAnswers = answers.at(-1)
-
-    const existeId = list.find((item) => item.id === lastedAnswers?.id)
-
-    if (lastedAnswers && !existeId) {
-      setList((prev) => [...prev, lastedAnswers])
-    }
-  }, [answers, list.find])
 
   useEffect(() => {
     switch (animation) {
@@ -80,7 +48,7 @@ export function Chat({ handleTextareaSubmit, handleBackHome }: ChatProps) {
         <ChevronLeft className="size-12" />
       </Button>
       <div className="mask-b-from-95% mask-b-to-100% mask-t-from-95% mask-t-to-100% my-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll p-4 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
-        {list.map((item) => {
+        {questionsAndAnswers.map((item) => {
           if (item.type === 'question') {
             return (
               <Question

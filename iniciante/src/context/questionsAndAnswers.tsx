@@ -9,8 +9,14 @@ export type QuestionType = {
 export type AnswerType = {
   id: string
   type: 'answer'
-  text: string | undefined
+  text: string
 }
+
+export type QuestionsAndAnswersType = {
+  id: string
+  type: 'question' | 'answer'
+  text: string
+}[]
 
 interface QuestionsAndAnswersProps {
   children: ReactNode
@@ -19,6 +25,7 @@ interface QuestionsAndAnswersProps {
 type QuestionsAndAnswersState = {
   questions: QuestionType[]
   answers: AnswerType[]
+  questionsAndAnswers: QuestionsAndAnswersType
   resetQuestionsAndAnswers: () => void
   addQuestion: (text: string) => void
   addAnswer: (text: string) => void
@@ -27,6 +34,7 @@ type QuestionsAndAnswersState = {
 const initialState: QuestionsAndAnswersState = {
   questions: [],
   answers: [],
+  questionsAndAnswers: [],
   resetQuestionsAndAnswers: () => {
     undefined
   },
@@ -46,6 +54,8 @@ export function QuestionsAndAnswersProvider({
 }: QuestionsAndAnswersProps) {
   const [questions, setQuestions] = useState<QuestionType[]>([])
   const [answers, setAnswers] = useState<AnswerType[]>([])
+  const [questionsAndAnswers, setQuestionsAndAnswers] =
+    useState<QuestionsAndAnswersType>([])
 
   function resetQuestionsAndAnswers() {
     setQuestions([])
@@ -60,6 +70,7 @@ export function QuestionsAndAnswersProvider({
     }
 
     setQuestions((prev) => [...prev, newQuestion])
+    setQuestionsAndAnswers((prev) => [...prev, newQuestion])
   }
 
   function addAnswer(text: string) {
@@ -70,6 +81,7 @@ export function QuestionsAndAnswersProvider({
     }
 
     setAnswers((prev) => [...prev, newAnswer])
+    setQuestionsAndAnswers((prev) => [...prev, newAnswer])
   }
 
   const value: QuestionsAndAnswersState = {
@@ -78,6 +90,7 @@ export function QuestionsAndAnswersProvider({
     resetQuestionsAndAnswers,
     addQuestion,
     addAnswer,
+    questionsAndAnswers,
   }
 
   return (
