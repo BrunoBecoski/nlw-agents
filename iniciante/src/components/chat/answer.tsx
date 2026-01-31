@@ -6,7 +6,7 @@ import type { AnimationType } from '@/context/screenAndAnimation'
 
 interface AnswerProps {
   animation: AnimationType
-  answer: string
+  answer: string | null
 }
 
 export function Answer({ animation, answer }: AnswerProps) {

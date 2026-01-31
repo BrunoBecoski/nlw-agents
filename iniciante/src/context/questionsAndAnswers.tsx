@@ -1,4 +1,10 @@
-import { createContext, type ReactNode, useContext, useState } from 'react'
+import {
+  createContext,
+  type ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 
 export type QuestionType = {
   id: string
@@ -9,14 +15,10 @@ export type QuestionType = {
 export type AnswerType = {
   id: string
   type: 'answer'
-  text: string
+  text: string | null
 }
 
-export type QuestionsAndAnswersType = {
-  id: string
-  type: 'question' | 'answer'
-  text: string
-}[]
+export type QuestionsAndAnswersType = Array<QuestionType | AnswerType>
 
 interface QuestionsAndAnswersProps {
   children: ReactNode
@@ -60,6 +62,7 @@ export function QuestionsAndAnswersProvider({
   function resetQuestionsAndAnswers() {
     setQuestions([])
     setAnswers([])
+    setQuestionsAndAnswers([])
   }
 
   function addQuestion(text: string) {
@@ -71,6 +74,16 @@ export function QuestionsAndAnswersProvider({
 
     setQuestions((prev) => [...prev, newQuestion])
     setQuestionsAndAnswers((prev) => [...prev, newQuestion])
+
+    setTimeout(() => {
+      const emptyAnswer: AnswerType = {
+        id: crypto.randomUUID(),
+        type: 'answer',
+        text: null,
+      }
+
+      setQuestionsAndAnswers((prev) => [...prev, emptyAnswer])
+    }, 500)
   }
 
   function addAnswer(text: string) {
@@ -81,7 +94,6 @@ export function QuestionsAndAnswersProvider({
     }
 
     setAnswers((prev) => [...prev, newAnswer])
-    setQuestionsAndAnswers((prev) => [...prev, newAnswer])
   }
 
   const value: QuestionsAndAnswersState = {
@@ -92,6 +104,14 @@ export function QuestionsAndAnswersProvider({
     addAnswer,
     questionsAndAnswers,
   }
+
+  useEffect(() => {
+    const newAnswer = answers.pop()
+
+    if (newAnswer) {
+      setQuestionsAndAnswers((prev) => [...prev.slice(0, -1), newAnswer])
+    }
+  }, [answers])
 
   return (
     <QuestionsAndAnswersProviderContext.Provider value={value} {...props}>
