@@ -47,6 +47,7 @@ export function Chat({ handleTextareaSubmit, handleBackHome }: ChatProps) {
       >
         <ChevronLeft className="size-12" />
       </Button>
+
       <div className="mask-b-from-95% mask-b-to-100% mask-t-from-95% mask-t-to-100% my-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll p-4 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2">
         {questionsAndAnswers.map((item) => {
           if (item.type === 'question') {
