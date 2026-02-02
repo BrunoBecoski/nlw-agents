@@ -106,21 +106,12 @@ export function QuestionsAndAnswersProvider({
   }
 
   useEffect(() => {
-    const text = answers.pop()?.text
-    const id = questionsAndAnswers.at(-1)?.id
+    const newAnswer = answers.pop()
 
-    const filtered = questionsAndAnswers.filter((item) => item.id !== id)
-
-    if (id && text) {
-      filtered.push({
-        id,
-        text,
-        type: 'answer',
-      })
-
-      setQuestionsAndAnswers(filtered)
+    if (newAnswer) {
+      setQuestionsAndAnswers((prev) => [...prev.slice(0, -1), newAnswer])
     }
-  }, [answers, questionsAndAnswers.at, questionsAndAnswers.filter])
+  }, [answers])
 
   return (
     <QuestionsAndAnswersProviderContext.Provider value={value} {...props}>
