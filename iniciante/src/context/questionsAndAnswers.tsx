@@ -8,12 +8,14 @@ import {
 
 export type QuestionType = {
   id: string
+  date: Date
   type: 'question'
   text: string
 }
 
 export type AnswerType = {
   id: string
+  date: Date
   type: 'answer'
   text: string | null
 }
@@ -59,6 +61,28 @@ export function QuestionsAndAnswersProvider({
   const [questionsAndAnswers, setQuestionsAndAnswers] =
     useState<QuestionsAndAnswersType>([])
 
+  function createQuestion(text: string) {
+    const question: QuestionType = {
+      id: crypto.randomUUID(),
+      date: new Date(),
+      type: 'question',
+      text,
+    }
+
+    return question
+  }
+
+  function createAnswer(text: string | null) {
+    const answer: AnswerType = {
+      id: crypto.randomUUID(),
+      date: new Date(),
+      type: 'answer',
+      text,
+    }
+
+    return answer
+  }
+
   function resetQuestionsAndAnswers() {
     setQuestions([])
     setAnswers([])
@@ -66,34 +90,26 @@ export function QuestionsAndAnswersProvider({
   }
 
   function addQuestion(text: string) {
-    const newQuestion: QuestionType = {
-      id: crypto.randomUUID(),
-      type: 'question',
-      text,
-    }
+    const newQuestion = createQuestion(text)
 
     setQuestions((prev) => [...prev, newQuestion])
     setQuestionsAndAnswers((prev) => [...prev, newQuestion])
 
     setTimeout(() => {
-      const emptyAnswer: AnswerType = {
-        id: crypto.randomUUID(),
-        type: 'answer',
-        text: null,
-      }
+      const emptyAnswer = addAnswer(null)
 
       setQuestionsAndAnswers((prev) => [...prev, emptyAnswer])
     }, 500)
+
+    return newQuestion
   }
 
-  function addAnswer(text: string) {
-    const newAnswer: AnswerType = {
-      id: crypto.randomUUID(),
-      type: 'answer',
-      text,
-    }
+  function addAnswer(text: string | null) {
+    const newAnswer = createAnswer(text)
 
     setAnswers((prev) => [...prev, newAnswer])
+
+    return newAnswer
   }
 
   const value: QuestionsAndAnswersState = {
