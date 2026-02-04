@@ -30,6 +30,8 @@ type QuestionsAndAnswersState = {
   questions: QuestionType[]
   answers: AnswerType[]
   questionsAndAnswers: QuestionsAndAnswersType
+  createQuestion: (text: string) => void
+  createAnswer: (text: string) => void
   resetQuestionsAndAnswers: () => void
   addQuestion: (text: string) => void
   addAnswer: (text: string) => void
@@ -39,6 +41,12 @@ const initialState: QuestionsAndAnswersState = {
   questions: [],
   answers: [],
   questionsAndAnswers: [],
+  createQuestion: () => {
+    undefined
+  },
+  createAnswer: () => {
+    undefined
+  },
   resetQuestionsAndAnswers: () => {
     undefined
   },
@@ -116,6 +124,8 @@ export function QuestionsAndAnswersProvider({
     questions,
     answers,
     resetQuestionsAndAnswers,
+    createQuestion,
+    createAnswer,
     addQuestion,
     addAnswer,
     questionsAndAnswers,
