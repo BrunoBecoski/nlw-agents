@@ -30,30 +30,22 @@ type QuestionsAndAnswersState = {
   questions: QuestionType[]
   answers: AnswerType[]
   questionsAndAnswers: QuestionsAndAnswersType
-  createQuestion: (text: string) => void
-  createAnswer: (text: string) => void
   resetQuestionsAndAnswers: () => void
-  addQuestion: (text: string) => void
-  addAnswer: (text: string) => void
+  createAndAddQuestion: (text: string) => void
+  createAndAddAnswer: (text: string) => void
 }
 
 const initialState: QuestionsAndAnswersState = {
   questions: [],
   answers: [],
   questionsAndAnswers: [],
-  createQuestion: () => {
-    undefined
-  },
-  createAnswer: () => {
-    undefined
-  },
   resetQuestionsAndAnswers: () => {
     undefined
   },
-  addQuestion: () => {
+  createAndAddQuestion: () => {
     undefined
   },
-  addAnswer: () => {
+  createAndAddAnswer: () => {
     undefined
   },
 }
@@ -68,6 +60,12 @@ export function QuestionsAndAnswersProvider({
   const [answers, setAnswers] = useState<AnswerType[]>([])
   const [questionsAndAnswers, setQuestionsAndAnswers] =
     useState<QuestionsAndAnswersType>([])
+
+  function resetQuestionsAndAnswers() {
+    setQuestions([])
+    setAnswers([])
+    setQuestionsAndAnswers([])
+  }
 
   function createQuestion(text: string) {
     const question: QuestionType = {
@@ -91,51 +89,57 @@ export function QuestionsAndAnswersProvider({
     return answer
   }
 
-  function resetQuestionsAndAnswers() {
-    setQuestions([])
-    setAnswers([])
-    setQuestionsAndAnswers([])
+  function addQuestion(question: QuestionType) {
+    setQuestions((prev) => [...prev, question])
   }
 
-  function addQuestion(text: string) {
+  function addAnswer(answer: AnswerType) {
+    setAnswers((prev) => [...prev, answer])
+  }
+
+  function createAndAddQuestion(text: string) {
     const newQuestion = createQuestion(text)
 
-    setQuestions((prev) => [...prev, newQuestion])
-    setQuestionsAndAnswers((prev) => [...prev, newQuestion])
+    addQuestion(newQuestion)
 
     setTimeout(() => {
-      const emptyAnswer = addAnswer(null)
-
-      setQuestionsAndAnswers((prev) => [...prev, emptyAnswer])
+      const emptyAnswer = createAnswer(null)
+      addAnswer(emptyAnswer)
     }, 500)
-
-    return newQuestion
   }
 
-  function addAnswer(text: string | null) {
+  function createAndAddAnswer(text: string | null) {
     const newAnswer = createAnswer(text)
 
-    setAnswers((prev) => [...prev, newAnswer])
-
-    return newAnswer
+    addAnswer(newAnswer)
   }
 
   const value: QuestionsAndAnswersState = {
     questions,
     answers,
-    resetQuestionsAndAnswers,
-    createQuestion,
-    createAnswer,
-    addQuestion,
-    addAnswer,
     questionsAndAnswers,
+    resetQuestionsAndAnswers,
+    createAndAddQuestion,
+    createAndAddAnswer,
   }
+
+  useEffect(() => {
+    const newQuestion = questions.pop()
+
+    if (newQuestion) {
+      setQuestionsAndAnswers((prev) => [...prev, newQuestion])
+    }
+  }, [questions])
 
   useEffect(() => {
     const newAnswer = answers.pop()
 
     if (newAnswer) {
-      setQuestionsAndAnswers((prev) => [...prev.slice(0, -1), newAnswer])
+      if (newAnswer.text === null) {
+        setQuestionsAndAnswers((prev) => [...prev, newAnswer])
+      } else {
+        setQuestionsAndAnswers((prev) => [...prev.slice(0, -1), newAnswer])
+      }
     }
   }, [answers])
 

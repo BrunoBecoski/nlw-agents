@@ -15,7 +15,7 @@ export interface FormDataProps {
 
 export function App() {
   const { screen, changeScreen, changeAnimation } = useScreenAndAnimation()
-  const { resetQuestionsAndAnswers, addQuestion, addAnswer } =
+  const { resetQuestionsAndAnswers, createAndAddQuestion, createAndAddAnswer } =
     useQuestionsAndAnswers()
 
   const [contextConversation, setContextConversation] = useState('')
@@ -27,7 +27,7 @@ export function App() {
     setTimeout(() => {
       changeScreen('chat')
       changeAnimation('chat-enter')
-      addQuestion(question)
+      createAndAddQuestion(question)
       document.title = `Esports | ${game}`
     }, 500)
 
@@ -56,13 +56,13 @@ export function App() {
     }
 
     if (answer && context) {
-      addAnswer(answer)
+      createAndAddAnswer(answer)
       setContextConversation(context)
     }
   }
 
   function handleTextareaSubmit(question: string) {
-    addQuestion(question)
+    createAndAddQuestion(question)
   }
 
   function handleBackHome() {
