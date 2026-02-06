@@ -31,8 +31,8 @@ type QuestionsAndAnswersState = {
   answers: AnswerType[]
   questionsAndAnswers: QuestionsAndAnswersType
   resetQuestionsAndAnswers: () => void
-  createAndAddQuestion: (text: string) => void
-  createAndAddAnswer: (text: string) => void
+  createQuestion: (text: string) => void
+  createAnswer: (text: string | null) => void
 }
 
 const initialState: QuestionsAndAnswersState = {
@@ -42,10 +42,10 @@ const initialState: QuestionsAndAnswersState = {
   resetQuestionsAndAnswers: () => {
     undefined
   },
-  createAndAddQuestion: () => {
+  createQuestion: () => {
     undefined
   },
-  createAndAddAnswer: () => {
+  createAnswer: () => {
     undefined
   },
 }
@@ -75,7 +75,7 @@ export function QuestionsAndAnswersProvider({
       text,
     }
 
-    return question
+    setQuestions((prev) => [...prev, question])
   }
 
   function createAnswer(text: string | null) {
@@ -86,32 +86,7 @@ export function QuestionsAndAnswersProvider({
       text,
     }
 
-    return answer
-  }
-
-  function addQuestion(question: QuestionType) {
-    setQuestions((prev) => [...prev, question])
-  }
-
-  function addAnswer(answer: AnswerType) {
     setAnswers((prev) => [...prev, answer])
-  }
-
-  function createAndAddQuestion(text: string) {
-    const newQuestion = createQuestion(text)
-
-    addQuestion(newQuestion)
-
-    setTimeout(() => {
-      const emptyAnswer = createAnswer(null)
-      addAnswer(emptyAnswer)
-    }, 500)
-  }
-
-  function createAndAddAnswer(text: string | null) {
-    const newAnswer = createAnswer(text)
-
-    addAnswer(newAnswer)
   }
 
   const value: QuestionsAndAnswersState = {
@@ -119,8 +94,8 @@ export function QuestionsAndAnswersProvider({
     answers,
     questionsAndAnswers,
     resetQuestionsAndAnswers,
-    createAndAddQuestion,
-    createAndAddAnswer,
+    createQuestion,
+    createAnswer,
   }
 
   useEffect(() => {
