@@ -99,24 +99,20 @@ export function QuestionsAndAnswersProvider({
   }
 
   useEffect(() => {
-    const newQuestion = questions.pop()
-
-    if (newQuestion) {
-      setQuestionsAndAnswers((prev) => [...prev, newQuestion])
-    }
-  }, [questions])
-
-  useEffect(() => {
-    const newAnswer = answers.pop()
-
-    if (newAnswer) {
-      if (newAnswer.text === null) {
-        setQuestionsAndAnswers((prev) => [...prev, newAnswer])
-      } else {
-        setQuestionsAndAnswers((prev) => [...prev.slice(0, -1), newAnswer])
+    const orderedQuestionsAndAnswers = [...questions, ...answers].sort(
+      (item_1, item_2) => {
+        if (item_1.date < item_2.date) {
+          return -1
+        }
+        if (item_1.date > item_2.date) {
+          return 1
+        }
+        return 0
       }
-    }
-  }, [answers])
+    )
+
+    setQuestionsAndAnswers(orderedQuestionsAndAnswers)
+  }, [questions, answers])
 
   return (
     <QuestionsAndAnswersProviderContext.Provider value={value} {...props}>
