@@ -15,8 +15,13 @@ export interface FormDataProps {
 
 export function App() {
   const { screen, changeScreen, changeAnimation } = useScreenAndAnimation()
-  const { resetQuestionsAndAnswers, createQuestion, createAnswer } =
-    useQuestionsAndAnswers()
+  const {
+    resetQuestionsAndAnswers,
+    createQuestion,
+    createAnswer,
+    addLoadingAnswer,
+    removeLoadingAnswer,
+  } = useQuestionsAndAnswers()
 
   const [contextConversation, setContextConversation] = useState('')
 
@@ -31,7 +36,7 @@ export function App() {
       document.title = `Esports | ${game}`
 
       setTimeout(() => {
-        createAnswer(null)
+        addLoadingAnswer()
       }, 500)
     }, 500)
 
@@ -60,6 +65,7 @@ export function App() {
     }
 
     if (answer && context) {
+      removeLoadingAnswer()
       createAnswer(answer)
       setContextConversation(context)
     }
@@ -69,7 +75,7 @@ export function App() {
     createQuestion(question)
 
     setTimeout(() => {
-      createAnswer(null)
+      addLoadingAnswer()
     }, 500)
   }
 

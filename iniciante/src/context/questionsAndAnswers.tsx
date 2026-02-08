@@ -33,6 +33,8 @@ type QuestionsAndAnswersState = {
   resetQuestionsAndAnswers: () => void
   createQuestion: (text: string) => void
   createAnswer: (text: string | null) => void
+  addLoadingAnswer: () => void
+  removeLoadingAnswer: () => void
 }
 
 const initialState: QuestionsAndAnswersState = {
@@ -46,6 +48,12 @@ const initialState: QuestionsAndAnswersState = {
     undefined
   },
   createAnswer: () => {
+    undefined
+  },
+  addLoadingAnswer: () => {
+    undefined
+  },
+  removeLoadingAnswer: () => {
     undefined
   },
 }
@@ -68,25 +76,48 @@ export function QuestionsAndAnswersProvider({
   }
 
   function createQuestion(text: string) {
-    const question: QuestionType = {
+    const newQuestion: QuestionType = {
       id: crypto.randomUUID(),
       date: new Date(),
       type: 'question',
       text,
     }
 
-    setQuestions((prev) => [...prev, question])
+    const newQuestions = [...questions, newQuestion]
+
+    setQuestions(newQuestions)
   }
 
   function createAnswer(text: string | null) {
-    const answer: AnswerType = {
+    const newAnswer: AnswerType = {
       id: crypto.randomUUID(),
       date: new Date(),
       type: 'answer',
       text,
     }
 
-    setAnswers((prev) => [...prev, answer])
+    const newAnswers = [...answers, newAnswer]
+
+    setAnswers(newAnswers)
+  }
+
+  function addLoadingAnswer() {
+    const loadingAnswer: AnswerType = {
+      id: crypto.randomUUID(),
+      date: new Date(),
+      type: 'answer',
+      text: null,
+    }
+
+    const newAnswers = [...answers, loadingAnswer]
+
+    setAnswers(newAnswers)
+  }
+
+  function removeLoadingAnswer() {
+    const newAnswers = answers.filter((answer) => answer.text != null)
+
+    setAnswers(newAnswers)
   }
 
   const value: QuestionsAndAnswersState = {
@@ -96,6 +127,8 @@ export function QuestionsAndAnswersProvider({
     resetQuestionsAndAnswers,
     createQuestion,
     createAnswer,
+    addLoadingAnswer,
+    removeLoadingAnswer,
   }
 
   useEffect(() => {
