@@ -5,6 +5,7 @@ import { useQuestionsAndAnswers } from '@/context/questionsAndAnswers'
 import { useScreenAndAnimation } from '@/context/screenAndAnimation'
 import { Answer } from './answer'
 import { Form } from './form'
+import { LoadingAnswer } from './loadingAnswer'
 import { Question } from './question'
 
 type ChatProps = {
@@ -61,9 +62,16 @@ export function Chat({ handleTextareaSubmit, handleBackHome }: ChatProps) {
           }
 
           if (item.type === 'answer') {
-            return (
-              <Answer animation={animation} answer={item.text} key={item.id} />
-            )
+            if (item.text) {
+              return (
+                <Answer
+                  animation={animation}
+                  answer={item.text}
+                  key={item.id}
+                />
+              )
+            }
+            return <LoadingAnswer key={item.id} />
           }
 
           return null

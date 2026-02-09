@@ -6,7 +6,7 @@ import type { AnimationType } from '@/context/screenAndAnimation'
 
 interface AnswerProps {
   animation: AnimationType
-  answer: string | null
+  answer: string
 }
 
 export function Answer({ animation, answer }: AnswerProps) {
@@ -38,15 +38,7 @@ export function Answer({ animation, answer }: AnswerProps) {
       <Card className="mx-12 w-fit rounded-4xl rounded-ss-none bg-[#2A2634]">
         <CardContent className="flex-1">
           <div className="whitespace-pre-line text-md leading-relaxed">
-            {answer ? (
-              <Markdown>{answer}</Markdown>
-            ) : (
-              <div className="flex animate-pulse gap-4 pt-0.5">
-                <span className="size-2 animate-bounce rounded-full bg-white" />
-                <span className="size-2 animate-bounce rounded-full bg-white delay-100" />
-                <span className="size-2 animate-bounce rounded-full bg-white delay-200" />
-              </div>
-            )}
+            <Markdown>{answer}</Markdown>
           </div>
         </CardContent>
       </Card>
