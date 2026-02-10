@@ -1,9 +1,34 @@
 import { Bot } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
+import type { AnimationType } from '@/context/screenAndAnimation'
 
-export function LoadingAnswer() {
+interface LoadingAnswerProps {
+  animation: AnimationType
+}
+
+export function LoadingAnswer({ animation }: LoadingAnswerProps) {
+  const [currentAnimation, setCurrentAnimation] = useState(
+    'animate-slide-in-left'
+  )
+
+  useEffect(() => {
+    switch (animation) {
+      case 'chat-enter':
+        setCurrentAnimation('animate-slide-in-left')
+        break
+
+      case 'chat-exit':
+        setCurrentAnimation('animate-slide-out-left')
+        break
+
+      default:
+        break
+    }
+  }, [animation])
+
   return (
-    <div className={'flex animate-slide-in-left flex-col'}>
+    <div className={`flex flex-col ${currentAnimation}`}>
       <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
         <Bot className="size-8 text-[#9572FC]" />
       </div>

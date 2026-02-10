@@ -71,7 +71,7 @@ export function Chat({ handleTextareaSubmit, handleBackHome }: ChatProps) {
                 />
               )
             }
-            return <LoadingAnswer key={item.id} />
+            return <LoadingAnswer animation={animation} key={item.id} />
           }
 
           return null
