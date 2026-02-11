@@ -1,35 +1,16 @@
 import { User } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
-import type { AnimationType } from '@/context/screenAndAnimation'
+import { useScreenAndAnimation } from '@/context/screenAndAnimation'
 
 interface QuestionProps {
-  animation: AnimationType
   question: string
 }
 
-export function Question({ animation, question }: QuestionProps) {
-  const [currentAnimation, setCurrentAnimation] = useState(
-    'animate-slide-in-right'
-  )
-
-  useEffect(() => {
-    switch (animation) {
-      case 'chat-enter':
-        setCurrentAnimation('animate-slide-in-right')
-        break
-
-      case 'chat-exit':
-        setCurrentAnimation('animate-slide-out-right')
-        break
-
-      default:
-        break
-    }
-  }, [animation])
+export function Question({ question }: QuestionProps) {
+  const { questionAnimation } = useScreenAndAnimation()
 
   return (
-    <div className={`flex flex-col items-end ${currentAnimation}`}>
+    <div className={`flex flex-col items-end ${questionAnimation}`}>
       <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
         <User className="size-8 text-[#9572FC]" />
       </div>

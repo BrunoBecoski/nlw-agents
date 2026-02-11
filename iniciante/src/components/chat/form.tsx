@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod/v4'
 import { Button } from '@/components/ui/button'
@@ -11,7 +10,7 @@ import {
   Form as UiForm,
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-import type { AnimationType } from '@/context/screenAndAnimation'
+import { useScreenAndAnimation } from '@/context/screenAndAnimation'
 import { Card, CardContent } from '../ui/card'
 
 const formSchema = z.object({
@@ -25,12 +24,11 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 interface FormProps {
-  animation: AnimationType
   handleTextareaSubmit: (question: string) => void
 }
 
-export function Form({ animation, handleTextareaSubmit }: FormProps) {
-  const [currentAnimation, setCurrentAnimation] = useState('')
+export function Form({ handleTextareaSubmit }: FormProps) {
+  const { chatFormAnimation } = useScreenAndAnimation()
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -44,25 +42,10 @@ export function Form({ animation, handleTextareaSubmit }: FormProps) {
     form.reset()
   }
 
-  useEffect(() => {
-    switch (animation) {
-      case 'chat-enter':
-        setCurrentAnimation('animate-slide-in-bottom')
-        break
-
-      case 'chat-exit':
-        setCurrentAnimation('animate-slide-out-bottom')
-        break
-
-      default:
-        break
-    }
-  }, [animation])
-
   return (
     <UiForm {...form}>
       <form
-        className={`animate-slide-in-bottom rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1' ${currentAnimation}`}
+        className={`animate-slide-in-bottom rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1' ${chatFormAnimation}`}
         onSubmit={form.handleSubmit(handleForm)}
       >
         <Card className="rounded-lg bg-[#2A2634]">

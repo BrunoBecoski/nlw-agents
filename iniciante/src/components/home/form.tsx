@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod/v4'
 import type { FormDataProps } from '@/app'
@@ -28,7 +27,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import type { AnimationType } from '@/context/screenAndAnimation'
+import { useScreenAndAnimation } from '@/context/screenAndAnimation'
 import { env } from '@/env'
 
 const formSchema = z.object({
@@ -47,12 +46,11 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 interface FormProps {
-  animation: AnimationType
   handleFormSubmit: (formData: FormDataProps) => void
 }
 
-export function Form({ animation, handleFormSubmit }: FormProps) {
-  const [currentAnimation, setCurrentAnimation] = useState('')
+export function Form({ handleFormSubmit }: FormProps) {
+  const { homeFormAnimation } = useScreenAndAnimation()
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -71,24 +69,9 @@ export function Form({ animation, handleFormSubmit }: FormProps) {
     })
   }
 
-  useEffect(() => {
-    switch (animation) {
-      case 'home-enter':
-        setCurrentAnimation('animate-slide-in-bottom')
-        break
-
-      case 'home-exit':
-        setCurrentAnimation('animate-slide-out-bottom')
-        break
-
-      default:
-        break
-    }
-  }, [animation])
-
   return (
     <div
-      className={`w-full rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1 ${currentAnimation}`}
+      className={`w-full rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1 ${homeFormAnimation}`}
     >
       <Card className="rounded-sm border-0 bg-[#2A2634]">
         <CardHeader>
