@@ -14,7 +14,8 @@ export interface FormDataProps {
 }
 
 export function App() {
-  const { screen, changeScreen, changeAnimation } = useScreenAndAnimation()
+  const { screen, changeScreen, changeAnimationVariant } =
+    useScreenAndAnimation()
   const {
     resetQuestionsAndAnswers,
     createQuestion,
@@ -27,11 +28,11 @@ export function App() {
 
   async function handleFormSubmit(formData: FormDataProps) {
     const { apiKey, game, question } = formData
-    changeAnimation('home-exit')
+    changeAnimationVariant('exit')
 
     setTimeout(() => {
       changeScreen('chat')
-      changeAnimation('chat-enter')
+      changeAnimationVariant('enter')
       createQuestion(question)
       document.title = `Esports | ${game}`
 
@@ -52,11 +53,11 @@ export function App() {
     })
 
     if (successfully === false) {
-      changeAnimation('chat-exit')
+      changeAnimationVariant('exit')
 
       setTimeout(() => {
         changeScreen('home')
-        changeAnimation('home-enter')
+        changeAnimationVariant('enter')
         resetQuestionsAndAnswers()
         document.title = 'Esports'
       }, 500)
@@ -80,11 +81,11 @@ export function App() {
   }
 
   function handleBackHome() {
-    changeAnimation('chat-exit')
+    changeAnimationVariant('exit')
 
     setTimeout(() => {
       changeScreen('home')
-      changeAnimation('home-enter')
+      changeAnimationVariant('enter')
       resetQuestionsAndAnswers()
       document.title = 'Esports'
     }, 500)
