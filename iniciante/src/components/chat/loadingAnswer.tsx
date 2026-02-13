@@ -3,10 +3,10 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useScreenAndAnimation } from '@/context/screenAndAnimation'
 
 export function LoadingAnswer() {
-  const { answerAnimation } = useScreenAndAnimation()
+  const { animationAction } = useScreenAndAnimation()
 
   return (
-    <div className={`flex flex-col ${answerAnimation}`}>
+    <div className={`flex flex-col animate-slide-${animationAction}-left`}>
       <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
         <Bot className="size-8 text-[#9572FC]" />
       </div>

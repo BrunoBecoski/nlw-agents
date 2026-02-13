@@ -50,7 +50,7 @@ interface FormProps {
 }
 
 export function Form({ handleFormSubmit }: FormProps) {
-  const { homeFormAnimation } = useScreenAndAnimation()
+  const { animationAction } = useScreenAndAnimation()
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -71,7 +71,7 @@ export function Form({ handleFormSubmit }: FormProps) {
 
   return (
     <div
-      className={`w-full rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1 ${homeFormAnimation}`}
+      className={`w-full rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1 animate-slide-${animationAction}-bottom`}
     >
       <Card className="rounded-sm border-0 bg-[#2A2634]">
         <CardHeader>

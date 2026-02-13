@@ -15,7 +15,7 @@ type ChatProps = {
 export function Chat({ handleTextareaSubmit, handleBackHome }: ChatProps) {
   const { questionsAndAnswers } = useQuestionsAndAnswers()
 
-  const { chatButtonAnimation } = useScreenAndAnimation()
+  const { animationAction } = useScreenAndAnimation()
 
   function handleTextareaSubmitMiddleware(question: string) {
     handleTextareaSubmit(question)
@@ -24,7 +24,7 @@ export function Chat({ handleTextareaSubmit, handleBackHome }: ChatProps) {
   return (
     <section className="flex h-screen w-screen flex-col p-12 pt-0">
       <Button
-        className={`absolute top-6 left-0 size-12 animate-scale cursor-pointer hover:text-[#9572FC] ${chatButtonAnimation}`}
+        className={`absolute top-6 left-0 size-12 animate-scale cursor-pointer hover:text-[#9572FC] animate-fade-${animationAction}`}
         onClick={handleBackHome}
         title="Voltar"
         variant="link"

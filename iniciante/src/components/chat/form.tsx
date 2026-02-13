@@ -28,7 +28,7 @@ interface FormProps {
 }
 
 export function Form({ handleTextareaSubmit }: FormProps) {
-  const { chatFormAnimation } = useScreenAndAnimation()
+  const { animationAction } = useScreenAndAnimation()
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -45,7 +45,7 @@ export function Form({ handleTextareaSubmit }: FormProps) {
   return (
     <UiForm {...form}>
       <form
-        className={`animate-slide-in-bottom rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1' ${chatFormAnimation}`}
+        className={`animate-slide-in-bottom rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1' animate-slide-${animationAction}-bottom`}
         onSubmit={form.handleSubmit(handleForm)}
       >
         <Card className="rounded-lg bg-[#2A2634]">
