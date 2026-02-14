@@ -7,12 +7,10 @@ interface QuestionProps {
 }
 
 export function Question({ question }: QuestionProps) {
-  const { animationAction } = useScreenAndAnimation()
+  const { animation } = useScreenAndAnimation()
 
   return (
-    <div
-      className={`flex flex-col items-end animate-slide-${animationAction}-right`}
-    >
+    <div className={`flex flex-col items-end ${animation.slideRight}`}>
       <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
         <User className="size-8 text-[#9572FC]" />
       </div>

@@ -8,10 +8,10 @@ interface AnswerProps {
 }
 
 export function Answer({ answer }: AnswerProps) {
-  const { animationAction } = useScreenAndAnimation()
+  const { animation } = useScreenAndAnimation()
 
   return (
-    <div className={`flex flex-col animate-slide-${animationAction}-left`}>
+    <div className={`flex flex-col ${animation.slideLeft}`}>
       <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
         <Bot className="size-8 text-[#9572FC]" />
       </div>

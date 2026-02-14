@@ -7,10 +7,22 @@ import {
 } from 'react'
 
 type ScreenType = 'home' | 'chat'
-
+type AnimationType = typeof inAnimation | typeof outAnimation
 type AnimationVariantType = 'enter' | 'exit'
 
-type AnimationActionType = 'in' | 'out'
+const inAnimation = {
+  fade: 'animate-fade-in',
+  slideBottom: 'animate-slide-in-bottom',
+  slideRight: 'animate-slide-in-right',
+  slideLeft: 'animate-slide-in-left',
+} as const
+
+const outAnimation = {
+  fade: 'animate-fade-out',
+  slideBottom: 'animate-slide-out-bottom',
+  slideRight: 'animate-slide-out-right',
+  slideLeft: 'animate-slide-out-left',
+} as const
 
 interface ScreenAndAnimationProps {
   children: ReactNode
@@ -18,14 +30,14 @@ interface ScreenAndAnimationProps {
 
 type ScreenAndAnimationState = {
   screen: ScreenType
+  animation: AnimationType
   changeScreen: (newScreen: ScreenType) => void
   changeAnimationVariant: (newAnimationVariant: AnimationVariantType) => void
-  animationAction: AnimationActionType
 }
 
 const initialState: ScreenAndAnimationState = {
   screen: 'home',
-  animationAction: 'in',
+  animation: inAnimation,
   changeScreen: () => {
     undefined
   },
@@ -42,10 +54,9 @@ export function ScreenAndAnimationProvider({
   ...props
 }: ScreenAndAnimationProps) {
   const [screen, setScreen] = useState<ScreenType>('home')
-  const [animation, setAnimationVariant] =
+  const [animation, setAnimation] = useState<AnimationType>(inAnimation)
+  const [animationVariant, setAnimationVariant] =
     useState<AnimationVariantType>('enter')
-  const [animationAction, setAnimationAction] =
-    useState<AnimationActionType>('in')
 
   function changeScreen(newScreen: ScreenType) {
     setScreen(newScreen)
@@ -57,25 +68,25 @@ export function ScreenAndAnimationProvider({
 
   const value: ScreenAndAnimationState = {
     screen,
+    animation,
     changeScreen,
     changeAnimationVariant,
-    animationAction,
   }
 
   useEffect(() => {
-    switch (animation) {
+    switch (animationVariant) {
       case 'enter':
-        setAnimationAction('in')
+        setAnimation(inAnimation)
         break
 
       case 'exit':
-        setAnimationAction('out')
+        setAnimation(outAnimation)
         break
 
       default:
         break
     }
-  }, [animation])
+  }, [animationVariant])
 
   return (
     <ScreenAndAnimationProviderContext.Provider value={value} {...props}>
