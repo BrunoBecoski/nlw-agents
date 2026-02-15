@@ -6,9 +6,22 @@ import {
   useState,
 } from 'react'
 
+interface ScreenAndAnimationProps {
+  children: ReactNode
+}
+
 type ScreenType = 'home' | 'chat'
+
 type AnimationType = typeof inAnimation | typeof outAnimation
+
 type AnimationVariantType = 'enter' | 'exit'
+
+type ScreenAndAnimationState = {
+  screen: ScreenType
+  animation: AnimationType
+  changeScreen: (newScreen: ScreenType) => void
+  changeAnimationVariant: (newAnimationVariant: AnimationVariantType) => void
+}
 
 const inAnimation = {
   fade: 'animate-fade-in',
@@ -23,17 +36,6 @@ const outAnimation = {
   slideRight: 'animate-slide-out-right',
   slideLeft: 'animate-slide-out-left',
 } as const
-
-interface ScreenAndAnimationProps {
-  children: ReactNode
-}
-
-type ScreenAndAnimationState = {
-  screen: ScreenType
-  animation: AnimationType
-  changeScreen: (newScreen: ScreenType) => void
-  changeAnimationVariant: (newAnimationVariant: AnimationVariantType) => void
-}
 
 const initialState: ScreenAndAnimationState = {
   screen: 'home',
@@ -95,8 +97,5 @@ export function ScreenAndAnimationProvider({
   )
 }
 
-export const useScreenAndAnimation = () => {
-  const context = useContext(ScreenAndAnimationProviderContext)
-
-  return context
-}
+export const useScreenAndAnimation = () =>
+  useContext(ScreenAndAnimationProviderContext)
