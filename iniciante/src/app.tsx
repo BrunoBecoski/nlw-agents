@@ -25,12 +25,14 @@ export function App() {
   } = useQuestionsAndAnswers()
 
   const [contextConversation, setContextConversation] = useState('')
+  const [isLoadingAnswer, setIsLoadingAnswer] = useState(false)
 
   async function handleFormSubmit(formData: FormDataProps) {
     const { apiKey, game, question } = formData
     changeAnimationVariant('exit')
 
     setTimeout(() => {
+      setIsLoadingAnswer(true)
       changeScreen('chat')
       changeAnimationVariant('enter')
       createQuestion(question)
@@ -41,16 +43,16 @@ export function App() {
       }, 500)
     }, 500)
 
-    // const { answer, context, successfully } = await generateAnswer({
-    //   apiKey,
-    //   game,
-    //   question,
-    //   contextConversation,
-    // })
-
-    const { answer, context, successfully } = await fakeGenerateAnswer({
-      successfully: true,
+    const { answer, context, successfully } = await generateAnswer({
+      apiKey,
+      game,
+      question,
+      contextConversation,
     })
+
+    // const { answer, context, successfully } = await fakeGenerateAnswer({
+    //   successfully: true,
+    // })
 
     if (successfully === false) {
       changeAnimationVariant('exit')
@@ -69,11 +71,13 @@ export function App() {
       removeLoadingAnswer()
       createAnswer(answer)
       setContextConversation(context)
+      setIsLoadingAnswer(false)
     }
   }
 
   function handleTextareaSubmit(question: string) {
     createQuestion(question)
+    setIsLoadingAnswer(true)
 
     setTimeout(() => {
       addLoadingAnswer()
@@ -82,6 +86,7 @@ export function App() {
 
   function handleBackHome() {
     changeAnimationVariant('exit')
+    setIsLoadingAnswer(false)
 
     setTimeout(() => {
       changeScreen('home')
@@ -100,6 +105,7 @@ export function App() {
           <Chat
             handleBackHome={handleBackHome}
             handleTextareaSubmit={handleTextareaSubmit}
+            isLoadingAnswer={isLoadingAnswer}
           />
         )}
       </main>

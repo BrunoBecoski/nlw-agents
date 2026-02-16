@@ -8,11 +8,16 @@ import { LoadingAnswer } from './loadingAnswer'
 import { Question } from './question'
 
 type ChatProps = {
-  handleTextareaSubmit: (question: string) => void
+  isLoadingAnswer: boolean
   handleBackHome: () => void
+  handleTextareaSubmit: (question: string) => void
 }
 
-export function Chat({ handleTextareaSubmit, handleBackHome }: ChatProps) {
+export function Chat({
+  isLoadingAnswer,
+  handleBackHome,
+  handleTextareaSubmit,
+}: ChatProps) {
   const { questionsAndAnswers } = useQuestionsAndAnswers()
 
   const { animation } = useScreenAndAnimation()
@@ -49,7 +54,10 @@ export function Chat({ handleTextareaSubmit, handleBackHome }: ChatProps) {
         })}
       </div>
 
-      <Form handleTextareaSubmit={handleTextareaSubmitMiddleware} />
+      <Form
+        handleTextareaSubmit={handleTextareaSubmitMiddleware}
+        isLoadingAnswer={isLoadingAnswer}
+      />
     </section>
   )
 }

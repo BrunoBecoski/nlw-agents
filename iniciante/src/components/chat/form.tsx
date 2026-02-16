@@ -24,10 +24,11 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 interface FormProps {
+  isLoadingAnswer: boolean
   handleTextareaSubmit: (question: string) => void
 }
 
-export function Form({ handleTextareaSubmit }: FormProps) {
+export function Form({ isLoadingAnswer, handleTextareaSubmit }: FormProps) {
   const { animation } = useScreenAndAnimation()
 
   const form = useForm<FormData>({
@@ -62,6 +63,7 @@ export function Form({ handleTextareaSubmit }: FormProps) {
                       <Textarea
                         {...field}
                         className="border-none focus:outline-none"
+                        disabled={isLoadingAnswer}
                         onKeyDown={(e) =>
                           e.key === 'Enter' && form.handleSubmit(handleForm)()
                         }
@@ -75,7 +77,7 @@ export function Form({ handleTextareaSubmit }: FormProps) {
 
             <Button
               className="h-16 cursor-pointer text-md"
-              disabled={form.formState.isSubmitting}
+              disabled={isLoadingAnswer}
               variant="outline"
             >
               {form.formState.isSubmitting ? 'Perguntando...' : 'Perguntar'}
