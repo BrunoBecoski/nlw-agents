@@ -8,9 +8,9 @@ import { fakeGenerateAnswer } from './services/fakeGemini'
 import { generateAnswer } from './services/gemini'
 
 export interface FormDataProps {
-  apiKey: string
-  game: string
-  question: string
+  apiKeyForm: string
+  gameForm: string
+  questionForm: string
 }
 
 export function App() {
@@ -26,21 +26,66 @@ export function App() {
 
   const [contextConversation, setContextConversation] = useState('')
   const [isLoadingAnswer, setIsLoadingAnswer] = useState(false)
+  const [apiKey, setApiKey] = useState('')
+  const [game, setGame] = useState('')
 
   async function handleFormSubmit(formData: FormDataProps) {
-    const { apiKey, game, question } = formData
+    const { apiKeyForm, gameForm, questionForm } = formData
     changeAnimationVariant('exit')
+
+    setApiKey(apiKeyForm)
+    setGame(gameForm)
 
     setTimeout(() => {
       setIsLoadingAnswer(true)
       changeScreen('chat')
       changeAnimationVariant('enter')
-      createQuestion(question)
-      document.title = `Esports | ${game}`
+      createQuestion(questionForm)
+      document.title = `Esports | ${gameForm}`
 
       setTimeout(() => {
         addLoadingAnswer()
       }, 500)
+    }, 500)
+
+    const { answer, context, successfully } = await generateAnswer({
+      apiKey: apiKeyForm,
+      game: gameForm,
+      question: questionForm,
+      contextConversation,
+    })
+
+    // const { answer, context, successfully } = await fakeGenerateAnswer({
+    //   successfully: true,
+    // })
+
+    if (successfully === false) {
+      changeAnimationVariant('exit')
+
+      setTimeout(() => {
+        changeScreen('home')
+        changeAnimationVariant('enter')
+        resetQuestionsAndAnswers()
+        document.title = 'Esports'
+      }, 500)
+
+      return
+    }
+
+    if (answer && context) {
+      removeLoadingAnswer()
+      createAnswer(answer)
+      setContextConversation(context)
+      setIsLoadingAnswer(false)
+    }
+  }
+
+  async function handleTextareaSubmit(question: string) {
+    createQuestion(question)
+    setIsLoadingAnswer(true)
+
+    setTimeout(() => {
+      addLoadingAnswer()
     }, 500)
 
     const { answer, context, successfully } = await generateAnswer({
@@ -73,15 +118,6 @@ export function App() {
       setContextConversation(context)
       setIsLoadingAnswer(false)
     }
-  }
-
-  function handleTextareaSubmit(question: string) {
-    createQuestion(question)
-    setIsLoadingAnswer(true)
-
-    setTimeout(() => {
-      addLoadingAnswer()
-    }, 500)
   }
 
   function handleBackHome() {

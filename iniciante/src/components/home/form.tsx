@@ -31,12 +31,12 @@ import { useScreenAndAnimation } from '@/context/screenAndAnimation'
 import { env } from '@/env'
 
 const formSchema = z.object({
-  apiKey: z
+  apiKeyForm: z
     .string()
     .min(39, { message: 'Api Key inválida' })
     .startsWith('AIzaSy', { message: 'Api Key inválida' }),
-  game: z.string().min(1, { message: 'Por favor selecione im jogo' }),
-  question: z
+  gameForm: z.string().min(1, { message: 'Por favor selecione im jogo' }),
+  questionForm: z
     .string()
     .min(1, 'Pergunta é obrigatória')
     .min(10, 'Pergunta deve ter pelo menos 10 caracteres')
@@ -55,17 +55,17 @@ export function Form({ handleFormSubmit }: FormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      apiKey: env.VITE_GEMINI_API_KEY,
-      game: '',
-      question: '',
+      apiKeyForm: env.VITE_GEMINI_API_KEY,
+      gameForm: '',
+      questionForm: '',
     },
   })
 
   function handleForm(data: FormData) {
     handleFormSubmit({
-      apiKey: data.apiKey,
-      game: data.game,
-      question: data.question,
+      apiKeyForm: data.apiKeyForm,
+      gameForm: data.gameForm,
+      questionForm: data.questionForm,
     })
   }
 
@@ -90,7 +90,7 @@ export function Form({ handleFormSubmit }: FormProps) {
               <div className="flex gap-4">
                 <FormField
                   control={form.control}
-                  name="apiKey"
+                  name="apiKeyForm"
                   render={({ field }) => {
                     return (
                       <FormItem className="flex-1">
@@ -112,7 +112,7 @@ export function Form({ handleFormSubmit }: FormProps) {
 
                 <FormField
                   control={form.control}
-                  name="game"
+                  name="gameForm"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Jogo</FormLabel>
@@ -146,7 +146,7 @@ export function Form({ handleFormSubmit }: FormProps) {
               </div>
               <FormField
                 control={form.control}
-                name="question"
+                name="questionForm"
                 render={({ field }) => {
                   return (
                     <FormItem>
