@@ -1,5 +1,5 @@
 import { ChevronLeft } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { useQuestionsAndAnswers } from '@/context/questionsAndAnswers'
 import { useScreenAndAnimation } from '@/context/screenAndAnimation'
@@ -23,17 +23,17 @@ export function Chat({
 
   const { animation } = useScreenAndAnimation()
 
-  const divRef = useRef<HTMLDivElement>(null)
-
   function handleTextareaSubmitMiddleware(question: string) {
     handleTextareaSubmit(question)
   }
 
   useEffect(() => {
-    if (divRef.current) {
-      divRef.current.scrollTo({
-        top: divRef.current.scrollHeight,
+    const last__element = document.querySelector('#chat > div:last-child')
+
+    if (last__element) {
+      last__element.scrollIntoView({
         behavior: 'smooth',
+        block: 'start',
       })
     }
   }, [questionsAndAnswers])
@@ -51,7 +51,7 @@ export function Chat({
 
       <div
         className="mask-b-from-95% mask-b-to-100% mask-t-from-95% mask-t-to-100% my-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll p-4 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2"
-        ref={divRef}
+        id="chat"
       >
         {questionsAndAnswers.map((item) => {
           if (item.type === 'question') {
