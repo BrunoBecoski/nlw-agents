@@ -86,6 +86,7 @@ export function QuestionsAndAnswersProvider({
     const newQuestions = [...questions, newQuestion]
 
     setQuestions(newQuestions)
+    scrollChat()
   }
 
   function createAnswer(text: string | null) {
@@ -99,6 +100,7 @@ export function QuestionsAndAnswersProvider({
     const newAnswers = [...answers, newAnswer]
 
     setAnswers(newAnswers)
+    scrollChat()
   }
 
   function addLoadingAnswer() {
@@ -112,6 +114,7 @@ export function QuestionsAndAnswersProvider({
     const newAnswers = [...answers, loadingAnswer]
 
     setAnswers(newAnswers)
+    scrollChat()
   }
 
   function removeLoadingAnswer() {
@@ -146,6 +149,17 @@ export function QuestionsAndAnswersProvider({
 
     setQuestionsAndAnswers(orderedQuestionsAndAnswers)
   }, [questions, answers])
+
+  function scrollChat() {
+    const last__element = document.querySelector('#chat > div:last-child')
+
+    if (last__element) {
+      last__element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }
 
   return (
     <QuestionsAndAnswersProviderContext.Provider value={value} {...props}>

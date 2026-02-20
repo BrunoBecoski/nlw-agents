@@ -1,5 +1,4 @@
 import { ChevronLeft } from 'lucide-react'
-import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { useQuestionsAndAnswers } from '@/context/questionsAndAnswers'
 import { useScreenAndAnimation } from '@/context/screenAndAnimation'
@@ -26,17 +25,6 @@ export function Chat({
   function handleTextareaSubmitMiddleware(question: string) {
     handleTextareaSubmit(question)
   }
-
-  useEffect(() => {
-    const last__element = document.querySelector('#chat > div:last-child')
-
-    if (last__element) {
-      last__element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
-    }
-  }, [questionsAndAnswers])
 
   return (
     <section className="flex h-screen w-screen flex-col p-12 pt-0">
