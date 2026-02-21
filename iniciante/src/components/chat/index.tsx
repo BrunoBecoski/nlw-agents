@@ -1,4 +1,5 @@
 import { ChevronLeft } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { useQuestionsAndAnswers } from '@/context/questionsAndAnswers'
 import { useScreenAndAnimation } from '@/context/screenAndAnimation'
@@ -22,9 +23,35 @@ export function Chat({
 
   const { animation } = useScreenAndAnimation()
 
+  const divRef = useRef<HTMLDivElement>(null)
+
   function handleTextareaSubmitMiddleware(question: string) {
     handleTextareaSubmit(question)
   }
+
+  useEffect(() => {
+    const lastItem = questionsAndAnswers.at(-1)
+
+    if (lastItem && (lastItem.type === 'question' || lastItem.text === null)) {
+      const div__element = divRef.current
+
+      if (div__element) {
+        div__element.scroll({
+          behavior: 'smooth',
+          top: div__element.scrollHeight,
+        })
+      }
+    } else if (questionsAndAnswers.length > 3) {
+      const div__element = divRef.current
+
+      if (div__element) {
+        div__element.scroll({
+          behavior: 'smooth',
+          top: div__element.scrollTop + div__element.clientHeight - 260,
+        })
+      }
+    }
+  }, [questionsAndAnswers])
 
   return (
     <section className="flex h-screen w-screen flex-col p-12 pt-0">
@@ -40,6 +67,7 @@ export function Chat({
       <div
         className="mask-b-from-95% mask-b-to-100% mask-t-from-95% mask-t-to-100% my-2 h-full space-y-1 overflow-x-hidden overflow-y-scroll p-4 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#9572FC]/80 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#2A2634] [&::-webkit-scrollbar]:w-2"
         id="chat"
+        ref={divRef}
       >
         {questionsAndAnswers.map((item) => {
           if (item.type === 'question') {
