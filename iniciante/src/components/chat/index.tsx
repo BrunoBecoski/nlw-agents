@@ -29,28 +29,30 @@ export function Chat({
     handleTextareaSubmit(question)
   }
 
-  useEffect(() => {
+  function scroll() {
+    const div__element = divRef.current
     const lastItem = questionsAndAnswers.at(-1)
 
-    if (lastItem && (lastItem.type === 'question' || lastItem.text === null)) {
-      const div__element = divRef.current
+    if (div__element && lastItem) {
+      let top = 0
 
-      if (div__element) {
-        div__element.scroll({
-          behavior: 'smooth',
-          top: div__element.scrollHeight,
-        })
+      if (lastItem.type === 'question' || lastItem.text === null) {
+        top = div__element.scrollHeight
       }
-    } else if (questionsAndAnswers.length > 3) {
-      const div__element = divRef.current
 
-      if (div__element) {
-        div__element.scroll({
-          behavior: 'smooth',
-          top: div__element.scrollTop + div__element.clientHeight - 260,
-        })
+      if (lastItem.type === 'answer' && questionsAndAnswers.length > 2) {
+        top = div__element.scrollTop + div__element.clientHeight - 260
       }
+
+      div__element.scroll({
+        behavior: 'smooth',
+        top,
+      })
     }
+  }
+
+  useEffect(() => {
+    scroll()
   }, [questionsAndAnswers])
 
   return (
