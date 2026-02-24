@@ -71,7 +71,7 @@ export function Form({ handleFormSubmit }: FormProps) {
 
   return (
     <div className={`w-full pt-1 ${animation.slideBottom} relative `}>
-      <div className="-top-0.5 -z-10 absolute h-full w-full animate-bg-gradient rounded-lg bg-gradient-to-r bg-size-[150%] from-[#9572FC] via-[#43E7AD] to-[#E2D45C]" />
+      <div className="-top-0.5 -z-10 absolute h-full w-full animate-bg-gradient rounded-lg bg-linear-[to_right,#9572fc,#43e7ad,#e2d45c,#9572fc] bg-size-[200%]" />
 
       <Card className="rounded-sm border-0 bg-[#2A2634]">
         <CardHeader>
@@ -169,7 +169,7 @@ export function Form({ handleFormSubmit }: FormProps) {
               />
 
               <Button
-                className="hover:-translate-y-0.5 w-full animate-bg-gradient cursor-pointer bg-gradient-to-l bg-size-[150%] from-[#9572FC] via-[#43E7AD] to-[#E2D45C] font-bold text-black uppercase hover:shadow-[#FFF86B33] hover:shadow-md"
+                className="hover:-translate-y-0.5 w-full animate-bg-gradient cursor-pointer bg-linear-[to_right,#9572fc,#43e7ad,#e2d45c,#9572fc] bg-size-[200%] font-bold text-black uppercase hover:shadow-[#FFF86B33] hover:shadow-md"
                 disabled={form.formState.isSubmitting}
                 type="submit"
               >

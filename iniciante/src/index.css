@@ -14,7 +14,7 @@
   --animate-slide-in-left: slide-in-left 500ms linear forwards;
   --animate-slide-out-left: slide-out-left 500ms linear forwards;
 
-  --animate-bg-gradient: bg-gradient 1000ms linear infinite;
+  --animate-bg-gradient: bg-gradient 2000ms linear infinite;
 }
 
 @keyframes bg-gradient {
@@ -22,12 +22,8 @@
     background-position: 0% 50%;
   }
 
-  50% {
-    background-position: 100% 50%;
-  }
-
   100% {
-    background-position: 0% 50%;
+    background-position: 200% 50%;
   }
 }
 
