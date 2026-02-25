@@ -46,9 +46,10 @@ export function Form({ isLoadingAnswer, handleTextareaSubmit }: FormProps) {
   return (
     <UiForm {...form}>
       <form
-        className={`rounded-lg bg-gradient-to-r from-[#9572FC] via-[#43E7AD] to-[#E2D45C] pt-1 ${animation.slideBottom}`}
+        className={`relative rounded-lg ${animation.slideBottom}`}
         onSubmit={form.handleSubmit(handleForm)}
       >
+        <div className="-top-1 -z-10 absolute h-full w-full animate-bg-gradient rounded-lg bg-gradient bg-size-[200%]" />
         <Card className="rounded-lg bg-[#2A2634]">
           <CardContent className="flex flex-row items-end gap-4">
             <FormField
