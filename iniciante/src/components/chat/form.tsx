@@ -49,7 +49,7 @@ export function Form({ isLoadingAnswer, handleTextareaSubmit }: FormProps) {
         className={`relative rounded-lg ${animation.slideBottom}`}
         onSubmit={form.handleSubmit(handleForm)}
       >
-        <div className="-top-1 -z-10 absolute h-full w-full animate-bg-gradient rounded-lg bg-gradient bg-size-[200%]" />
+        <div className="-top-1 -z-10 -left-0 absolute right-0 bottom-0 animate-bg-gradient rounded-lg bg-gradient bg-size-[200%]" />
         <Card className="rounded-lg bg-[#2A2634]">
           <CardContent className="flex flex-row items-end gap-4">
             <FormField
@@ -77,9 +77,8 @@ export function Form({ isLoadingAnswer, handleTextareaSubmit }: FormProps) {
             />
 
             <Button
-              className="h-16 cursor-pointer text-md"
+              className="hover:-translate-y-0.5 h-16 animate-bg-gradient cursor-pointer bg-gradient bg-size-[200%] font-bold text-black uppercase"
               disabled={isLoadingAnswer}
-              variant="outline"
             >
               {form.formState.isSubmitting ? 'Perguntando...' : 'Perguntar'}
             </Button>
