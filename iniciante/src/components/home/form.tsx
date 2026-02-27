@@ -69,8 +69,8 @@ export function Form({ handleFormSubmit }: FormProps) {
     })
   }
   return (
-    <div className={`w-full ${animation.slideBottom} relative `}>
-      <div className="-top-1 -z-10 absolute right-0 bottom-0 left-0 animate-bg-gradient rounded-lg bg-gradient bg-size-[200%]" />
+    <div className={`w-full ${animation.slideBottom} relative`}>
+      <div className="-top-1 -z-10 absolute right-0 bottom-0 left-0 animate-bg-gradient rounded-lg bg-gradient bg-size-[200%] shadow-gradient" />
 
       <Card className="rounded-sm border-0 bg-[#2A2634]">
         <CardHeader>

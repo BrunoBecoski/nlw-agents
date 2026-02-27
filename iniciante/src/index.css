@@ -17,6 +17,8 @@
     var(--color-purple)
   );
 
+  --shadow-gradient: ;
+
   --animate-fade-in: fade-in 500ms linear forwards;
   --animate-fade-out: fade-out 500ms linear forwards;
   --animate-slide-in-bottom: slide-in-bottom 500ms linear forwards;
@@ -145,13 +147,30 @@
     @apply bg-background text-foreground;
   }
 
+  .shadow-gradient::after {
+    content: "";
+    position: absolute;
+    top: -0.5rem;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+    filter: blur(1rem);
+    height: 1rem;
+
+    background-size: 200%;
+    background-image: var(--background-image-gradient);
+    animation: var(--animate-bg-gradient);
+  }
+
   @keyframes bg-gradient {
     0% {
       background-position: 0% 50%;
     }
 
     100% {
-      background-position: 200% 50%;
+      background-position: -200% 50%;
     }
   }
 
