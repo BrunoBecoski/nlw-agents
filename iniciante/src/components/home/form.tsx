@@ -168,7 +168,7 @@ export function Form({ handleFormSubmit }: FormProps) {
               />
 
               <Button
-                className="hover:-translate-y-0.5 w-full animate-bg-gradient cursor-pointer bg-gradient bg-size-[200%] font-bold text-black uppercase hover:shadow-[#FFF86B33] hover:shadow-md"
+                className="h-10 w-full animate-bg-gradient cursor-pointer bg-gradient bg-size-[200%] font-bold text-lg text-shadow-lg text-shadow-purple text-white uppercase hover:text-shadow-[#2A2634]"
                 disabled={form.formState.isSubmitting}
                 type="submit"
               >

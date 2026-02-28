@@ -77,7 +77,7 @@ export function Form({ isLoadingAnswer, handleTextareaSubmit }: FormProps) {
             />
 
             <Button
-              className="hover:-translate-y-0.5 h-16 animate-bg-gradient cursor-pointer bg-gradient bg-size-[200%] font-bold text-black uppercase"
+              className="h-16 animate-bg-gradient cursor-pointer bg-gradient bg-size-[200%] font-bold text-lg text-shadow-lg text-shadow-purple text-white uppercase hover:text-shadow-[#2A2634]"
               disabled={isLoadingAnswer}
             >
               {form.formState.isSubmitting ? 'Perguntando...' : 'Perguntar'}
