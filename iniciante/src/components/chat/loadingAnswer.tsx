@@ -11,8 +11,7 @@ export function LoadingAnswer() {
         <Bot className="size-8 text-[#9572FC]" />
       </div>
 
-      <Card className="relative mx-12 w-fit rounded-4xl rounded-ss-none border-none bg-[#2A2634]">
-        <div className="-z-10 -top-0.5 -left-0.5 -bottom-0.5 -right-0.5 absolute animate-bg-gradient rounded-4xl rounded-ss-none bg-gradient bg-size-[200%]" />
+      <Card className="mx-12 w-fit rounded-4xl rounded-ss-none bg-[#2A2634]">
         <CardContent className="flex-1">
           <div className="whitespace-pre-line text-md leading-relaxed">
             <div className="flex animate-pulse gap-4 pt-0.5">

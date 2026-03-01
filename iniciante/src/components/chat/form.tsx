@@ -77,9 +77,11 @@ export function Form({ isLoadingAnswer, handleTextareaSubmit }: FormProps) {
             />
 
             <Button
-              className="h-16 animate-bg-gradient cursor-pointer bg-gradient bg-size-[200%] font-bold text-lg text-shadow-lg text-shadow-purple text-white uppercase hover:text-shadow-[#2A2634]"
+              className="relative h-16 animate-bg-gradient cursor-pointer bg-purple bg-size-[200%] font-bold text-md text-shadow-black text-white uppercase hover:bg-purple hover:text-shadow-lg"
               disabled={isLoadingAnswer}
             >
+              <div className="-top-0.5 -right-0.5 -bottom-0.5 -left-0.5 absolute animate-bg-gradient rounded-xl bg-size-[200%] opacity-30 blur-sm hover:bg-gradient " />
+
               {form.formState.isSubmitting ? 'Perguntando...' : 'Perguntar'}
             </Button>
           </CardContent>
