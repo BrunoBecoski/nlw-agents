@@ -16,3 +16,7 @@
 - [TypeScript](https://www.typescriptlang.org)
 - [Fastify](https://fastify.dev)
 - [PostgreSQL](https://www.postgresql.org) 
+
+# Iniciante
+
+<img src=".github/home_iniciante.gif" alt="Home Iniciante"/>
