@@ -8,7 +8,11 @@ import {
 } from 'fastify-type-provider-zod'
 import { checkDatabase } from './db/connection.ts'
 import { env } from './env.ts'
+import { createQuestionRouteMock } from './http/mock/create-question-mock.ts'
+import { createRoomRouteMock } from './http/mock/create-room-mock.ts'
+import { getRoomQuestionsRouteMock } from './http/mock/get-room-questions-mock.ts'
 import { getRoomsRouteMock } from './http/mock/get-rooms-mock.ts'
+import { uploadAudioRouteMock } from './http/mock/upload-audio-mock.ts'
 import { createQuestionRoute } from './http/routes/create-questions.ts'
 import { createRoomRoute } from './http/routes/create-room.ts'
 import { getRoomQuestionsRoute } from './http/routes/get-room-questions.ts'
@@ -40,6 +44,10 @@ if (hasDatabase) {
   app.register(uploadAudioRoute)
 } else {
   app.register(getRoomsRouteMock)
+  app.register(createRoomRouteMock)
+  app.register(getRoomQuestionsRouteMock)
+  app.register(createQuestionRouteMock)
+  app.register(uploadAudioRouteMock)
 }
 
 app.listen({ port: env.PORT }).then(() => {
