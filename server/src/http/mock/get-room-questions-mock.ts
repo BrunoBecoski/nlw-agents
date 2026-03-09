@@ -1,6 +1,8 @@
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import { z } from 'zod/v4'
 
+import dbMock from '../../../db-mock.json' with { type: 'json' }
+
 export const getRoomQuestionsRouteMock: FastifyPluginCallbackZod = (app) => {
   app.get(
     '/rooms/:roomId/questions',
@@ -14,14 +16,7 @@ export const getRoomQuestionsRouteMock: FastifyPluginCallbackZod = (app) => {
     (request) => {
       const { roomId } = request.params
 
-      const result = [
-        {
-          id: '1',
-          question: 'pergunta',
-          answer: 'resposta',
-          createdAt: new Date(),
-        },
-      ]
+      const result = [...dbMock.questions]
 
       return result
     }
