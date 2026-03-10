@@ -1,13 +1,11 @@
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 
-import dbMock from '../../../db-mock.json' with { type: 'json' }
+import { getRoomsMock } from '../../mock.ts'
 
 export const getRoomsRouteMock: FastifyPluginCallbackZod = (app) => {
   app.get('/rooms', () => {
-    const rooms = dbMock.rooms
+    const rooms = getRoomsMock()
 
-    const results = [...rooms]
-
-    return results
+    return rooms
   })
 }
