@@ -1,8 +1,23 @@
-const dbMock = {
+const dbMock: {
+  rooms: {
+    id: string
+    createdAt: string
+    name: string
+    description: string | undefined
+    questionsCount: number
+  }[]
+  questions: {
+    id: string
+    createdAt: string
+    roomId: string
+    question: string
+    answer: string
+  }[]
+} = {
   rooms: [
     {
       id: '881ac01c-237b-4fc7-b083-b5906247f896',
-      createAt: 'Mon Mar 09 2026 18:00:00 GMT-0300',
+      createdAt: 'Mon Mar 09 2026 18:00:00 GMT-0300',
       name: 'Sala do Bruno',
       description: 'Descrição',
       questionsCount: 1,
@@ -25,6 +40,32 @@ export function getRoomsMock() {
   return dbMock.rooms
 }
 
-export function getQuestionsMock() {
-  return dbMock.questions
+export function getQuestionsMock(roomId: string) {
+  const questionsFiltered = dbMock.questions.filter(
+    (question) => question.roomId === roomId
+  )
+
+  return questionsFiltered
+}
+
+export function createRoomMock({
+  name,
+  description,
+}: {
+  name: string
+  description?: string
+}) {
+  const newRoom = {
+    id: String(crypto.randomUUID()),
+    name,
+    description,
+    createdAt: String(new Date()),
+    questionsCount: 0,
+  }
+
+  dbMock.rooms = [...dbMock.rooms, newRoom]
+
+  const roomId = newRoom.id
+
+  return roomId
 }

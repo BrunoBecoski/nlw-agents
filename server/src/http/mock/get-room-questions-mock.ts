@@ -15,7 +15,7 @@ export const getRoomQuestionsRouteMock: FastifyPluginCallbackZod = (app) => {
     (request) => {
       const { roomId } = request.params
 
-      const questions = getQuestionsMock()
+      const questions = getQuestionsMock(roomId)
 
       return questions
     }
