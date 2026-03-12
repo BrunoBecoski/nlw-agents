@@ -1,5 +1,6 @@
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import { z } from 'zod/v4'
+import { createQuestionMock } from '../../mock.ts'
 
 export const createQuestionRouteMock: FastifyPluginCallbackZod = (app) => {
   app.post(
@@ -18,9 +19,11 @@ export const createQuestionRouteMock: FastifyPluginCallbackZod = (app) => {
       const { roomId } = request.params
       const { question } = request.body
 
+      const { questionId, answer } = createQuestionMock({ roomId, question })
+
       return reply.status(201).send({
-        questionId: 'c',
-        answer: 'resposta',
+        questionId,
+        answer,
       })
     }
   )
