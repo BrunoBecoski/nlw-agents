@@ -1,37 +1,24 @@
-import { reset, seed } from "drizzle-seed";
+import { reset, seed } from 'drizzle-seed'
 
-import { db, sql } from "./connection.ts";
-import { schema } from "./schema/index.ts";
+import { db, sql } from './connection.ts'
+import { schema } from './schema/index.ts'
 
-await reset(db, schema);
+await reset(db, schema)
 
-await seed(db, schema).refine((f) => {
-	return {
-		rooms: {
-			count: 5,
-			columns: {
-				name: f.companyName(),
-				description: f.loremIpsum(),
-				createdAt: f.date({
-					maxDate: new Date(2025, 0, 1),
-					minDate: new Date(),
-				}),
-			},
-		},
-		questions: {
-			count: 20,
-			columns: {
-				question: f.loremIpsum({ sentencesCount: 1 }),
-				answer: f.loremIpsum({ sentencesCount: 3 }),
-				createdAt: f.date({
-					maxDate: new Date(2025, 0, 1),
-					minDate: new Date(),
-				}),
-			},
-		},
-	};
-});
+const dummyVector = Array.from({ length: 768 }, () => Math.random())
 
-await sql.end();
+await seed(db, { rooms: schema.rooms, questions: schema.questions })
 
-console.log("🌱 >>> Database seeded");
+const allRooms = await db.select().from(schema.rooms)
+
+for (const room of allRooms) {
+  db.insert(schema.audioChunks).values({
+    roomId: room.id,
+    transcription: 'Transcrição de teste',
+    embeddings: dummyVector,
+  })
+}
+
+await sql.end()
+
+console.log('🌱 >>> Database seeded')
