@@ -1,49 +1,37 @@
-const dbMock: {
-  rooms: {
-    id: string
-    createdAt: string
-    name: string
-    description: string | undefined
-    questionsCount: number
-  }[]
+import rawData from './data.json' with { type: 'json' }
+
+type dbMockProps = {
+  id: string
+  name: string
+  description?: string
   questions: {
     id: string
-    createdAt: string
-    roomId: string
     question: string
     answer: string | null
   }[]
-} = {
-  rooms: [
-    {
-      id: '881ac01c-237b-4fc7-b083-b5906247f896',
-      createdAt: 'Mon Mar 09 2026 18:00:00 GMT-0300',
-      name: 'Sala do Bruno',
-      description: 'Descrição',
-      questionsCount: 1,
-    },
-  ],
+}[]
 
-  questions: [
-    {
-      id: '9031a80d-c1fe-451b-a1da-bd03bb2efa53',
-      createdAt: 'Mon Mar 09 2026 19:00:00 GMT-0300',
-      roomId: '881ac01c-237b-4fc7-b083-b5906247f896',
-      question: 'O que é react?',
-      answer:
-        "Com base no conteúdo da aula, 'React é ima biblioteca que serve para a construção de interfaces'. Conforme o contexto, ele constrói 'interfaces altamente componentizada' utilizando JSX, HTML e CSS.",
-    },
-  ],
-}
+let dbMock: dbMockProps = rawData
 
 export function getRoomsMock() {
-  return dbMock.rooms
+  const rooms = dbMock.map((room) => ({
+    id: room.id,
+    name: room.name,
+    description: room.description,
+    questionsCount: room.questions.length,
+  }))
+
+  return rooms
 }
 
 export function getQuestionsMock(roomId: string) {
-  const questionsFiltered = dbMock.questions.filter(
-    (question) => question.roomId === roomId
-  )
+  const roomFound = dbMock.find((room) => room.id === roomId)
+
+  if (roomFound === undefined) {
+    return
+  }
+
+  const questionsFiltered = roomFound.questions
 
   return questionsFiltered
 }
@@ -60,10 +48,10 @@ export function createRoomMock({
     createdAt: String(new Date()),
     name,
     description,
-    questionsCount: 0,
+    questions: [],
   }
 
-  dbMock.rooms = [...dbMock.rooms, newRoom]
+  dbMock = [...dbMock, newRoom]
 
   const roomId = newRoom.id
 
@@ -85,17 +73,17 @@ export function createQuestionMock({
     answer: null,
   }
 
-  dbMock.questions = [...dbMock.questions, newQuestion]
+  const roomFound = dbMock.find((room) => room.id === roomId)
 
-  const rooms = dbMock.rooms.map((room) => {
-    if (room.id === roomId) {
-      room.questionsCount += 1
-    }
+  if (roomFound === undefined) {
+    return
+  }
 
-    return room
-  })
+  roomFound.questions = [...roomFound.questions, newQuestion]
 
-  dbMock.rooms = rooms
+  const roomIndex = dbMock.findIndex((room) => room.id === roomId)
+
+  dbMock.splice(roomIndex, 1, roomFound)
 
   return {
     questionId: newQuestion.id,
