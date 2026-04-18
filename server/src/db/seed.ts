@@ -1,6 +1,21 @@
-import { reset, seed } from 'drizzle-seed'
+import { reset } from 'drizzle-seed'
+
+import rawData from './../data.json' with { type: 'json' }
 import { db, sql } from './connection.ts'
 import { schema } from './schema/index.ts'
+
+type dbMockProps = {
+  id: string
+  name: string
+  description?: string
+  questions: {
+    id: string
+    question: string
+    answer: string | null
+  }[]
+}[]
+
+const dbMock: dbMockProps = rawData
 
 await reset(db, schema)
 
@@ -9,41 +24,35 @@ const now = new Date()
 const oneYearAgo = new Date()
 oneYearAgo.setFullYear(now.getFullYear() - 1)
 
-await seed(db, { rooms: schema.rooms, questions: schema.questions }).refine(
-  (f) => ({
-    rooms: {
-      count: 5,
-      columns: {
-        name: f.companyName(),
-        description: f.loremIpsum(),
-        createdAt: f.date({ minDate: now, maxDate: oneYearAgo }),
-      },
-      with: {
-        questions: [
-          {
-            weight: 1,
-            count: 3,
-            columns: {
-              question: f.loremIpsum(),
-              answer: f.loremIpsum(),
-              createdAt: f.date({ minDate: now, maxDate: oneYearAgo }),
-            },
-          },
-        ] as any,
-      },
-    },
-  })
+await db.insert(schema.rooms).values(
+  dbMock.map((room) => ({
+    id: room.id,
+    name: room.name,
+    description: room.description,
+    createdAt: now,
+  }))
 )
 
-const allRooms = await db.select().from(schema.rooms)
+await db.insert(schema.questions).values(
+  dbMock.flatMap((room) =>
+    room.questions.map((question) => ({
+      roomId: room.id,
+      id: question.id,
+      question: question.question,
+      answer: question.answer,
+      createdAt: now,
+    }))
+  )
+)
 
-for (const room of allRooms) {
-  db.insert(schema.audioChunks).values({
+await db.insert(schema.audioChunks).values(
+  dbMock.map((room) => ({
     roomId: room.id,
-    transcription: 'Transcrição de teste',
+    transcription: `Transcrição realista para: ${room.name}`,
     embeddings: dummyVector,
-  })
-}
+  }))
+)
 
 await sql.end()
+
 console.log('🌱 >>> Database seeded')
