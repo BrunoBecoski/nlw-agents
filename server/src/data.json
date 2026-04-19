@@ -2,11 +2,13 @@
   {
     "id": "3c46f109-e58a-4699-b40a-eb34d54e8b2d",
     "name": "Sala do Bruno",
+    "daysAgo": 365,
     "questions": [
       {
         "id": "31826bd9-7c1c-4a83-a423-43dabcab9679",
         "question": "O que é react?",
-        "answer": "Com base no conteúdo da aula, 'React é ima biblioteca que serve para a construção de interfaces'. Conforme o contexto, ele constrói 'interfaces altamente componentizada' utilizando JSX, HTML e CSS."
+        "answer": "Com base no conteúdo da aula, 'React é ima biblioteca que serve para a construção de interfaces'. Conforme o contexto, ele constrói 'interfaces altamente componentizada' utilizando JSX, HTML e CSS.",
+        "daysAgo": 300
       }
     ]
   },
@@ -14,16 +16,19 @@
     "id": "14ae43ed-6bea-4ea0-ac60-1f4f25c2d8b1",
     "name": "Refatoração de Componentes React",
     "description": "Discussão sobre como reduzir a complexidade de hooks e melhorar o re-render.",
+    "daysAgo": 150,
     "questions": [
       {
         "id": "3d7370a0-686d-41d5-aa21-115cd5a2ec63",
         "question": "Por que usar useMemo aqui?",
-        "answer": "Para evitar cálculos caros em cada renderização."
+        "answer": "Para evitar cálculos caros em cada renderização.",
+        "daysAgo": 140
       },
       {
         "id": "ed0632ed-8e65-445f-8c84-3a19922ecd73",
         "question": "Como tratar o erro do useEffect?",
-        "answer": "Utilizando um bloco try/catch dentro da função assíncrona"
+        "answer": "Utilizando um bloco try/catch dentro da função assíncrona",
+        "daysAgo": 135
       }
     ]
   },
@@ -31,11 +36,13 @@
     "id": "570a65d3-673d-49ef-b6c2-32fada70583e",
     "name": "Review de Arquitetura NestJS",
     "description": "Análise da estrutura de módulos e injeção de dependências.",
+    "daysAgo": 3,
     "questions": [
       {
         "id": "750890ec-3c8a-4a49-8bf5-a4eaf7955ef9",
         "question": "Onde fica a regra de negócio?",
-        "answer": null
+        "answer": null,
+        "daysAgo": 1
       }
     ]
   }

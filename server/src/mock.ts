@@ -4,20 +4,36 @@ type dbMockProps = {
   id: string
   name: string
   description?: string
+  createdAt: Date
   questions: {
     id: string
     question: string
     answer: string | null
+    createdAt: Date
   }[]
 }[]
 
-let dbMock: dbMockProps = rawData
+function getPastDate(daysAgo: number): Date {
+  const date = new Date()
+  date.setDate(date.getDate() - daysAgo)
+  return date
+}
+
+let dbMock: dbMockProps = rawData.map((room) => ({
+  ...room,
+  createdAt: getPastDate(room.daysAgo),
+  questions: room.questions.map((question) => ({
+    ...question,
+    createdAt: getPastDate(question.daysAgo),
+  })),
+}))
 
 export function getRoomsMock() {
   const rooms = dbMock.map((room) => ({
     id: room.id,
     name: room.name,
     description: room.description,
+    createdAt: room.createdAt,
     questionsCount: room.questions.length,
   }))
 
@@ -45,7 +61,7 @@ export function createRoomMock({
 }) {
   const newRoom = {
     id: String(crypto.randomUUID()),
-    createdAt: String(new Date()),
+    createdAt: new Date(),
     name,
     description,
     questions: [],
@@ -67,7 +83,7 @@ export function createQuestionMock({
 }) {
   const newQuestion = {
     id: String(crypto.randomUUID()),
-    createdAt: String(new Date()),
+    createdAt: new Date(),
     roomId,
     question,
     answer: null,

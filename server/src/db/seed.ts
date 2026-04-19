@@ -8,10 +8,12 @@ type dbMockProps = {
   id: string
   name: string
   description?: string
+  daysAgo: number
   questions: {
     id: string
     question: string
     answer: string | null
+    daysAgo: number
   }[]
 }[]
 
@@ -20,16 +22,19 @@ const dbMock: dbMockProps = rawData
 await reset(db, schema)
 
 const dummyVector = Array.from({ length: 768 }, () => Math.random())
-const now = new Date()
-const oneYearAgo = new Date()
-oneYearAgo.setFullYear(now.getFullYear() - 1)
+
+function getPastDate(daysAgo: number): Date {
+  const date = new Date()
+  date.setDate(date.getDate() - daysAgo)
+  return date
+}
 
 await db.insert(schema.rooms).values(
   dbMock.map((room) => ({
     id: room.id,
     name: room.name,
     description: room.description,
-    createdAt: now,
+    createdAt: getPastDate(room.daysAgo),
   }))
 )
 
@@ -40,7 +45,7 @@ await db.insert(schema.questions).values(
       id: question.id,
       question: question.question,
       answer: question.answer,
-      createdAt: now,
+      createdAt: getPastDate(question.daysAgo),
     }))
   )
 )
