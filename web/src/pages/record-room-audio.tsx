@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
-
+import { Stopwatch } from '@/components/stopwatch'
 import { Button } from '@/components/ui/button'
 
 type RecordRoomParams = {
@@ -20,7 +20,7 @@ export function RecordRoomAudio() {
 
   const [isRecording, setIsRecording] = useState(false)
   const [recording, setRecording] = useState('')
-  const [timer, setTimer] = useState(0)
+  const [time, setTime] = useState(0)
 
   // async function uploadAudio(audio: Blob) {
   //   const formData = new FormData()
@@ -91,14 +91,14 @@ export function RecordRoomAudio() {
   useEffect(() => {
     if (isRecording === true) {
       intervalRef.current = setInterval(() => {
-        setTimer((prev) => prev + 1)
+        setTime((prev) => prev + 1)
       }, 1000)
     } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
         intervalRef.current = null
       }
-      setTimer(0)
+      setTime(0)
     }
 
     return () => {
@@ -120,13 +120,14 @@ export function RecordRoomAudio() {
             Pausar gravação
           </Button>
           <p className="animate-pulse text-red-500 italic">Gravando...</p>
-          <span>{timer}</span>
         </>
       ) : (
         <Button className="cursor-pointer" onClick={startRecording} size="lg">
           Gravar áudio
         </Button>
       )}
+
+      <Stopwatch time={time} />
 
       {recording && <audio controls src={recording} />}
     </div>
