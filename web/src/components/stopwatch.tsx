@@ -5,31 +5,38 @@ interface StopwatchProps {
 }
 
 export function Stopwatch({ time }: StopwatchProps) {
-  const [hours, setHours] = useState('00')
-  const [minutes, setMinutes] = useState('00')
   const [seconds, setSeconds] = useState('00')
+  const [minutes, setMinutes] = useState('00')
 
   useEffect(() => {
-    if (time > 0) {
-      const currentTime = time
+    const currentTime = time
 
-      const currentSeconds = currentTime.toString().padStart(2, '0')
-      const currentMinutes = '00'
-      const currentHours = '00'
+    if (currentTime > 0) {
+      setSeconds((currentTime % 60).toString().padStart(2, '0'))
 
-      setSeconds(currentSeconds)
-      setMinutes(currentMinutes)
-      setHours(currentHours)
+      setMinutes(
+        Math.floor(currentTime / 60)
+          .toString()
+          .padStart(2, '0')
+      )
     }
   }, [time])
 
   return (
-    <div>
-      <span>{hours}</span>
-      <strong>:</strong>
-      <span>{minutes}</span>
-      <strong>:</strong>
-      <span>{seconds}</span>
+    <div className="flex items-center gap-3">
+      <span
+        className="repeat-1 flex size-18 animate-pulse items-center justify-center font-bold text-6xl"
+        key={minutes}
+      >
+        {minutes}
+      </span>
+      <span className="font-bold text-6xl ">:</span>
+      <span
+        className="repeat-1 flex size-18 animate-pulse items-center justify-center font-bold text-6xl"
+        key={seconds}
+      >
+        {seconds}
+      </span>
     </div>
   )
 }
