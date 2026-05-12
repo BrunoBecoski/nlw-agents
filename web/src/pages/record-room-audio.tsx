@@ -92,7 +92,7 @@ export function RecordRoomAudio() {
     if (isRecording === true) {
       intervalRef.current = setInterval(() => {
         setTime((prev) => prev + 1)
-      }, 1000)
+      }, 10)
     } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
