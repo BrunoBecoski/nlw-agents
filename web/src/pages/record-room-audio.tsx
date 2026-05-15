@@ -1,6 +1,6 @@
-import { Mic, MicOff, Pause, Play, Square } from 'lucide-react'
+import { ArrowLeft, Mic, MicOff, Pause, Play, Square } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Stopwatch } from '@/components/stopwatch'
 import { Button } from '@/components/ui/button'
 
@@ -16,33 +16,40 @@ const isRecordingSupported =
   typeof window.MediaRecorder === 'function'
 
 export function RecordRoomAudio() {
+  const navigate = useNavigate()
+
   const params = useParams<RecordRoomParams>()
 
   const recorderRef = useRef<MediaRecorder | null>(null)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
+  const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState<Status>('none')
   const [isRecording, setIsRecording] = useState(false)
   const [recording, setRecording] = useState('')
   const [time, setTime] = useState(0)
 
-  // async function uploadAudio(audio: Blob) {
-  //   const formData = new FormData()
+  async function uploadAudio() {
+    setIsLoading(true)
+    const audio = await fetch(recording).then((res) => res.blob())
 
-  //   formData.append('file', audio, 'audio.webm')
+    const formData = new FormData()
 
-  //   const response = await fetch(
-  //     `http://localhost:3333/rooms/${params.roomId}/audio`,
-  //     {
-  //       method: 'POST',
-  //       body: formData,
-  //     }
-  //   )
+    formData.append('file', audio, 'audio.webm')
 
-  //   const result = await response.json()
+    const response = await fetch(
+      `http://localhost:3333/rooms/${params.roomId}/audio`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    )
 
-  //   console.log(result)
-  // }
+    const result = await response.json()
+
+    setIsLoading(false)
+    console.log(result)
+  }
 
   function createRecorder(audio: MediaStream) {
     recorderRef.current = new MediaRecorder(audio, {
@@ -147,62 +154,87 @@ export function RecordRoomAudio() {
   }
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-3">
-      {(status === 'none' || status === 'stopped') && (
-        <Button
-          className="cursor-pointer"
-          onClick={startRecording}
-          size="icon"
-          title="Iniciar gravação"
-        >
-          <Play className="size-16" />
-        </Button>
-      )}
-
-      {isRecording ? (
-        <Mic className="size-36 animate-pulse" />
-      ) : (
-        <MicOff className="size-36" />
-      )}
-
-      <Stopwatch time={time} />
-      {(status === 'recording' || status === 'paused') && (
-        <div>
-          <div className="flex gap-10">
-            <Button
-              className="cursor-pointer"
-              disabled={status !== 'paused'}
-              onClick={resumeRecording}
-              size="icon"
-              title="Continuar gravação"
-            >
-              <Play className="size-16" />
-            </Button>
-
-            <Button
-              className="cursor-pointer"
-              disabled={status !== 'recording'}
-              onClick={pauseRecording}
-              size="icon"
-              title="Pausar gravação"
-            >
-              <Pause className="size-16" />
-            </Button>
-
-            <Button
-              className="cursor-pointer"
-              disabled={status !== 'recording' && status !== 'paused'}
-              onClick={stopRecording}
-              size="icon"
-              title="Parar gravação"
-            >
-              <Square className="size-16" />
-            </Button>
-          </div>
+    <div className="min-h-screen bg-zinc-950">
+      <div className="container mx-auto max-w-4xl px-4 py-8">
+        <div className="mb-4 flex items-center justify-between">
+          <Button
+            className="cursor-pointer"
+            onClick={() => navigate(-1)}
+            variant="outline"
+          >
+            <ArrowLeft className="mr-2 size-4" />
+            Voltar ao Início
+          </Button>
         </div>
-      )}
 
-      {status === 'stopped' && <audio controls src={recording} />}
+        <div className="flex flex-col items-center gap-8">
+          <Button
+            className="cursor-pointer"
+            onClick={startRecording}
+            size="icon"
+            title="Iniciar gravação"
+          >
+            <Play className="size-16" />
+          </Button>
+
+          {isRecording ? (
+            <Mic className="size-36 animate-pulse" />
+          ) : (
+            <MicOff className="size-36" />
+          )}
+
+          <Stopwatch time={time} />
+          {(status === 'recording' || status === 'paused') && (
+            <div>
+              <div className="flex gap-10">
+                <Button
+                  className="cursor-pointer"
+                  disabled={status !== 'paused'}
+                  onClick={resumeRecording}
+                  size="icon"
+                  title="Continuar gravação"
+                >
+                  <Play className="size-16" />
+                </Button>
+
+                <Button
+                  className="cursor-pointer"
+                  disabled={status !== 'recording'}
+                  onClick={pauseRecording}
+                  size="icon"
+                  title="Pausar gravação"
+                >
+                  <Pause className="size-16" />
+                </Button>
+
+                <Button
+                  className="cursor-pointer"
+                  disabled={status !== 'recording' && status !== 'paused'}
+                  onClick={stopRecording}
+                  size="icon"
+                  title="Parar gravação"
+                >
+                  <Square className="size-16" />
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {status === 'stopped' && (
+            <>
+              <audio controls src={recording} />
+
+              <Button
+                className="cursor-pointer"
+                disabled={isLoading}
+                onClick={uploadAudio}
+              >
+                Enviar gravação
+              </Button>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
