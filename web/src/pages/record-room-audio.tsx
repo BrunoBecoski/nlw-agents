@@ -3,6 +3,13 @@ import { useEffect, useRef, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Stopwatch } from '@/components/stopwatch'
 import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 type Status = 'none' | 'recording' | 'paused' | 'stopped'
 
@@ -167,73 +174,84 @@ export function RecordRoomAudio() {
           </Button>
         </div>
 
-        <div className="flex flex-col items-center gap-8">
-          <Button
-            className="cursor-pointer"
-            onClick={startRecording}
-            size="icon"
-            title="Iniciar gravação"
-          >
-            <Play className="size-16" />
-          </Button>
+        <Card className="mx-auto w-md">
+          <CardHeader>
+            <CardTitle>Grave um audio</CardTitle>
 
-          {isRecording ? (
-            <Mic className="size-36 animate-pulse" />
-          ) : (
-            <MicOff className="size-36" />
-          )}
+            <CardDescription>
+              Grave um audio para que a IA possa responder as perguntas da sala
+            </CardDescription>
+          </CardHeader>
 
-          <Stopwatch time={time} />
-          {(status === 'recording' || status === 'paused') && (
-            <div>
-              <div className="flex gap-10">
-                <Button
-                  className="cursor-pointer"
-                  disabled={status !== 'paused'}
-                  onClick={resumeRecording}
-                  size="icon"
-                  title="Continuar gravação"
-                >
-                  <Play className="size-16" />
-                </Button>
+          <CardContent className="flex flex-col items-center gap-6">
+            <Button
+              className="cursor-pointer"
+              onClick={startRecording}
+              size="icon"
+              title="Iniciar gravação"
+            >
+              <Play className="size-12" />
+            </Button>
 
-                <Button
-                  className="cursor-pointer"
-                  disabled={status !== 'recording'}
-                  onClick={pauseRecording}
-                  size="icon"
-                  title="Pausar gravação"
-                >
-                  <Pause className="size-16" />
-                </Button>
+            {isRecording ? (
+              <Mic className="size-26 animate-pulse" />
+            ) : (
+              <MicOff className="size-26" />
+            )}
 
-                <Button
-                  className="cursor-pointer"
-                  disabled={status !== 'recording' && status !== 'paused'}
-                  onClick={stopRecording}
-                  size="icon"
-                  title="Parar gravação"
-                >
-                  <Square className="size-16" />
-                </Button>
+            {status !== 'stopped' && <Stopwatch time={time} />}
+
+            {(status === 'recording' || status === 'paused') && (
+              <div>
+                <div className="flex gap-10">
+                  <Button
+                    className="cursor-pointer"
+                    disabled={status !== 'paused'}
+                    onClick={resumeRecording}
+                    size="icon"
+                    title="Continuar gravação"
+                  >
+                    <Play className="size-12" />
+                  </Button>
+
+                  <Button
+                    className="cursor-pointer"
+                    disabled={status !== 'recording'}
+                    onClick={pauseRecording}
+                    size="icon"
+                    title="Pausar gravação"
+                  >
+                    <Pause className="size-12" />
+                  </Button>
+
+                  <Button
+                    className="cursor-pointer"
+                    disabled={status !== 'recording' && status !== 'paused'}
+                    onClick={stopRecording}
+                    size="icon"
+                    title="Parar gravação"
+                  >
+                    <Square className="size-12" />
+                  </Button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {status === 'stopped' && (
-            <>
-              <audio controls src={recording} />
+            {status === 'stopped' && (
+              <>
+                <audio controls src={recording} />
 
-              <Button
-                className="cursor-pointer"
-                disabled={isLoading}
-                onClick={uploadAudio}
-              >
-                Enviar gravação
-              </Button>
-            </>
-          )}
-        </div>
+                <Button
+                  className="cursor-pointer"
+                  disabled={isLoading}
+                  onClick={uploadAudio}
+                >
+                  Enviar gravação
+                </Button>
+              </>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

@@ -36,21 +36,21 @@ export function Stopwatch({ time }: StopwatchProps) {
   return (
     <div className="flex items-center gap-3">
       <span
-        className="repeat-1 flex size-18 items-center justify-center font-bold text-6xl"
+        className="repeat-1 flex size-18 items-center justify-center font-bold text-4xl"
         key={`${minutes}_minutes`}
       >
         {minutes}
       </span>
-      <span className="font-bold text-6xl ">:</span>
+      <span className="font-bold text-4xl ">:</span>
       <span
-        className="repeat-1 flex size-18 items-center justify-center font-bold text-6xl"
+        className="repeat-1 flex size-18 items-center justify-center font-bold text-4xl"
         key={`${seconds}_seconds`}
       >
         {seconds}
       </span>
-      <span className="font-bold text-6xl ">:</span>
+      <span className="font-bold text-4xl ">:</span>
       <span
-        className="repeat-1 flex size-18 items-center justify-center font-bold text-6xl"
+        className="repeat-1 flex size-18 items-center justify-center font-bold text-4xl"
         key={`${centiseconds}_centiseconds`}
       >
         {centiseconds}
