@@ -194,9 +194,9 @@ export function RecordRoomAudio() {
             </Button>
 
             {isRecording ? (
-              <Mic className="size-26 animate-pulse" />
+              <Mic className="size-26 animate-pulse text-white" />
             ) : (
-              <MicOff className="size-26" />
+              <MicOff className="size-26 text-white" />
             )}
 
             {status !== 'stopped' && <Stopwatch time={time} />}
