@@ -1,4 +1,4 @@
-import { ArrowLeft, Mic, MicOff, Pause, Play, Square } from 'lucide-react'
+import { ArrowLeft, Pause, Play, Radio, Square } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Stopwatch } from '@/components/stopwatch'
@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
 type Status = 'none' | 'recording' | 'paused' | 'stopped'
 
@@ -179,74 +180,85 @@ export function RecordRoomAudio() {
             <CardTitle>Grave um audio</CardTitle>
 
             <CardDescription>
-              Grave um audio para que a IA possa responder as perguntas da sala
+              Grave um audio para que a I.A. gera as respondas para as
+              perguntas.
             </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-col items-center gap-6">
-            <Button
-              className="cursor-pointer"
-              onClick={startRecording}
-              size="icon"
-              title="Iniciar gravação"
-            >
-              <Play className="size-12" />
-            </Button>
+            <Radio
+              className={cn(
+                'size-24 text-white',
+                status === 'recording' && 'animate-pulse text-red-500'
+              )}
+            />
 
-            {isRecording ? (
-              <Mic className="size-26 animate-pulse text-white" />
-            ) : (
-              <MicOff className="size-26 text-white" />
-            )}
-
-            {status !== 'stopped' && <Stopwatch time={time} />}
-
-            {(status === 'recording' || status === 'paused') && (
-              <div>
-                <div className="flex gap-10">
+            {status !== 'stopped' && (
+              <div className="flex h-[54px] w-full justify-between rounded-full bg-white">
+                {(status === 'none' || status === 'paused') && (
                   <Button
                     className="cursor-pointer"
-                    disabled={status !== 'paused'}
-                    onClick={resumeRecording}
+                    onClick={
+                      status === 'paused' ? resumeRecording : startRecording
+                    }
                     size="icon"
-                    title="Continuar gravação"
+                    title={
+                      status === 'paused'
+                        ? 'Retornar gravação'
+                        : 'Iniciar gravação'
+                    }
+                    variant="icon"
                   >
-                    <Play className="size-12" />
+                    <Play className="size-8" />
                   </Button>
+                )}
 
+                {status === 'recording' && (
                   <Button
                     className="cursor-pointer"
-                    disabled={status !== 'recording'}
                     onClick={pauseRecording}
                     size="icon"
                     title="Pausar gravação"
+                    variant="icon"
                   >
-                    <Pause className="size-12" />
+                    <Pause className="size-8" />
                   </Button>
+                )}
 
-                  <Button
-                    className="cursor-pointer"
-                    disabled={status !== 'recording' && status !== 'paused'}
-                    onClick={stopRecording}
-                    size="icon"
-                    title="Parar gravação"
-                  >
-                    <Square className="size-12" />
-                  </Button>
-                </div>
+                <Stopwatch time={time} />
+
+                <Button
+                  className="cursor-pointer"
+                  disabled={status === 'none'}
+                  onClick={stopRecording}
+                  size="icon"
+                  title="Parar gravação"
+                  variant="icon"
+                >
+                  <Square className="size-8" />
+                </Button>
               </div>
             )}
 
             {status === 'stopped' && (
               <>
-                <audio controls src={recording} />
+                <audio className="w-full" controls src={recording} />
 
                 <Button
                   className="cursor-pointer"
                   disabled={isLoading}
                   onClick={uploadAudio}
+                  size="lg"
                 >
                   Enviar gravação
+                </Button>
+
+                <Button
+                  className="cursor-pointer"
+                  onClick={startRecording}
+                  title="Iniciar gravação"
+                >
+                  Começar nova gravação
                 </Button>
               </>
             )}

@@ -34,29 +34,27 @@ export function Stopwatch({ time }: StopwatchProps) {
   }, [time])
 
   return (
-    <div className="h-[54px] w-[300px] rounded-full bg-white">
-      <div className="flex h-full w-full items-center justify-center font-bold text-4xl text-primary-foreground">
-        <span
-          className="flex size-14 items-center justify-center"
-          key={`${minutes}_minutes`}
-        >
-          {minutes}
-        </span>
-        <span>:</span>
-        <span
-          className="flex size-14 items-center justify-center"
-          key={`${seconds}_seconds`}
-        >
-          {seconds}
-        </span>
-        <span>:</span>
-        <span
-          className="flex size-14 items-center justify-center"
-          key={`${centiseconds}_centiseconds`}
-        >
-          {centiseconds}
-        </span>
-      </div>
+    <div className="flex h-full w-full items-center justify-center text-3xl text-primary-foreground">
+      <span
+        className="flex size-14 items-center justify-center"
+        key={`${minutes}_minutes`}
+      >
+        {minutes}
+      </span>
+      <span>:</span>
+      <span
+        className="flex size-14 items-center justify-center"
+        key={`${seconds}_seconds`}
+      >
+        {seconds}
+      </span>
+      <span>:</span>
+      <span
+        className="flex size-14 items-center justify-center"
+        key={`${centiseconds}_centiseconds`}
+      >
+        {centiseconds}
+      </span>
     </div>
   )
 }
