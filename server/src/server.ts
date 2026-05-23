@@ -10,11 +10,13 @@ import { checkDatabase } from './db/connection.ts'
 import { env } from './env.ts'
 import { createQuestionRouteMock } from './http/mock/create-question-mock.ts'
 import { createRoomRouteMock } from './http/mock/create-room-mock.ts'
+import { getRoomRouteMock } from './http/mock/get-room-mock.ts'
 import { getRoomQuestionsRouteMock } from './http/mock/get-room-questions-mock.ts'
 import { getRoomsRouteMock } from './http/mock/get-rooms-mock.ts'
 import { uploadAudioRouteMock } from './http/mock/upload-audio-mock.ts'
 import { createQuestionRoute } from './http/routes/create-questions.ts'
 import { createRoomRoute } from './http/routes/create-room.ts'
+import { getRoomRoute } from './http/routes/get-room.ts'
 import { getRoomQuestionsRoute } from './http/routes/get-room-questions.ts'
 import { getRoomsRoute } from './http/routes/get-rooms.ts'
 import { uploadAudioRoute } from './http/routes/upload-audio.ts'
@@ -37,12 +39,14 @@ app.get('/health', () => {
 const hasDatabase = await checkDatabase()
 
 if (hasDatabase) {
+  app.register(getRoomRoute)
   app.register(getRoomsRoute)
   app.register(createRoomRoute)
   app.register(getRoomQuestionsRoute)
   app.register(createQuestionRoute)
   app.register(uploadAudioRoute)
 } else {
+  app.register(getRoomRouteMock)
   app.register(getRoomsRouteMock)
   app.register(createRoomRouteMock)
   app.register(getRoomQuestionsRouteMock)

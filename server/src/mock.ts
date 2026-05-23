@@ -28,6 +28,12 @@ let dbMock: dbMockProps = rawData.map((room) => ({
   })),
 }))
 
+export function getRoomMock(id: string) {
+  const room = dbMock.find((rooms) => rooms.id === id)
+
+  return room
+}
+
 export function getRoomsMock() {
   const rooms = dbMock.map((room) => ({
     id: room.id,
