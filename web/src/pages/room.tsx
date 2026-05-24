@@ -1,6 +1,5 @@
 import { ArrowLeft, Radio } from 'lucide-react'
 import { Link, Navigate, useParams } from 'react-router-dom'
-
 import { QuestionForm } from '@/components/question-form'
 import { QuestionList } from '@/components/question-list'
 import { Button } from '@/components/ui/button'
@@ -19,7 +18,11 @@ export function Room() {
 
   const { data } = useRoom(params.roomId)
 
-  console.log(data)
+  if (!data) {
+    return <Navigate replace to="/" />
+  }
+
+  document.title = `Let me Ask | ${data.name}`
 
   return (
     <div className="min-h-screen bg-zinc-950">
@@ -40,16 +43,15 @@ export function Room() {
               </Button>
             </Link>
           </div>
-
-          <h1 className="mb-2 font-bold text-3xl text-foreground">
-            Sala de Perguntas
+          <h1 className="mt-10 mb-4 text-center font-bold text-4xl text-foreground">
+            {data.name}
           </h1>
-
-          <p className="text-muted-foreground">
+          <p className="text-center text-lg text-muted-foreground">
+            {data.description}
+          </p>
+          <p className="mt-10 text-muted-foreground">
             Faça perguntas e receba respostas com IA
           </p>
-
-          {/* <span>{params}</span> */}
         </div>
         <div className="mb-8">
           <QuestionForm roomId={params.roomId} />

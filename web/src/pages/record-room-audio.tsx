@@ -56,7 +56,6 @@ export function RecordRoomAudio() {
     const result = await response.json()
 
     setIsLoading(false)
-    console.log(result)
   }
 
   function createRecorder(audio: MediaStream) {

@@ -9,7 +9,7 @@ export function useRoom(id: string) {
       const response = await fetch(`http://localhost:3333/room/${id}`)
       const result: GetRoomResponse = await response.json()
 
-      return result
+      return result[0]
     },
   })
 }

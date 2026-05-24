@@ -1,6 +1,6 @@
-export type GetRoomResponse = {
+export type GetRoomResponse = Array<{
   id: string
   name: string
   description: string
   createdAt: string
-}
+}>
