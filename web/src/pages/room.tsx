@@ -9,7 +9,11 @@ type RoomParams = {
   roomId: string
 }
 
-export function Room() {
+interface RoomProps {
+  ref: React.RefObject<HTMLDivElement | null>
+}
+
+export function Room({ ref }: RoomProps) {
   const params = useParams<RoomParams>()
 
   if (!params.roomId) {
@@ -25,7 +29,7 @@ export function Room() {
   document.title = `Let me Ask | ${data.name}`
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-zinc-950" ref={ref}>
       <div className="container mx-auto max-w-4xl px-4 py-8">
         <div className="mb-8">
           <div className="mb-4 flex items-center justify-between">
