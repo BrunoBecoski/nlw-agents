@@ -1,48 +1,20 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useEffect, useRef } from 'react'
-import {
-  createBrowserRouter,
-  Outlet,
-  RouterProvider,
-  useBlocker,
-  useLocation,
-} from 'react-router-dom'
+import { createContext, type RefObject, useRef } from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { BlockerGlobal } from './blocker-global'
 import { CreateRoom } from './pages/create-room'
 import { RecordRoomAudio } from './pages/record-room-audio'
 import { Room } from './pages/room'
 
-const queryClient = new QueryClient()
-
-function BlockerGlobal() {
-  const location = useLocation()
-  const timerRef = useRef(null)
-
-  const blocker = useBlocker(({ nextLocation }) => {
-    console.log(`FROM: ${location.pathname}`)
-
-    console.log(`TO: ${nextLocation.pathname}`)
-
-    return false
-  })
-
-  useEffect(() => {
-    if (blocker.state === 'blocked') {
-      const tempoDeEspera = 2000
-
-      if (timerRef.current) clearTimeout(timerRef.current)
-
-      timerRef.current = setTimeout(() => {
-        blocker.proceed()
-      }, tempoDeEspera)
-    }
-
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current)
-    }
-  }, [blocker.state]) // E
-
-  return <Outlet />
+interface AppContextProps {
+  createRoomRef: RefObject<HTMLDivElement | null>
+  roomRef: RefObject<HTMLDivElement | null>
+  recordRoomAudioRef: RefObject<HTMLDivElement | null>
 }
+
+export const AppContext = createContext<AppContextProps | null>(null)
+
+const queryClient = new QueryClient()
 
 export function App() {
   const createRoomRef = useRef<HTMLDivElement>(null)
@@ -69,9 +41,14 @@ export function App() {
       ],
     },
   ])
+
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <AppContext.Provider
+        value={{ createRoomRef, roomRef, recordRoomAudioRef }}
+      >
+        <RouterProvider router={router} />
+      </AppContext.Provider>
     </QueryClientProvider>
   )
 }
