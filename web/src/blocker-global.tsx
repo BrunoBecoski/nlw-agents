@@ -14,14 +14,34 @@ export function BlockerGlobal() {
 
   const { createRoomRef, roomRef, recordRoomAudioRef } = appContext
 
+  function removeAnimateClasses() {
+    const classes = [
+      'animate-slide-in-left',
+      'animate-slide-in-right',
+      'animate-slide-out-left',
+      'animate-slide-out-right',
+    ]
+
+    createRoomRef.current?.classList.remove(...classes)
+    roomRef.current?.classList.remove(...classes)
+    recordRoomAudioRef.current?.classList.remove(...classes)
+  }
+
   const blocker = useBlocker(({ nextLocation }) => {
     if (location.pathname !== nextLocation.pathname) {
       const currentRoute = location.pathname
       const nextRoute = nextLocation.pathname
+      // console.log('FROM: ' + currentRoute)
+      // console.log('TO: ' + nextRoute)
 
-      console.log('FROM: ' + currentRoute)
-      console.log('TO: ' + nextRoute)
+      removeAnimateClasses()
+
+      if (currentRoute === '/') {
+        createRoomRef.current.className = 'animate-slide-out-left'
+      }
     }
+
+    return false
   })
 
   useEffect(() => {
