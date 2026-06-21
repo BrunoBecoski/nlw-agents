@@ -3,6 +3,9 @@
 <img src=".github/cover.png" alt="cover" />
 
 # Web
+
+<img src=".github/web.gif" alt="Web"/>
+
 ## Principais Tecnologias
 
 - [React](https://react.dev)
@@ -19,4 +22,4 @@
 
 # Iniciante
 
-<img src=".github/home_iniciante.gif" alt="Home Iniciante"/>
+<img src=".github/iniciante.gif" alt="Iniciante"/>
